@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
@@ -6,7 +7,6 @@ using System.Security.Claims;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using CastService.Data.Common.Models;
-
 
 namespace CastService.Data.Models
 {
@@ -27,6 +27,7 @@ namespace CastService.Data.Models
 
         public bool IsDeleted { get; set; }
 
+        [Index]
         public DateTime? DeletedOn { get; set; }
 
         public DateTime CreatedOn { get; set; }
