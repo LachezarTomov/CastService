@@ -246,6 +246,10 @@
       <Project>{964e6f66-e102-47c7-b9c9-88b33626b4bd}</Project>
       <Name>CastService.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\CastService.Data.Common\CastService.Data.Common.csproj">
+      <Project>{6e08f2e1-3997-412d-87bd-a0f3390bac21}</Project>
+      <Name>CastService.Data.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Data\CastService.Data.Models\CastService.Data.Models.csproj">
       <Project>{2fac3309-4ecf-43e1-96da-f5c153800e95}</Project>
       <Name>CastService.Data.Models</Name>
