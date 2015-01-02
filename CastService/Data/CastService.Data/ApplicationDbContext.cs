@@ -11,18 +11,20 @@
     using CastService.Data.Models;
     using CastService.Data.Migrations;
     
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class CastServiceDbContext : IdentityDbContext<User>
     {
-        public ApplicationDbContext()
+        public CastServiceDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<CastServiceDbContext, Configuration>());
         }
 
-        public static ApplicationDbContext Create()
+        public static CastServiceDbContext Create()
         {
-            return new ApplicationDbContext();
+            return new CastServiceDbContext();
         }
+
+        public IDbSet<Customer> Customers { get; set; }
 
         public override int SaveChanges()
         {
