@@ -49,6 +49,10 @@ namespace CastService.Web.Models
     public class LoginViewModel
     {
         [Required]
+        [Display(Name = "Име")]
+        public string Username { get; set; }
+
+        [Required]
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
@@ -64,6 +68,11 @@ namespace CastService.Web.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [StringLength(10, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [Display(Name = "Име")]
+        public string Username { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
