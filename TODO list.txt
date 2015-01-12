@@ -1,2 +1,5 @@
 1. Set default errorr page
+2. Add old customer name to customer
+3. Admin, user wih rihts to edit, user with rights to read only
+4. 
 

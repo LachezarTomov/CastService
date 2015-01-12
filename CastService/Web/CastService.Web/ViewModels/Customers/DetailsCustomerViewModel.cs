@@ -1,12 +1,20 @@
 ﻿namespace CastService.Web.ViewModels.Customers
 {
-    using System.ComponentModel.DataAnnotations;
-    
-    using CastService.Data.Models;
-    using CastService.Web.Infrastructure.Mapping;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
 
-    public class CreateCustomerViewModel : IMapFrom<Customer>
+    using AutoMapper.QueryableExtensions;
+
+    using CastService.Web.Infrastructure.Mapping;
+    using CastService.Data.Models;
+    using System.ComponentModel.DataAnnotations;
+
+    public class DetailsCustomerViewModel : IMapFrom<Customer>
     {
+        public int Id { get; set; }
+
         [Display(Name = "Име")]
         [Required]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Името трябва да е между {1} и {2} символа.")]

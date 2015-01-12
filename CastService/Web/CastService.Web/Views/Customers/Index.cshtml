@@ -3,6 +3,13 @@
 @{
     ViewBag.Title = "Клиенти";
 }
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success">
+        <span class="close" data-dismiss="alert">&times;</span>
+        @TempData["message"]
+    </div>
+}
 
 <h2>Клиенти</h2>
 
