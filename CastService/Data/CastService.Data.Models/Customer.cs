@@ -2,9 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using CastService.Data.Common.Models;
+
 namespace CastService.Data.Models
 {
-    public class Customer
+    public class Customer : AuditInfo, IDeletableEntity
     {
         [Key]
         public int Id { get; set; }
@@ -26,5 +28,10 @@ namespace CastService.Data.Models
         [Column(TypeName = "ntext")]
         [MaxLength]
         public string Note { get; set; }
+
+        [Index]
+        public bool IsDeleted { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
     }
 }

@@ -65,8 +65,8 @@ namespace CastService.Web.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<DbContext>().To<CastServiceDbContext>();
-            kernel.Bind(typeof(IDeletableEntityRepository<>))
-                .To(typeof(DeletableEntityRepository<>));
+            kernel.Bind(typeof(IDeletableEntityRepository<>)).To(typeof(DeletableEntityRepository<>));
+            kernel.Bind(typeof(IRepository<>)).To(typeof(GenericRepository<>));
 
         }        
     }
