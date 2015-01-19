@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using CastService.Data.Common.Models;
+using System.ComponentModel;
 
 namespace CastService.Data.Models
 {
@@ -29,6 +30,8 @@ namespace CastService.Data.Models
         [MaxLength]
         public string Note { get; set; }
 
+        public int? OldNameId { get; set; }
+        
         [Index]
         public bool IsDeleted { get; set; }
 

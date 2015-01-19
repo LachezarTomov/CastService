@@ -10,6 +10,7 @@
     using CastService.Web.Infrastructure.Mapping;
     using CastService.Data.Models;
     using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
 
     public class DetailsCustomerViewModel : IMapFrom<Customer>
     {
@@ -37,5 +38,13 @@
         [StringLength(1200, MinimumLength = 3, ErrorMessage = "Забележката трябва да е между {1} и {2} символа.")]
         [DataType(DataType.MultilineText)]
         public string Note { get; set; }
+
+        [Display(Name = "Предишно име")]
+        [UIHint("DropDownList")]
+        public int? OldNameId { get; set; }
+
+        public IList<SelectListItem> CustomersNames { get; set; }
+
+        public string OldName { get; set; }
     }
 }

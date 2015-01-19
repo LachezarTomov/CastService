@@ -32,7 +32,11 @@
 
         public ActionResult Create()
         {
-            return View();
+            var createCustomerViewModel = new CreateCustomerViewModel();
+
+            createCustomerViewModel.CustomersNames = PopulateCustomers();
+
+            return View(createCustomerViewModel);
         }
 
         [HttpPost]
@@ -43,7 +47,7 @@
             {
                 var checkedCustomer = this.customers.All().Where(c => c.Name == customer.Name).FirstOrDefault();
 
-                if (checkedCustomer == null)
+                if (checkedCustomer != null)
                 {
                     TempData["message"] = "Клиент с това име вече съществува"; 
                     return RedirectToAction("Index");
@@ -55,12 +59,15 @@
                 newCustomer.Eik = customer.Eik;
                 newCustomer.Note = customer.Note;
                 newCustomer.Address = customer.Address;
+                newCustomer.OldNameId = customer.OldNameId;
 
                 this.customers.Add(newCustomer);
                 this.customers.SaveChanges();
 
                 return RedirectToAction("Index");
             }
+
+            customer.CustomersNames = PopulateCustomers();
 
             return View(customer);
         }
@@ -78,7 +85,16 @@
             {
                 return HttpNotFound();
             }
-           
+
+            if (customer.OldNameId != 0)
+            {
+                var oldCustomerName = this.customers.All().Where(c => c.Id == customer.OldNameId).FirstOrDefault();
+                if (oldCustomerName != null)
+                {
+                    customer.OldName = oldCustomerName.Name;
+                }
+            }
+
             return View(customer);
         }
 
@@ -95,6 +111,8 @@
             {
                 return HttpNotFound();
             }
+
+            customer.CustomersNames = PopulateCustomers(customer.OldNameId.GetValueOrDefault());
 
             return View(customer);
         }
@@ -117,6 +135,8 @@
                 newCustomer.Eik = customer.Eik;
                 newCustomer.Note = customer.Note;
                 newCustomer.Address = customer.Address;
+                newCustomer.OldNameId = customer.OldNameId;
+
 
                 this.customers.Update(newCustomer);
                 this.customers.SaveChanges();
@@ -127,6 +147,32 @@
             }
 
             return View(customer);
+        }
+
+        private IList<SelectListItem> PopulateCustomers(int selectedId = 0)
+        {
+            IList<SelectListItem> customersNames = this.customers.All().Select(c => new SelectListItem
+                       {
+                           Value = c.Id.ToString(),
+                           Text = c.Name
+                       })
+                       .ToList();
+
+            customersNames.Add(new SelectListItem {
+                Value = "0",
+                Text = ""
+            });
+
+            foreach (var item in customersNames)
+            {
+                if (item.Value == selectedId.ToString())
+                {
+                    item.Selected = true;
+                    break;
+                }
+            }
+            
+            return customersNames;
         }
     }
 }

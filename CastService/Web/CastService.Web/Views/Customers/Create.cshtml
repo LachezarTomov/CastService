@@ -53,6 +53,8 @@
             </div>
         </div>
 
+        @Html.EditorFor(m => m.OldNameId, new { ListItem = Model.CustomersNames })
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Създай" class="btn btn-default" />

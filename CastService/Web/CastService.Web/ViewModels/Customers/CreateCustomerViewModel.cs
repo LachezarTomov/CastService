@@ -1,9 +1,12 @@
 ﻿namespace CastService.Web.ViewModels.Customers
 {
     using System.ComponentModel.DataAnnotations;
-    
+    using System.Collections.Generic;
+    using System.Web.Mvc;
+
     using CastService.Data.Models;
     using CastService.Web.Infrastructure.Mapping;
+    
 
     public class CreateCustomerViewModel : IMapFrom<Customer>
     {
@@ -29,5 +32,11 @@
         [StringLength(1200, MinimumLength = 3, ErrorMessage = "Забележката трябва да е между {1} и {2} символа.")]
         [DataType(DataType.MultilineText)]
         public string Note { get; set; }
+
+        [Display(Name = "Предишно име")]
+        [UIHint("DropDownList")]
+        public int OldNameId { get; set; }
+
+        public IList<SelectListItem> CustomersNames { get; set; }
     }
 }
