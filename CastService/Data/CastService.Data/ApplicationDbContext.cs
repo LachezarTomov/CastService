@@ -26,6 +26,8 @@
 
         public IDbSet<Customer> Customers { get; set; }
 
+        public IDbSet<ServiceType> ServiceTypes { get; set; }
+
         public override int SaveChanges()
         {
             this.ApplyAuditInfoRules();
