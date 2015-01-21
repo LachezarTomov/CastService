@@ -75,5 +75,7 @@
                 entry.State = EntityState.Modified;
             }
         }
+
+        public System.Data.Entity.DbSet<CastService.Data.Models.Equipment> Equipments { get; set; }
     }
 }

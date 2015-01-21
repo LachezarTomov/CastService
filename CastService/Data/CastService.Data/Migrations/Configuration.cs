@@ -36,32 +36,7 @@ namespace CastService.Data.Migrations
                 new ServiceType { Description = "по заявка" }
             );
 
-            //ServiceType serviceType = new ServiceType()
-            //{
-            //    Description = "гаранционно"
-            //};
-            //context.ServiceTypes.Add(serviceType);
-
-            //serviceType = new ServiceType()
-            //{
-            //    Description = "извънгаранционно"
-            //};
-            //context.ServiceTypes.Add(serviceType);
-
-            //serviceType = new ServiceType()
-            //{
-            //    Description = "абонаментно"
-            //};
-            //context.ServiceTypes.Add(serviceType);
-
-            //serviceType = new ServiceType()
-            //{
-            //    Description = "по заявка"
-            //};
-            //context.ServiceTypes.Add(serviceType);
-
             context.SaveChanges();
-
         }
     }
 }

@@ -1,0 +1,41 @@
+﻿@model CastService.Web.ViewModels.Equipments.DetailEquipmentViewModel
+
+@{
+    ViewBag.Title = "Детайли";
+}
+
+<h2>Детайли</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BatchNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BatchNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Редактиране", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Назад към списъка", "Index")
+</p>

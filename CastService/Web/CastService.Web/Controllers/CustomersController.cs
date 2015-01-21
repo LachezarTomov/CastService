@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
+    using System.Net;
     using System.Web.Mvc;
 
     using AutoMapper.QueryableExtensions;
@@ -12,7 +13,7 @@
     using CastService.Data.Models;
     using CastService.Web.ViewModels;
     using CastService.Web.ViewModels.Customers;
-    using System.Net;
+
 
     public class CustomersController : Controller
     {
