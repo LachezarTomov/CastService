@@ -1,7 +1,7 @@
 ﻿namespace CastService.Data.Models
 {
     using System;
-using System.Collections.Generic;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -40,6 +40,20 @@ using System.Collections.Generic;
 
         public string GuessedTime { get; set; }
 
+        public bool HasProtocol { get; set; }
+
+        public string InvoiceNumber { get; set; }
+
+        [Column(TypeName = "Date")]
+        public DateTime? InvoiceDate { get; set; }
+
+        public string WarrantyCardNumber { get; set; }
+
+        public string Other { get; set; }
+
+        [Column(TypeName = "ntext")]
+        public string Note { get; set; }
+
         public int CustomerId { get; set; }
 
         public virtual Customer Customer { get; set; }
@@ -48,7 +62,7 @@ using System.Collections.Generic;
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
-    
+
         public virtual ICollection<InstalatedEquipment> InstalatedEquipment
         {
             get { return this.instalatedEquipment; }
