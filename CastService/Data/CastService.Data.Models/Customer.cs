@@ -1,14 +1,20 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-using CastService.Data.Common.Models;
-using System.ComponentModel;
-
-namespace CastService.Data.Models
+﻿namespace CastService.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    
+    using CastService.Data.Common.Models;
+    
     public class Customer : AuditInfo, IDeletableEntity
     {
+        private ICollection<Instalation> instalations;
+        public Customer()
+        {
+            this.instalations = new HashSet<Instalation>();
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -31,7 +37,13 @@ namespace CastService.Data.Models
         public string Note { get; set; }
 
         public int? OldNameId { get; set; }
-        
+
+        public virtual ICollection<Instalation> Instalations
+        {
+            get { return this.instalations; }
+            set { this.instalations = value; }
+        }
+
         [Index]
         public bool IsDeleted { get; set; }
 
