@@ -9,10 +9,10 @@
     
     public class Customer : AuditInfo, IDeletableEntity
     {
-        private ICollection<Instalation> instalations;
+        private ICollection<Installation> installations;
         public Customer()
         {
-            this.instalations = new HashSet<Instalation>();
+            this.installations = new HashSet<Installation>();
         }
 
         [Key]
@@ -38,10 +38,10 @@
 
         public int? OldNameId { get; set; }
 
-        public virtual ICollection<Instalation> Instalations
+        public virtual ICollection<Installation> Installations
         {
-            get { return this.instalations; }
-            set { this.instalations = value; }
+            get { return this.installations; }
+            set { this.installations = value; }
         }
 
         [Index]

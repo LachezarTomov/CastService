@@ -1,0 +1,51 @@
+﻿@model IEnumerable<CastService.Web.ViewModels.Installations.ListInstallationsViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Нова инсталция", "Create", "Installations", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ObjectName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InstallationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Equipment)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ObjectName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InstallationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Equipment)
+        </td>
+        <td>
+            @Html.ActionLink("Редактиране", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Детайли", "Details", new { id=item.Id }) @*|
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,8 +1,9 @@
 ﻿namespace CastService.Web.ViewModels.Customers
 {
+    using System.ComponentModel.DataAnnotations;
+
     using CastService.Data.Models;
     using CastService.Web.Infrastructure.Mapping;
-    using System.ComponentModel.DataAnnotations;
 
     public class ListCustomersViewModel : IMapFrom<Customer>
     {

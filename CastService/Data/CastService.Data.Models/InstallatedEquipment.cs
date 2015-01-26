@@ -6,20 +6,26 @@
 
     using CastService.Data.Common.Models;
 
-    public class InstalatedEquipment : AuditInfo, IDeletableEntity
+    public class InstallatedEquipment : AuditInfo, IDeletableEntity
     {
         [Key]
         public int Id { get; set; }
 
+        [Required]
+        public int EquipmentId { get; set; }
+
+        public virtual Equipment Equipment { get; set; }
+
+        [Required]
         public int Quantity { get; set; }
 
         [MaxLength(16)]
         public string SerialNumber { get; set; }
 
-        [ForeignKey("Id")]
-        public int InstalationId { get; set; }
+        [Required]
+        public int InstallationId { get; set; }
 
-        public virtual Instalation Instalation { get; set; }
+        public virtual Installation Installation { get; set; }
 
         [Index]
         public bool IsDeleted { get; set; }

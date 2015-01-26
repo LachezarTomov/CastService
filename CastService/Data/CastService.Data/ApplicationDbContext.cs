@@ -24,9 +24,13 @@
             return new CastServiceDbContext();
         }
 
-        public IDbSet<Customer> Customers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
-        public IDbSet<ServiceType> ServiceTypes { get; set; }
+        public DbSet<ServiceType> ServiceTypes { get; set; }
+
+        public DbSet<Installation> Installations { get; set; }
+
+        public DbSet<Equipment> Equipments { get; set; }
 
         public override int SaveChanges()
         {
@@ -75,7 +79,5 @@
                 entry.State = EntityState.Modified;
             }
         }
-
-        public System.Data.Entity.DbSet<CastService.Data.Models.Equipment> Equipments { get; set; }
     }
 }

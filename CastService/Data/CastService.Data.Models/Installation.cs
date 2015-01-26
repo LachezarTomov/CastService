@@ -7,18 +7,20 @@
 
     using CastService.Data.Common.Models;
 
-    public class Instalation : AuditInfo, IDeletableEntity
+    public class Installation : AuditInfo, IDeletableEntity
     {
-        private ICollection<InstalatedEquipment> instalatedEquipment;
+        private ICollection<InstallatedEquipment> instalatedEquipment;
 
-        public Instalation()
+        public Installation()
         {
-            this.instalatedEquipment = new HashSet<InstalatedEquipment>();
+            this.instalatedEquipment = new HashSet<InstallatedEquipment>();
         }
 
+        [Key]
         public int Id { get; set; }
 
         [MaxLength(50)]
+        [Required]
         public string ObjectName { get; set; }
 
         [Column(TypeName = "ntext")]
@@ -30,25 +32,31 @@
         public string AdditionalActivities { get; set; }
 
         [Column(TypeName = "Date")]
-        public DateTime InstalationDate { get; set; }
+        public DateTime InstallationDate { get; set; }
 
+        [MaxLength(5)]
         [Required]
         public string StartTime { get; set; }
 
+        [MaxLength(5)]
         [Required]
         public string EndTime { get; set; }
 
+        [MaxLength(10)]
         public string GuessedTime { get; set; }
 
         public bool HasProtocol { get; set; }
 
+        [MaxLength(10)]
         public string InvoiceNumber { get; set; }
 
         [Column(TypeName = "Date")]
         public DateTime? InvoiceDate { get; set; }
 
+        [MaxLength(30)]
         public string WarrantyCardNumber { get; set; }
 
+        [MaxLength(50)]
         public string Other { get; set; }
 
         [Column(TypeName = "ntext")]
@@ -63,7 +71,7 @@
 
         public DateTime? DeletedOn { get; set; }
 
-        public virtual ICollection<InstalatedEquipment> InstalatedEquipment
+        public virtual ICollection<InstallatedEquipment> InstalatedEquipment
         {
             get { return this.instalatedEquipment; }
             set { this.instalatedEquipment = value; }

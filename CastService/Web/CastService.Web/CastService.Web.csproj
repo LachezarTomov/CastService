@@ -182,6 +182,7 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InstallationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -195,6 +196,8 @@
     <Compile Include="ViewModels\Customers\DetailsCustomerViewModel.cs" />
     <Compile Include="ViewModels\Customers\ListCustomersViewModel.cs" />
     <Compile Include="ViewModels\Equipments\ListEquipmentsViewModel.cs" />
+    <Compile Include="ViewModels\Installations\DetailsInstallationViewModel.cs" />
+    <Compile Include="ViewModels\Installations\ListInstallationsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -274,6 +277,10 @@
     <Content Include="Views\Equipments\Create.cshtml" />
     <Content Include="Views\Equipments\Details.cshtml" />
     <Content Include="Views\Equipments\Edit.cshtml" />
+    <Content Include="Views\Installations\Index.cshtml" />
+    <Content Include="Views\Installations\Create.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DropDownTwoRows.cshtml" />
+    <Content Include="Views\Installations\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
