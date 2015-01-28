@@ -210,7 +210,7 @@
                 }
             }
         });
-        
+
 
         $("#add-equipment-button").click(function () {
             $("#equipment-id").val('');
@@ -219,6 +219,15 @@
             $("#equipment-serial-number").val('');
 
             $("#add-equipment").dialog('open');
+        });
+
+        $('#equipment').autocomplete({
+            source: '@Url.Action("GetEquipment", "Installations")',
+            select: function (event, ui) {
+                event.preventDefault();
+                $("#equipment").val(ui.item.label); 
+                $("#equipment-id").val(ui.item.value);
+            }
         });
     });
 
@@ -229,7 +238,7 @@
         var equipmentQty = $("#equipment-quantity").val();
         var equipmentSerialNumber = $("#equipment-serial-number").val();
         var rowsCount = $('#equipment-table tbody tr').length;
-        alert(rowsCount);
+
         rowsCount -= 1;
         var equipmentIdInput = '<input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="InstalledEquipment_' + rowsCount + '__Id" name="InstalledEquipment[' + rowsCount + '].Id" type="hidden" value="'+equipmentId+'">';
 

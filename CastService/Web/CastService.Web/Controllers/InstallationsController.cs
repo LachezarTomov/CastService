@@ -17,15 +17,18 @@
         private readonly IDeletableEntityRepository<Installation> installations;
         private readonly IDeletableEntityRepository<Customer> customers;
         private readonly IDeletableEntityRepository<InstalledEquipment> installedEquipment;
+        private readonly IDeletableEntityRepository<Equipment> equipments;
 
         public InstallationsController(
-            IDeletableEntityRepository<Installation> installations, 
+            IDeletableEntityRepository<Installation> installations,
             IDeletableEntityRepository<Customer> customers,
+            IDeletableEntityRepository<Equipment> equipments,
             IDeletableEntityRepository<InstalledEquipment> installedEquipment)
         {
             this.installations = installations;
             this.customers = customers;
             this.installedEquipment = installedEquipment;
+            this.equipments = equipments;
         }
 
         // GET: Installations
@@ -108,6 +111,14 @@
             }
 
             return View(installation);
+        }
+
+        public ActionResult GetEquipment(string term)
+        {
+            var result = this.equipments.All().Where(e => e.Name.ToLower().Contains(term.ToLower())).Select(v => new { label = v.Name, value = v.Id }).ToList();
+            //var result = this.equipments.All().Where(e => e.Name.ToLower().Contains(term.ToLower())).Select(w => w.Name).ToList();
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         private IList<SelectListItem> PopulateCustomers(int selectedId = 0)
