@@ -6,7 +6,7 @@
 
     using CastService.Data.Common.Models;
 
-    public class InstallatedEquipment : AuditInfo, IDeletableEntity
+    public class InstalledEquipment : AuditInfo, IDeletableEntity
     {
         [Key]
         public int Id { get; set; }

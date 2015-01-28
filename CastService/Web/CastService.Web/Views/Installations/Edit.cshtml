@@ -1,5 +1,6 @@
 ﻿@using CastService.Web.ViewModels.Installations
 @model DetailsInstallationViewModel
+@*@model InstalledEquipmentListViewModel*@
 @{
     ViewBag.Title = "Нова инсталация";
 }
@@ -63,57 +64,53 @@
         <hr />
 
         @* Equipment table*@
+        <input type="button" id="add-equipment-button" value="Добави" />
         <h3>Монтирано оборудване</h3>
         @if (Model.InstalledEquipment != null)
         {
-            <table class="table">
+            <table class="table" id="equipment-table">
                 <tr>
-                    <th>
-                        @*@Html.DisplayNameFor(model => model.InstalledEquipment.Name)*@
-                        Име
-                    </th>
-                    <th>
-                        Партиден №
-                    </th>
-                    <th>
-                        Сериен №
-                    </th>
-                    <th>
-                        Количество
-                    </th>
+                    <th>Име</th>
+                    <th>Партиден №</th>
+                    <th>Сериен №</th>
+                    <th>Количество</th>
                     <th></th>
                 </tr>
 
-                @foreach (var item in Model.InstalledEquipment)
+                @for (int i = 0; i < Model.InstalledEquipment.Count(); i++)
                 {
                     <tr>
                         <td>
-                            @Html.HiddenFor(m => item.Equipment.Id)
-                            @Html.DisplayFor(m => item.Equipment.Name)
+                            @Html.HiddenFor(m => m.InstalledEquipment[i].Id)
+                            @Html.DisplayFor(m => m.InstalledEquipment[i].EquipmentName)
                         </td>
                         <td>
-                            @Html.DisplayFor(m => item.Equipment.BatchNumber)
+                            @Html.DisplayFor(m => m.InstalledEquipment[i].BatchNumber)
                         </td>
                         <td>
-                            @Html.DisplayFor(m => item.SerialNumber)
+                            @Html.HiddenFor(m => m.InstalledEquipment[i].SerialNumber)
+                            @Html.DisplayFor(m => m.InstalledEquipment[i].SerialNumber)
                         </td>
                         <td>
-                            @Html.DisplayFor(m => item.Quantity)
+                            @Html.HiddenFor(m => m.InstalledEquipment[i].Quantity)
+                            @Html.DisplayFor(m => m.InstalledEquipment[i].Quantity)
                         </td>
                     </tr>
                 }
+     
             </table>
         }
         <fieldset>
             <legend>Клиентът получи</legend>
             <div class="form-group">
-                @Html.LabelFor(model => model.HasProtocol, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
                     <div class="checkbox">
                         @Html.EditorFor(model => model.HasProtocol)
                         @Html.ValidationMessageFor(model => model.HasProtocol, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                @Html.LabelFor(model => model.HasProtocol, htmlAttributes: new { @class = "control-label col-md-2" })
             </div>
 
             <div class="form-group">
@@ -165,6 +162,86 @@
     </div>
 }
 
+<div id="add-equipment" title="Изберете артикул">
+    <br />
+    <div class="form-horizontal">
+        @*<input type="hidden" name="rows-count" id="rows-count" />*@
+        <div class="form-group">
+            <label for="equipment" class="col-md-3">Артикул</label>
+            <input type="text" name="equipment" id="equipment" class="text ui-widget-content ui-corner-all col-md-9" />
+            <input type="hidden" name="equipment-id" id="equipment-id"/>
+
+        </div>
+        <div class="form-group">
+            <label for="equipment-serial-number" class="col-md-3">Сериен №</label>
+            <input type="text" name="equipment-serial-number" id="equipment-serial-number" class="text ui-widget-content ui-corner-all col-md-4" />
+        </div>
+        <div class="form-group">
+            <label for="equipment-quantity" class="col-md-3">Количество</label>
+            <input type="text" name="equipment-quantity" id="equipment-quantity" class="text ui-widget-content ui-corner-all col-md-2" />
+        </div>
+    </div>
+</div>
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts
+{
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#add-equipment").hide();
+        $("#add-equipment").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 700,
+            modal: true,
+            draggable: true,
+            show: 'fade',
+            hide: 'fade',
+            dialogClass: 'ui-dialog-osx',
+            buttons: {
+                "OK": function () {
+                    add_equipment_row();
+                },
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        
+
+        $("#add-equipment-button").click(function () {
+            $("#equipment-id").val('');
+            $("#equipment").val('');
+            $("#equipment-quantity").val('');
+            $("#equipment-serial-number").val('');
+
+            $("#add-equipment").dialog('open');
+        });
+    });
+
+    function add_equipment_row() {
+        //var equipmentId = $("#equipment-id").val();
+        var equipmentId = 3;
+        var equipmentName = $("#equipment").val();
+        var equipmentQty = $("#equipment-quantity").val();
+        var equipmentSerialNumber = $("#equipment-serial-number").val();
+        var rowsCount = $('#equipment-table tbody tr').length;
+        alert(rowsCount);
+        rowsCount -= 1;
+        var equipmentIdInput = '<input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="InstalledEquipment_' + rowsCount + '__Id" name="InstalledEquipment[' + rowsCount + '].Id" type="hidden" value="'+equipmentId+'">';
+
+        var equipmentQuantityInput = '<input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="InstalledEquipment_' + rowsCount + '__Quantity" name="InstalledEquipment[' + rowsCount + '].Quantity" type="hidden" value="' + equipmentQty + '">';
+
+        var equipmentSerialNumberInput = '<input  id="InstalledEquipment_' + rowsCount + '__SerialNumber" name="InstalledEquipment[' + rowsCount + '].SerialNumber" type="hidden" value="' + equipmentSerialNumber + '">';
+
+        var newRowContent = "<tr><td>" + equipmentIdInput + equipmentName + "</td><td></td><td>" + equipmentSerialNumberInput + equipmentSerialNumber + "</td><td>" + equipmentQuantityInput + equipmentQty + "</td></tr>";
+
+        $("#equipment-table tbody").append(newRowContent);
+
+        $("#add-equipment").dialog('close');
+    }
+</script>
+}

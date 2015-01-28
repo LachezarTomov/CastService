@@ -9,11 +9,11 @@
 
     public class Installation : AuditInfo, IDeletableEntity
     {
-        private ICollection<InstallatedEquipment> instalatedEquipment;
+        private ICollection<InstalledEquipment> instalatedEquipment;
 
         public Installation()
         {
-            this.instalatedEquipment = new HashSet<InstallatedEquipment>();
+            this.instalatedEquipment = new HashSet<InstalledEquipment>();
         }
 
         [Key]
@@ -71,7 +71,7 @@
 
         public DateTime? DeletedOn { get; set; }
 
-        public virtual ICollection<InstallatedEquipment> InstalatedEquipment
+        public virtual ICollection<InstalledEquipment> InstalatedEquipment
         {
             get { return this.instalatedEquipment; }
             set { this.instalatedEquipment = value; }

@@ -44,7 +44,7 @@
 
         [Display(Name = "Дата")]
         [StringLength(10, MinimumLength = 10, ErrorMessage = "Дата трябва да е точно 10 символа: дд.мм.гггг")]
-        public DateTime InstallationDate { get; set; }
+        public String InstallationDate { get; set; }
 
         [Display(Name = "Приемо-предавателен протокол")]
         public bool HasProtocol { get; set; }
@@ -77,7 +77,7 @@
 
      //   public string CustomerName { get; set; }
 
-        public IEnumerable<InstallatedEquipment> InstalledEquipment { get; set; }
+        public IList<InstalledEquipmentListViewModel> InstalledEquipment { get; set; }
 
         //public void CreateMappings(IConfiguration configuration)
         //{

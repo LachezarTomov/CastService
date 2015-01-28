@@ -16,12 +16,12 @@
     {
         private readonly IDeletableEntityRepository<Installation> installations;
         private readonly IDeletableEntityRepository<Customer> customers;
-        private readonly IDeletableEntityRepository<InstallatedEquipment> installedEquipment;
+        private readonly IDeletableEntityRepository<InstalledEquipment> installedEquipment;
 
         public InstallationsController(
             IDeletableEntityRepository<Installation> installations, 
             IDeletableEntityRepository<Customer> customers,
-            IDeletableEntityRepository<InstallatedEquipment> installedEquipment)
+            IDeletableEntityRepository<InstalledEquipment> installedEquipment)
         {
             this.installations = installations;
             this.customers = customers;
@@ -77,7 +77,35 @@
             }
 
             installation.CustomersNames = PopulateCustomers(installation.CustomerId);
-            installation.InstalledEquipment = this.installedEquipment.All().Where(i => i.InstallationId == installation.Id).ToList();
+            installation.InstalledEquipment = this.installedEquipment.All().Where(i => i.InstallationId == installation.Id).Project().To<InstalledEquipmentListViewModel>().ToList();
+
+            return View(installation);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(DetailsInstallationViewModel installation)
+        {
+            if (ModelState.IsValid)
+            {
+                var updatedInstallation = this.installations.All().Where(c => c.Id == installation.Id).FirstOrDefault();
+
+                if (updatedInstallation == null)
+                {
+                    return HttpNotFound();
+                }
+
+                updatedInstallation.ObjectName = installation.ObjectName;
+
+
+
+                this.installations.Update(updatedInstallation);
+                this.installations.SaveChanges();
+
+                TempData["message"] = "Инсталацията беше редактиран";
+
+                return RedirectToAction("Index");
+            }
 
             return View(installation);
         }
