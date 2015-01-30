@@ -3,8 +3,14 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Index</h2>
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success">
+        <span class="close" data-dismiss="alert">&times;</span>
+        @TempData["message"]
+    </div>
+}
+<h2>Инсталации</h2>
 
 <p>
     @Html.ActionLink("Нова инсталция", "Create", "Installations", null, new { @class = "btn btn-primary" })
