@@ -33,10 +33,37 @@
         }
 
         // GET: Installations
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
-            var model = this.installations.All().Project().To<ListInstallationsViewModel>().ToList();
-            return View(model);
+            var model = this.installations.All().Project().To<ListInstallationsViewModel>();
+
+            ViewBag.ClientNameSortParams = sortOrder == "clientName" ? "clientNameDesc" : "clientName";
+            ViewBag.PlaceSortParams = sortOrder == "place" ? "placeDesc" : "place";
+            ViewBag.DateSortParams = string.IsNullOrEmpty(sortOrder) ? "date" : "";
+
+            switch (sortOrder)
+            {
+                case "clientName":
+                    model = model.OrderBy(o => o.CustomerName);
+                    break;
+                case "clientNameDesc":
+                    model = model.OrderByDescending(o => o.CustomerName);
+                    break;
+                case "place":
+                    model = model.OrderBy(o => o.ObjectName);
+                    break;
+                case "placeDesc":
+                    model = model.OrderByDescending(o => o.ObjectName);
+                    break;
+                case "date":
+                    model = model.OrderBy(o => o.InstallationDate);
+                    break;
+                default:
+                    model = model.OrderByDescending(o => o.InstallationDate);
+                    break;
+            }
+
+            return View(model.ToList());
         }
 
         public ActionResult Create()
@@ -204,6 +231,30 @@
             var result = this.equipments.All().Where(e => e.Name.ToLower().Contains(term.ToLower())).Select(v => new { label = v.Name, value = v.Id }).ToList();
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var installation = this.installations.All().Where(c => c.Id == id).Project().To<DetailsInstallationViewModel>().FirstOrDefault();
+
+            if (installation == null)
+            {
+                return HttpNotFound();
+            }
+
+            installation.InstallationDate = ConvertDbDate(installation.InstallationDate);
+            installation.InstalledEquipment = this.installedEquipment.All().Where(i => i.InstallationId == installation.Id).Project().To<InstalledEquipmentListViewModel>().ToList();
+
+            var customerName = this.customers.All().Where(c => c.Id == installation.CustomerId).FirstOrDefault();
+            installation.CustomerName = customerName.Name;
+
+
+            return View(installation);
         }
 
         private string ConvertDbDate(string date)

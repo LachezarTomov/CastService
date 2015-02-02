@@ -18,13 +18,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerName)
+            @*@Html.DisplayNameFor(model => model.CustomerName)*@
+            @Html.ActionLink("Име на клиента", "Index", new { sortOrder = ViewBag.ClientNameSortParams })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ObjectName)
+            @*@Html.DisplayNameFor(model => model.ObjectName)*@
+            @Html.ActionLink("Място", "Index", new { sortOrder = ViewBag.PlaceSortParams })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.InstallationDate)
+            @*@Html.DisplayNameFor(model => model.InstallationDate)*@
+            @Html.ActionLink("Дата", "Index", new { sortOrder = ViewBag.DateSortParams })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Equipment)

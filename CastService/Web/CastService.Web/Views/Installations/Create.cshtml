@@ -61,22 +61,22 @@
 
         @* Equipment table*@
         <div class="col-md-4"><h4><strong>Монтирано оборудване</strong></h4></div>
-        <div class="col-md-1"><input type="button" id="add-equipment-button" value="Добави" /></div>
-        <div class="col-md-6"><input type="button" id="remove-equipment-button" value="Изтрий" /></div>
+        <div class="col-md-1"><input type="button" id="add-equipment-button" value="Добави" class="btn btn-info" /></div>
+        <div class="col-md-6"><input type="button" id="remove-equipment-button" value="Изтрий" class="btn btn-danger" /></div>
 
 
-        @if (Model.InstalledEquipment != null)
-        {
-            <table class="table" id="equipment-table">
-                <tr>
-                    <th>Име</th>
-                    <th>Партиден №</th>
-                    <th>Сериен №</th>
-                    <th>Количество</th>
-                    <th></th>
-                </tr>
 
-                @for (int i = 0; i < Model.InstalledEquipment.Count(); i++)
+        <table class="table" id="equipment-table">
+            <tr>
+                <th>Име</th>
+                <th>Партиден №</th>
+                <th>Сериен №</th>
+                <th>Количество</th>
+                <th></th>
+            </tr>
+            @if (Model.InstalledEquipment != null)
+            {
+                for (int i = 0; i < Model.InstalledEquipment.Count(); i++)
                 {
                     <tr>
                         <td>
@@ -96,9 +96,9 @@
                         </td>
                     </tr>
                 }
+            }
+        </table>
 
-            </table>
-        }
         <hr />
         <h3>Клиентът получи</h3>
         <div class="form-group">
@@ -143,7 +143,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Запис" class="btn btn-default" />
+                <input type="submit" value="Запис" class="btn btn-primary" />
             </div>
         </div>
     </div>

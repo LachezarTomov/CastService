@@ -58,25 +58,25 @@
                 @Html.ValidationMessageFor(model => model.AdditionalActivities, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+
         @* Equipment table*@
         <div class="col-md-4"><h4><strong>Монтирано оборудване</strong></h4></div>
-        <div class="col-md-1"><input type="button" id="add-equipment-button" value="Добави" /></div>
-        <div class="col-md-6"><input type="button" id="remove-equipment-button" value="Изтрий" /></div>
+        <div class="col-md-1"><input type="button" id="add-equipment-button" value="Добави" class="btn btn-info" /></div>
+        <div class="col-md-6"><input type="button" id="remove-equipment-button" value="Изтрий" class="btn btn-danger" /></div>
 
-        
-        @if (Model.InstalledEquipment != null)
-        {
-            <table class="table" id="equipment-table">
-                <tr>
-                    <th>Име</th>
-                    <th>Партиден №</th>
-                    <th>Сериен №</th>
-                    <th>Количество</th>
-                    <th></th>
-                </tr>
 
-                 @for (int i = 0; i < Model.InstalledEquipment.Count(); i++)
+
+        <table class="table" id="equipment-table">
+            <tr>
+                <th>Име</th>
+                <th>Партиден №</th>
+                <th>Сериен №</th>
+                <th>Количество</th>
+                <th></th>
+            </tr>
+            @if (Model.InstalledEquipment != null)
+            {
+                for (int i = 0; i < Model.InstalledEquipment.Count(); i++)
                 {
                     <tr>
                         <td>
@@ -96,75 +96,76 @@
                         </td>
                     </tr>
                 }
+            }
+        </table>
 
-            </table>
-        }
-            <hr />
-            <h3>Клиентът получи</h3>
-            <div class="form-group">
-                <div class="col-md-12">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.HasProtocol)
-                        @Html.LabelFor(model => model.HasProtocol, htmlAttributes: new { @class = "control-label" })
-                        @Html.ValidationMessageFor(model => model.HasProtocol, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    @Html.LabelFor(model => model.InvoiceNumber, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.InvoiceNumber, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.InvoiceNumber, "", new { @class = "text-danger" })
-                </div>
-                <div class="col-md-3">
-                    @Html.LabelFor(model => model.InvoiceDate, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.InvoiceDate, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.InvoiceDate, "", new { @class = "text-danger" })
-                </div>
-                <div class="col-md-3">
-                    @Html.LabelFor(model => model.WarrantyCardNumber, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.WarrantyCardNumber, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.WarrantyCardNumber, "", new { @class = "text-danger" })
-                </div>
-                <div class="col-md-3">
-                    @Html.LabelFor(model => model.Other, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Other, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Other, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <hr />
-            <div class="form-group">
-                @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Запис" class="btn btn-default" />
+        <hr />
+        <h3>Клиентът получи</h3>
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.HasProtocol)
+                    @Html.LabelFor(model => model.HasProtocol, htmlAttributes: new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.HasProtocol, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.InvoiceNumber, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.InvoiceNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.InvoiceNumber, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.InvoiceDate, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.InvoiceDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.InvoiceDate, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.WarrantyCardNumber, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.WarrantyCardNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.WarrantyCardNumber, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Other, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Other, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Other, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Запис" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
 }
 
 <div id="add-equipment" title="Изберете артикул">
     <br />
     <div class="form-horizontal">
+        <div id="input-equipment-error"></div>
         <div class="form-group">
             <label for="equipment" class="col-md-3">Артикул</label>
-            <input type="text" name="equipment" id="equipment" class="text ui-widget-content ui-corner-all col-md-9" />
-            <input type="hidden" name="equipment-id" id="equipment-id"/>
+            <input type="text" name="equipment" id="equipment" class="text ui-widget-content ui-corner-all form-control col-md-4" />
+            <input type="hidden" name="equipment-id" id="equipment-id" />
 
         </div>
         <div class="form-group">
             <label for="equipment-serial-number" class="col-md-3">Сериен №</label>
-            <input type="text" name="equipment-serial-number" id="equipment-serial-number" class="text ui-widget-content ui-corner-all col-md-4" />
+            <input type="text" name="equipment-serial-number" id="equipment-serial-number" class="text ui-widget-content ui-corner-all form-control col-md-4" />
         </div>
         <div class="form-group">
             <label for="equipment-quantity" class="col-md-3">Количество</label>
-            <input type="text" name="equipment-quantity" id="equipment-quantity" class="text ui-widget-content ui-corner-all col-md-2" />
+            <input type="text" name="equipment-quantity" id="equipment-quantity" class="text ui-widget-content ui-corner-all form-control col-md-2" />
         </div>
     </div>
 </div>
@@ -174,76 +175,110 @@
 
 @section Scripts
 {
-<script type="text/javascript">
-    $(document).ready(function () {
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-        $("#add-equipment").hide();
-        $("#add-equipment").dialog({
-            autoOpen: false,
-            height: 300,
-            width: 700,
-            modal: true,
-            draggable: true,
-            show: 'fade',
-            hide: 'fade',
-            dialogClass: 'ui-dialog-osx',
-            buttons: {
-                "OK": function () {
-                    add_equipment_row();
+            $("#add-equipment").hide();
+            $("#add-equipment").dialog({
+                autoOpen: false,
+                height: 400,
+                width: 700,
+                modal: true,
+                draggable: true,
+                show: 'fade',
+                hide: 'fade',
+                dialogClass: 'ui-dialog-osx',
+                buttons: [
+                {
+                    text: "Добави",
+                    class: 'btn btn-primary',
+                    click: function () {
+                        if (!valudate_equipment()) {
+                            return;
+                        }
+                        add_equipment_row();
+                    }
                 },
-                Cancel: function () {
-                    $(this).dialog("close");
+                {
+                    text: "Изход",
+                    class: 'btn btn-default',
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }],
+            });
+
+
+            $("#add-equipment-button").click(function () {
+                $("#equipment-id").val('');
+                $("#equipment").val('');
+                $("#equipment-quantity").val('');
+                $("#equipment-serial-number").val('');
+
+                $("#add-equipment").dialog('open');
+            });
+
+            $("#remove-equipment-button").click(function () {
+                var rowsCount = $('#equipment-table tbody tr').length;
+                if (rowsCount > 1) {
+                    $('#equipment-table tr:last').remove();
                 }
+            });
+
+            $('#equipment').autocomplete({
+                source: '@Url.Action("GetEquipment", "Installations")',
+                select: function (event, ui) {
+                    event.preventDefault();
+                    $("#equipment").val(ui.item.label);
+                    $("#equipment-id").val(ui.item.value);
+                }
+            });
+        });
+
+        function valudate_equipment() {
+            if (!isInt($("#equipment-quantity").val())) {
+                $("#input-equipment-error").text("Полето за количество трябва да съдържа само числа");
+                $("#input-equipment-error").css("color", "Red");
+                return false;
             }
-        });
 
+            if ($("#equipment-id").val() === '') {
+                $("#input-equipment-error").text("Полето за артикул е задължително или няма такъв артикул");
+                $("#input-equipment-error").css("color", "Red");
+                return false;
+            }
 
-        $("#add-equipment-button").click(function () {
-            $("#equipment-id").val('');
-            $("#equipment").val('');
-            $("#equipment-quantity").val('');
-            $("#equipment-serial-number").val('');
+            return true;
+        }
 
-            $("#add-equipment").dialog('open');
-        });
+        function isInt(data) {
+            if (Math.floor(data) === id && $.isNumeric(data)) {
+                return true;
+            }
 
-        $("#remove-equipment-button").click(function () {
+            return false;
+        }
+
+        function add_equipment_row() {
+            var equipmentId = $("#equipment-id").val();
+           // var equipmentId = 3;
+            var equipmentName = $("#equipment").val();
+            var equipmentQty = $("#equipment-quantity").val() || 1;
+            var equipmentSerialNumber = $("#equipment-serial-number").val();
             var rowsCount = $('#equipment-table tbody tr').length;
-            if (rowsCount > 1) {
-                $('#equipment-table tr:last').remove();
-            }
-        });
 
-        $('#equipment').autocomplete({
-            source: '@Url.Action("GetEquipment", "Installations")',
-            select: function (event, ui) {
-                event.preventDefault();
-                $("#equipment").val(ui.item.label); 
-                $("#equipment-id").val(ui.item.value);
-            }
-        });
-    });
+            rowsCount -= 1;
+            var equipmentIdInput = '<input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="InstalledEquipment_' + rowsCount + '__Id" name="InstalledEquipment[' + rowsCount + '].Id" type="hidden" value="' + equipmentId + '">';
 
-    function add_equipment_row() {
-        //var equipmentId = $("#equipment-id").val();
-        var equipmentId = 3;
-        var equipmentName = $("#equipment").val();
-        var equipmentQty = $("#equipment-quantity").val();
-        var equipmentSerialNumber = $("#equipment-serial-number").val();
-        var rowsCount = $('#equipment-table tbody tr').length;
+            var equipmentQuantityInput = '<input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="InstalledEquipment_' + rowsCount + '__Quantity" name="InstalledEquipment[' + rowsCount + '].Quantity" type="hidden" value="' + equipmentQty + '">';
 
-        rowsCount -= 1;
-        var equipmentIdInput = '<input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="InstalledEquipment_' + rowsCount + '__Id" name="InstalledEquipment[' + rowsCount + '].Id" type="hidden" value="'+equipmentId+'">';
+            var equipmentSerialNumberInput = '<input  id="InstalledEquipment_' + rowsCount + '__SerialNumber" name="InstalledEquipment[' + rowsCount + '].SerialNumber" type="hidden" value="' + equipmentSerialNumber + '">';
 
-        var equipmentQuantityInput = '<input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="InstalledEquipment_' + rowsCount + '__Quantity" name="InstalledEquipment[' + rowsCount + '].Quantity" type="hidden" value="' + equipmentQty + '">';
+            var newRowContent = "<tr><td>" + equipmentIdInput + equipmentName + "</td><td></td><td>" + equipmentSerialNumberInput + equipmentSerialNumber + "</td><td>" + equipmentQuantityInput + equipmentQty + "</td></tr>";
 
-        var equipmentSerialNumberInput = '<input  id="InstalledEquipment_' + rowsCount + '__SerialNumber" name="InstalledEquipment[' + rowsCount + '].SerialNumber" type="hidden" value="' + equipmentSerialNumber + '">';
+            $("#equipment-table tbody").append(newRowContent);
 
-        var newRowContent = "<tr><td>" + equipmentIdInput + equipmentName + "</td><td></td><td>" + equipmentSerialNumberInput + equipmentSerialNumber + "</td><td>" + equipmentQuantityInput + equipmentQty + "</td></tr>";
-
-        $("#equipment-table tbody").append(newRowContent);
-
-        $("#add-equipment").dialog('close');
-    }
-</script>
+            $("#add-equipment").dialog('close');
+        }
+    </script>
 }

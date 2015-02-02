@@ -81,6 +81,9 @@
 
         public IList<InstalledEquipmentListViewModel> InstalledEquipment { get; set; }
 
+        [Display(Name = "Клиент")]
+        public string CustomerName { get; set; }
+
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Installation, DetailsInstallationViewModel>()

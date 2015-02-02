@@ -317,6 +317,7 @@
     <Content Include="Views\Installations\Create.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDownTwoRows.cshtml" />
     <Content Include="Views\Installations\Edit.cshtml" />
+    <Content Include="Views\Installations\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
