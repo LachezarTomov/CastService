@@ -33,13 +33,18 @@
         }
 
         // GET: Installations
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, string searchString)
         {
             var model = this.installations.All().Project().To<ListInstallationsViewModel>();
 
             ViewBag.ClientNameSortParams = sortOrder == "clientName" ? "clientNameDesc" : "clientName";
             ViewBag.PlaceSortParams = sortOrder == "place" ? "placeDesc" : "place";
             ViewBag.DateSortParams = string.IsNullOrEmpty(sortOrder) ? "date" : "";
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                model = model.Where(i => i.CustomerName.ToLower().Contains(searchString.ToLower()));
+            }
 
             switch (sortOrder)
             {

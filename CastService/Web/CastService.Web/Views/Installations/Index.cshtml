@@ -14,19 +14,24 @@
 
 <p>
     @Html.ActionLink("Нова инсталция", "Create", "Installations", null, new { @class = "btn btn-primary" })
+
+    @using (Html.BeginForm())
+    {
+        <div>
+            Търсене по име на клиента: @Html.TextBox("searchString") 
+            <input type="submit" value="търсене" />
+         </div>
+    }
 </p>
 <table class="table">
     <tr>
         <th>
-            @*@Html.DisplayNameFor(model => model.CustomerName)*@
             @Html.ActionLink("Име на клиента", "Index", new { sortOrder = ViewBag.ClientNameSortParams })
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.ObjectName)*@
             @Html.ActionLink("Място", "Index", new { sortOrder = ViewBag.PlaceSortParams })
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.InstallationDate)*@
             @Html.ActionLink("Дата", "Index", new { sortOrder = ViewBag.DateSortParams })
         </th>
         <th>

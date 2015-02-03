@@ -1,0 +1,146 @@
+﻿@model CastService.Web.ViewModels.Installations.DetailsInstallationViewModel
+@{
+    ViewBag.Title = "Детайли за инсталацията";
+}
+
+<div class="form-horizontal">
+    <h3>Детайли за инсталацията</h3>
+
+    <div class="form-group">
+        <div class="col-md-6">
+            @Html.DisplayNameFor(model => model.CustomerName):
+            <strong>
+                @Html.DisplayFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+        <div class="col-md-6">
+            @Html.DisplayNameFor(model => model.ObjectName):
+            <strong>
+                @Html.DisplayFor(model => model.ObjectName, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-3">
+            @Html.DisplayNameFor(model => model.InstallationDate):
+            <strong>
+                @Html.DisplayFor(model => model.InstallationDate, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+
+        <div class="col-md-3">
+            @Html.DisplayNameFor(model => model.GuessedTime):
+            <strong>
+                @Html.DisplayFor(model => model.GuessedTime, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+        <div class="col-md-3">
+            @Html.DisplayNameFor(model => model.StartTime):
+            <strong>
+                @Html.DisplayFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+        <div class="col-md-3">
+            @Html.DisplayNameFor(model => model.EndTime):
+            <strong>
+                @Html.DisplayFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6">
+            @Html.DisplayNameFor(model => model.DetectedFaults):
+            <br />
+            <strong>
+                @Html.DisplayFor(model => model.DetectedFaults, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+        <div class="col-md-6">
+            @Html.DisplayNameFor(model => model.AdditionalActivities):
+            <br />
+            <strong>
+                @Html.DisplayFor(model => model.AdditionalActivities, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+    </div>
+
+    <table class="table" id="equipment-table">
+        <tr>
+            <th>Име</th>
+            <th>Партиден №</th>
+            <th>Сериен №</th>
+            <th>Количество</th>
+            <th></th>
+        </tr>
+        @if (Model.InstalledEquipment != null)
+        {
+            for (int i = 0; i < Model.InstalledEquipment.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => m.InstalledEquipment[i].EquipmentName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.InstalledEquipment[i].BatchNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.InstalledEquipment[i].SerialNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.InstalledEquipment[i].Quantity)
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <hr />
+    <h3>Клиентът получи</h3>
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="checkbox">
+                @Html.DisplayFor(model => model.HasProtocol)
+                @Html.DisplayNameFor(model => model.HasProtocol)
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            @Html.DisplayNameFor(model => model.InvoiceNumber):
+            <strong>
+                @Html.DisplayFor(model => model.InvoiceNumber, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+        <div class="col-md-3">
+            @Html.DisplayNameFor(model => model.InvoiceDate):
+            <strong>
+            @Html.DisplayFor(model => model.InvoiceDate, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+        <div class="col-md-3">
+            @Html.DisplayNameFor(model => model.WarrantyCardNumber):
+            <strong>
+            @Html.DisplayFor(model => model.WarrantyCardNumber, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+        <div class="col-md-3">
+            @Html.DisplayNameFor(model => model.Other):
+            <strong>
+                @Html.DisplayFor(model => model.Other, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.DisplayNameFor(model => model.Note):
+            <strong>
+                @Html.DisplayFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+    </div>
+    <p>
+        @Html.ActionLink("Редактирай", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Назад", "Index")
+    </p>

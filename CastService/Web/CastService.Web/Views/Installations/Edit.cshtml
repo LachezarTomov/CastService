@@ -181,7 +181,7 @@
             $("#add-equipment").hide();
             $("#add-equipment").dialog({
                 autoOpen: false,
-                height: 400,
+                height: 440,
                 width: 700,
                 modal: true,
                 draggable: true,
@@ -252,10 +252,10 @@
         }
 
         function isInt(data) {
-            if (Math.floor(data) === id && $.isNumeric(data)) {
+            data = parseInt(data);
+            if (Math.floor(data) === data && $.isNumeric(data)) {
                 return true;
             }
-
             return false;
         }
 
