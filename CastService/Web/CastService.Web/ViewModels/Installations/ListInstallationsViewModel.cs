@@ -1,12 +1,14 @@
 ﻿namespace CastService.Web.ViewModels.Installations
 {
     using System;
+    using System.Linq;
     using System.ComponentModel.DataAnnotations;
 
     using AutoMapper;
 
     using CastService.Data.Models;
     using CastService.Web.Infrastructure.Mapping;
+    using System.Collections.Generic;
     
     public class ListInstallationsViewModel : IMapFrom<Installation>, IHaveCustomMappings
     {
@@ -21,6 +23,8 @@
         [Display(Name = "Дата")]
         public DateTime InstallationDate { get; set; }
 
+        public ICollection<InstalledEquipment> InstalatedEquipment { get; set; }
+
         [Display(Name = "Оборудване")]
         public string Equipment { get; set; }
 
@@ -29,7 +33,7 @@
         {
             configuration.CreateMap<Installation, ListInstallationsViewModel>()
                 .ForMember(m => m.CustomerName, opt => opt.MapFrom(t => t.Customer.Name))
-                .ForMember(m => m.Equipment, opt => opt.MapFrom(t => "Pesho"))
+                .ForMember(m => m.InstalatedEquipment, opt => opt.MapFrom(src => src.InstalatedEquipment.Where(x => x.IsDeleted == false)))
                 .ReverseMap();
         }
     }

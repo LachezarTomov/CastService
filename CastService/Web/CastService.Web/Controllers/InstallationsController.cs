@@ -67,7 +67,7 @@
                     model = model.OrderByDescending(o => o.InstallationDate);
                     break;
             }
-
+            
             return View(model.ToList());
         }
 
@@ -258,7 +258,6 @@
             var customerName = this.customers.All().Where(c => c.Id == installation.CustomerId).FirstOrDefault();
             installation.CustomerName = customerName.Name;
 
-
             return View(installation);
         }
 
@@ -284,6 +283,20 @@
             sb.Append(date.Substring(8, 2));
             
             return sb.ToString();
+        }
+
+        private string ListEquipment(ICollection<InstalledEquipment> equipment)
+        {
+            StringBuilder result = new StringBuilder();
+            foreach (var eq in equipment)
+            {
+                result.Append(eq.Equipment.Name);
+                result.Append("(");
+                result.Append(eq.Quantity);
+                result.Append(")<br />");
+            }
+
+            return result.ToString();
         }
 
         private IList<SelectListItem> PopulateCustomers(int selectedId = 0)
