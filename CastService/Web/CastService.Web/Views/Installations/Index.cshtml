@@ -1,7 +1,10 @@
-﻿@model IEnumerable<CastService.Web.ViewModels.Installations.ListInstallationsViewModel>
+﻿@*@model IEnumerable<CastService.Web.ViewModels.Installations.ListInstallationsViewModel>*@
+@model PagedList.IPagedList<CastService.Web.ViewModels.Installations.ListInstallationsViewModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Инсталации";
 }
 @if (TempData["message"] != null)
 {
@@ -13,11 +16,11 @@
 <h2>Инсталации</h2>
 
 <p>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Index", "Installations", FormMethod.Get))
     {
         @Html.ActionLink("Нова инсталция", "Create", "Installations", null, new { @class = "btn btn-primary" })
         <span class="pull-right">
-            Търсене по клиент: @Html.TextBox("searchString")
+            Търсене по клиент: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
             <input type="submit" value="Търсене" />
         </span>
     }
@@ -34,13 +37,14 @@
             @Html.ActionLink("Дата", "Index", new { sortOrder = ViewBag.DateSortParams })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Equipment)
+            @Html.DisplayName("Вложено оборудване")
         </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
+        var instDate = item.InstallationDate.ToShortDateString();
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerName)
@@ -49,7 +53,7 @@
                 @Html.DisplayFor(modelItem => item.ObjectName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InstallationDate)
+                @Html.DisplayFor(modelItem => instDate)
             </td>
             <td>
                 @foreach (var eq in item.InstalatedEquipment)
@@ -67,3 +71,7 @@
     }
 
 </table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", 
+    new {page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter} ))
+    

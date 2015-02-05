@@ -31,10 +31,5 @@
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
-
-        //public override string ToString()
-        //{
-        //    return this.Equipment.Name + "(" + this.Quantity + ")<br />";
-        //}
     }
 }

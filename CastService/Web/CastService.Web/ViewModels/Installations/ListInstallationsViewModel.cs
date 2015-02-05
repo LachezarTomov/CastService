@@ -28,12 +28,12 @@
         [Display(Name = "Оборудване")]
         public string Equipment { get; set; }
 
-
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Installation, ListInstallationsViewModel>()
                 .ForMember(m => m.CustomerName, opt => opt.MapFrom(t => t.Customer.Name))
                 .ForMember(m => m.InstalatedEquipment, opt => opt.MapFrom(src => src.InstalatedEquipment.Where(x => x.IsDeleted == false)))
+            //    .ForMember(m => m.InstallationDate, opt => opt.MapFrom(t => t.InstallationDate.ToString()))
                 .ReverseMap();
         }
     }

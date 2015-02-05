@@ -1,18 +1,19 @@
 ﻿namespace CastService.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
+    using System.Net;
+    using System.Text;
 
     using AutoMapper.QueryableExtensions;
+    using PagedList;
 
     using CastService.Data.Common.Repository;
     using CastService.Data.Models;
     using CastService.Web.ViewModels.Installations;
-    using System.Collections.Generic;
-    using System.Net;
-    using System.Text;
-
+    
     public class InstallationsController : Controller
     {
         private readonly IDeletableEntityRepository<Installation> installations;
@@ -33,13 +34,22 @@
         }
 
         // GET: Installations
-        public ActionResult Index(string sortOrder, string searchString)
+        public ActionResult Index(string sortOrder, string searchString, string currentFilter, int? page)
         {
             var model = this.installations.All().Project().To<ListInstallationsViewModel>();
 
             ViewBag.ClientNameSortParams = sortOrder == "clientName" ? "clientNameDesc" : "clientName";
             ViewBag.PlaceSortParams = sortOrder == "place" ? "placeDesc" : "place";
             ViewBag.DateSortParams = string.IsNullOrEmpty(sortOrder) ? "date" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -67,8 +77,12 @@
                     model = model.OrderByDescending(o => o.InstallationDate);
                     break;
             }
-            
-            return View(model.ToList());
+
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+
+            //return View(model.ToList());
+            return View(model.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()

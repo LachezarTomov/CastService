@@ -87,7 +87,7 @@
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Installation, DetailsInstallationViewModel>()
-        //        .ForMember(m => m.InstallationDate, opt => opt.MapFrom(t => t.InstallationDate.ToString("dd/MM/yyyy")))
+                //        .ForMember(m => m.InstallationDate, opt => opt.MapFrom(t => t.InstallationDate.ToString("dd/MM/yyyy")))
                 .ForMember(m => m.InvoiceDate, opt => opt.MapFrom(t => t.InvoiceDate.ToString()))
 
                 .ReverseMap();
