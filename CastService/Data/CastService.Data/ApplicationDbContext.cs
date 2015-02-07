@@ -32,6 +32,10 @@
 
         public DbSet<Equipment> Equipments { get; set; }
 
+        public DbSet<Protocol> Protocols { get; set; }
+
+
+
         public override int SaveChanges()
         {
             this.ApplyAuditInfoRules();
