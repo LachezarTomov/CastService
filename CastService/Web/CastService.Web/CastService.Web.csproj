@@ -190,6 +190,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstallationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProtocolsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -205,6 +206,7 @@
     <Compile Include="ViewModels\Equipments\ListEquipmentsViewModel.cs" />
     <Compile Include="ViewModels\Installations\DetailsInstallationViewModel.cs" />
     <Compile Include="ViewModels\Installations\ListInstallationsViewModel.cs" />
+    <Compile Include="ViewModels\Protocols\ListProtocolsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -325,6 +327,7 @@
     <Content Include="Views\Shared\EditorTemplates\DropDownTwoRows.cshtml" />
     <Content Include="Views\Installations\Edit.cshtml" />
     <Content Include="Views\Installations\Details.cshtml" />
+    <Content Include="Views\Protocols\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

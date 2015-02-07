@@ -79,13 +79,17 @@
 
         public decimal DistanceInKm { get; set; }
 
-        [MaxLength(30)]
         public decimal PricePerKm { get; set; }
 
         [MaxLength(30)]
         public string CustomerRepresentative { get; set; }
 
-        public decimal PerformerRepresentative { get; set; }
+        [MaxLength(30)]
+        public string PerformerRepresentative { get; set; }
+
+        public int CustomerId { get; set; }
+
+        public virtual Customer Customer { get; set; }
 
         [Index]
         public bool IsDeleted { get; set; }
