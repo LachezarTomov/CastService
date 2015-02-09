@@ -1,7 +1,7 @@
-﻿@using CastService.Web.ViewModels.Installations
-@model DetailsInstallationViewModel
+﻿@using CastService.Web.ViewModels.Protocols
+@model DetailsProtocolViewModel
 @{
-    ViewBag.Title = "Нова инсталация";
+    ViewBag.Title = "Нов протокол";
 }
 
 @using (Html.BeginForm())
@@ -9,53 +9,85 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h3>Нова на инсталация</h3>
+        <h3>Нов протокол</h3>
         @Html.ValidationSummary(true, "", new { @class = "control-label text-danger" })
         <div class="form-group">
             @Html.EditorFor(m => m.CustomerId, new { ListItem = Model.CustomersNames })
 
             <div class="col-md-6">
-                @Html.LabelFor(model => model.ObjectName, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.ObjectName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ObjectName, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.ObjectType, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ObjectType, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ObjectType, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 @Html.LabelFor(model => model.InstallationDate, htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.InstallationDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.InstallationDate, "", new { @class = "text-danger" })
             </div>
 
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.GuessedTime, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.GuessedTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.GuessedTime, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.ObjectDriver, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ObjectDriver, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ObjectDriver, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-6">
-                @Html.LabelFor(model => model.DetectedFaults, htmlAttributes: new { @class = "control-label control-label" })
+                @Html.LabelFor(model => model.PerformedDiagnostic, htmlAttributes: new { @class = "control-label control-label" })
                 <br />
-                @Html.EditorFor(model => model.DetectedFaults, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DetectedFaults, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.PerformedDiagnostic, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PerformedDiagnostic, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
-                @Html.LabelFor(model => model.AdditionalActivities, htmlAttributes: new { @class = "control-label control-label" })
+                @Html.LabelFor(model => model.DetectedFauls, htmlAttributes: new { @class = "control-label control-label" })
                 <br />
-                @Html.EditorFor(model => model.AdditionalActivities, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AdditionalActivities, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.DetectedFauls, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DetectedFauls, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.PersonMadeRequest, htmlAttributes: new { @class = "control-label control-label" })
+                <br />
+                @Html.EditorFor(model => model.PersonMadeRequest, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonMadeRequest, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.RequestDate, htmlAttributes: new { @class = "control-label control-label" })
+                <br />
+                @Html.EditorFor(model => model.RequestDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequestDate, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(m => m.IsWarrantyService)
+                <br />
+                @Html.RadioButtonFor(m => m.IsWarrantyService, true, new { id = "is-warranty-service" })
+                @Html.Label("is-warranty-service", "Гаранционно")
+                <br />
+                @Html.RadioButtonFor(m => m.IsWarrantyService, false, new { id = "not-warranty-service" })
+                @Html.Label("not-warranty-service", "Извънгаранционно")
+            </div>
+            <div class="col-md-3">
+                <br />
+                @Html.RadioButtonFor(m => m.WithSubscriptionService, true, new { id = "with-subscription-service" })
+                @Html.Label("with-subscription-service", "Абонаментно")
+                <br />
+                @Html.RadioButtonFor(m => m.WithSubscriptionService, false, new { id = "on-request-service" })
+                @Html.Label("on-request-service", "По заявка")
             </div>
         </div>
 
@@ -74,49 +106,46 @@
                 <th>Количество</th>
                 <th></th>
             </tr>
-            @if (Model.InstalledEquipment != null)
+            @if (Model.ChangedEquipment != null)
             {
-                for (int i = 0; i < Model.InstalledEquipment.Count(); i++)
+                for (int i = 0; i < Model.ChangedEquipment.Count(); i++)
                 {
                     <tr>
                         <td>
-                            @Html.HiddenFor(m => m.InstalledEquipment[i].Id)
-                            @Html.DisplayFor(m => m.InstalledEquipment[i].EquipmentName)
+                            @Html.HiddenFor(m => m.ChangedEquipment[i].Id)
+                            @Html.DisplayFor(m => m.ChangedEquipment[i].EquipmentName)
                         </td>
                         <td>
-                            @Html.DisplayFor(m => m.InstalledEquipment[i].BatchNumber)
+                            @Html.HiddenFor(m => m.ChangedEquipment[i].OldSerialNumber)
+                            @Html.DisplayFor(m => m.ChangedEquipment[i].OldSerialNumber)
                         </td>
                         <td>
-                            @Html.HiddenFor(m => m.InstalledEquipment[i].SerialNumber)
-                            @Html.DisplayFor(m => m.InstalledEquipment[i].SerialNumber)
+                            @Html.HiddenFor(m => m.ChangedEquipment[i].NewSerialNumber)
+                            @Html.DisplayFor(m => m.ChangedEquipment[i].NewSerialNumber)
                         </td>
                         <td>
-                            @Html.HiddenFor(m => m.InstalledEquipment[i].Quantity)
-                            @Html.DisplayFor(m => m.InstalledEquipment[i].Quantity)
+                            @Html.HiddenFor(m => m.ChangedEquipment[i].Quantity)
+                            @Html.DisplayFor(m => m.ChangedEquipment[i].Quantity)
                         </td>
                     </tr>
                 }
             }
         </table>
 
-        <hr />
         <h3>Клиентът получи</h3>
         <div class="form-group">
-            <div class="col-md-12">
-                <div>
-                    @Html.EditorFor(model => model.HasProtocol)
-                    @Html.LabelFor(model => model.HasProtocol, htmlAttributes: new { @class = "control-label" })
-                    @Html.ValidationMessageFor(model => model.HasProtocol, "", new { @class = "text-danger" })
-                </div>
+            <div class="col-md-2">
+                <br />
+                @Html.EditorFor(model => model.HasCustomerProtocol)
+                @Html.LabelFor(model => model.HasCustomerProtocol, htmlAttributes: new { @class = "control-label" })
+                @Html.ValidationMessageFor(model => model.HasCustomerProtocol, "", new { @class = "text-danger" })
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 @Html.LabelFor(model => model.InvoiceNumber, htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.InvoiceNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.InvoiceNumber, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 @Html.LabelFor(model => model.InvoiceDate, htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.InvoiceDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.InvoiceDate, "", new { @class = "text-danger" })
@@ -132,6 +161,49 @@
                 @Html.ValidationMessageFor(model => model.Other, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.WorkInHours, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.WorkInHours, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-md-1">
+                @Html.LabelFor(model => model.PricePerHour, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.PricePerHour, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-md-1">
+                <p class="control-label"><strong>лв/час</strong></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.PriceForChangedEguipment, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.PriceForChangedEguipment, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.DistanceInKm, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.DistanceInKm, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-md-1">
+                @Html.LabelFor(model => model.PricePerKm, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.PricePerKm, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-md-1">
+                <p class="control-label"><strong>лв/км</strong></p>
+            </div>
+        </div>
+
         <hr />
         <div class="form-group">
             @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -159,8 +231,12 @@
 
         </div>
         <div class="form-group">
-            <label for="equipment-serial-number" class="col-md-3">Сериен №</label>
-            <input type="text" name="equipment-serial-number" id="equipment-serial-number" class="text ui-widget-content ui-corner-all col-md-4" />
+            <label for="equipment-old-serial-number" class="col-md-3">Стар сериен №</label>
+            <input type="text" name="equipment-old-serial-number" id="equipment-old-serial-number" class="text ui-widget-content ui-corner-all col-md-4" />
+        </div>
+        <div class="form-group">
+            <label for="equipment-new-serial-number" class="col-md-3">Нов сериен №</label>
+            <input type="text" name="equipment-new-serial-number" id="equipment-new-serial-number" class="text ui-widget-content ui-corner-all col-md-4" />
         </div>
         <div class="form-group">
             <label for="equipment-quantity" class="col-md-3">Количество</label>

@@ -103,7 +103,7 @@
         <h3>Клиентът получи</h3>
         <div class="form-group">
             <div class="col-md-12">
-                <div class="checkbox">
+                <div>
                     @Html.EditorFor(model => model.HasProtocol)
                     @Html.LabelFor(model => model.HasProtocol, htmlAttributes: new { @class = "control-label" })
                     @Html.ValidationMessageFor(model => model.HasProtocol, "", new { @class = "text-danger" })

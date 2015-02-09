@@ -27,7 +27,7 @@
         [Required]
         public string ObjectNumber { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(30)]
         [Required]
         public string ObjectDriver { get; set; }
 
@@ -52,7 +52,7 @@
 
         public bool IsWarrantyService { get; set; }
 
-        public bool WithSubscription { get; set; }
+        public bool WithSubscriptionService { get; set; }
 
         [MaxLength(30)]
         public string PersonMadeRequest { get; set; }

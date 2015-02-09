@@ -13,17 +13,19 @@
     using CastService.Data.Common.Repository;
     using CastService.Data.Models;
     using CastService.Web.ViewModels.Protocols;
+    using CastService.Web.Infrastructure.Populators;
 
     public class ProtocolsController : Controller
     {
 
         private readonly IDeletableEntityRepository<Protocol> protocols;
-
+        private readonly DropDownListPopulator populator;
 
         public ProtocolsController(
-            IDeletableEntityRepository<Protocol> protocols)
+            IDeletableEntityRepository<Protocol> protocols, DropDownListPopulator populator)
         {
             this.protocols = protocols;
+            this.populator = populator;
         }
         // GET: Protocols
         public ActionResult Index(string sortOrder, string searchString, string currentFilter, int? page)
@@ -81,6 +83,14 @@
             int pageNumber = (page ?? 1);
 
             return View(model.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult Create()
+        {            
+            var protocolViewModel = new DetailsProtocolViewModel();
+            protocolViewModel.CustomersNames = this.populator.PopulateCustomers();
+
+            return View(protocolViewModel);
         }
     }
 }

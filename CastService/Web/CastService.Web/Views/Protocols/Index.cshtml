@@ -19,7 +19,7 @@
     {
         @Html.ActionLink("Нов протокол", "Create", "Protocols", null, new { @class = "btn btn-primary" })
         <span class="pull-right">
-            Търсене по клиент: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+            Търсене по клиент: @Html.TextBox("searchString", ViewBag.CurrentFilter as string) 
             <input type="submit" value="Търсене" />
         </span>
     }
