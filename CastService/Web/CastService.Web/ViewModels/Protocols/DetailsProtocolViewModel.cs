@@ -51,12 +51,11 @@
         [Display(Name = "Дата")]
         [Required(ErrorMessage = "Полето е задължително")]
         [StringLength(10, MinimumLength = 10, ErrorMessage = "Дата трябва да е точно 10 символа: дд/мм/гггг")]
-        public string InstallationDate { get; set; }
+        public string ProtocolDate { get; set; }
 
         [Display(Name = "Обслужването е")]
         public bool IsWarrantyService { get; set; }
 
-        [Display(Name = "")]
         public bool WithSubscriptionService { get; set; }
 
         [Display(Name = "Заявката е подадена от")]
@@ -94,18 +93,27 @@
         [Display(Name = "Вложен труд")]
         public int WorkInHours { get; set; }
 
-        [Display(Name = "часа Х ")]
         public decimal PricePerHour { get; set; }
 
         [Display(Name = "Вложени части и материали")]
         public decimal PriceForChangedEguipment { get; set; }
 
         [Display(Name = "Изминати километри")]
-        public decimal DistanceInKm { get; set; }
+        public int DistanceInKm { get; set; }
 
-        [Display(Name = " Х ")]
         public decimal PricePerKm { get; set; }
 
+        [Display(Name = "Представител на клиента")]
+        [StringLength(1200, MinimumLength = 3, ErrorMessage = "Забележка трябва да е между {1} и {2} символа")]
+        public string CustomerRepresentative { get; set; }
+
+        [Display(Name = "Представител на изпълнителя")]
+        [MaxLength(128)]
+        [UIHint("UsersDropDownList")]
+        public string UserId { get; set; }
+
+        public IList<SelectListItem> UserNames { get; set; }
+        
         [Display(Name = "Клиент")]
         [UIHint("DropDownTwoRows")]
         public int CustomerId { get; set; }
@@ -122,6 +130,7 @@
             configuration.CreateMap<Protocol, DetailsProtocolViewModel>()
              //   .ForMember(m => m.ProtocolDate, opt => opt.MapFrom(t => t.ProtocolDate.ToString()))
                 .ForMember(m => m.InvoiceDate, opt => opt.MapFrom(t => t.InvoiceDate.ToString()))
+                .ForMember(m => m.UserNames, opt => opt.MapFrom(t => t.UserId))
                 .ReverseMap();
         }
     }

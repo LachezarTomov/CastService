@@ -28,7 +28,6 @@
         public string ObjectNumber { get; set; }
 
         [MaxLength(30)]
-        [Required]
         public string ObjectDriver { get; set; }
 
         [Column(TypeName = "ntext")]
@@ -58,7 +57,7 @@
         public string PersonMadeRequest { get; set; }
 
         [Column(TypeName = "Date")]
-        public DateTime RequestDate { get; set; }
+        public DateTime? RequestDate { get; set; }
 
         public bool HasCustomerProtocol { get; set; }
 
@@ -67,6 +66,9 @@
 
         [Column(TypeName = "Date")]
         public DateTime? InvoiceDate { get; set; }
+
+        [MaxLength(50)]
+        public string Other { get; set; }
 
         [MaxLength(30)]
         public string WarrantyCardNumber { get; set; }
@@ -81,11 +83,14 @@
 
         public decimal PricePerKm { get; set; }
 
+        [Column(TypeName = "ntext")]
+        public string Note { get; set; }
+
         [MaxLength(30)]
         public string CustomerRepresentative { get; set; }
 
-        [MaxLength(30)]
-        public string PerformerRepresentative { get; set; }
+        [MaxLength(128)]
+        public string UserId { get; set; }
 
         public int CustomerId { get; set; }
 

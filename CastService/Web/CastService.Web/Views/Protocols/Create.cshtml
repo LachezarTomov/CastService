@@ -14,17 +14,32 @@
         <div class="form-group">
             @Html.EditorFor(m => m.CustomerId, new { ListItem = Model.CustomersNames })
 
-            <div class="col-md-6">
+            <div class="col-md-3">
                 @Html.LabelFor(model => model.ObjectType, htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.ObjectType, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ObjectType, "", new { @class = "text-danger" })
             </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.ObjectNumber, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ObjectNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ObjectNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.EditorFor(m => m.UserId, new { ListItem = Model.UserNames })
+
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.CustomerRepresentative, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.CustomerRepresentative, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CustomerRepresentative, "", new { @class = "text-danger" })
+            </div>
+            
         </div>
         <div class="form-group">
             <div class="col-md-2">
-                @Html.LabelFor(model => model.InstallationDate, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.InstallationDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.InstallationDate, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.ProtocolDate, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ProtocolDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProtocolDate, "", new { @class = "text-danger" })
             </div>
 
             <div class="col-md-2">
@@ -91,18 +106,15 @@
             </div>
         </div>
 
-        @* Equipment table*@
         <div class="col-md-4"><h4><strong>Монтирано оборудване</strong></h4></div>
         <div class="col-md-1"><input type="button" id="add-equipment-button" value="Добави" class="btn btn-info" /></div>
         <div class="col-md-6"><input type="button" id="remove-equipment-button" value="Изтрий" class="btn btn-danger" /></div>
 
-
-
-        <table class="table" id="equipment-table">
+        <table class="table table-striped" id="equipment-table">
             <tr>
                 <th>Име</th>
-                <th>Партиден №</th>
-                <th>Сериен №</th>
+                <th>Стар сериен №</th>
+                <th>Нов сериен №</th>
                 <th>Количество</th>
                 <th></th>
             </tr>
@@ -169,22 +181,32 @@
                 @Html.EditorFor(model => model.WorkInHours, new { htmlAttributes = new { @class = "form-control" } })
             </div>
             <div class="col-md-1">
-                @Html.LabelFor(model => model.PricePerHour, htmlAttributes: new { @class = "control-label" })
+                <p class="control-label"><strong> часа X </strong></p>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 @Html.EditorFor(model => model.PricePerHour, new { htmlAttributes = new { @class = "form-control" } })
             </div>
             <div class="col-md-1">
                 <p class="control-label"><strong>лв/час</strong></p>
             </div>
+            <div class="col-md-2">
+                @Html.TextBox("result-labor", null, new { @class = "form-control" })
+            </div>
+
         </div>
         <div class="form-group">
             <div class="col-md-4">
                 @Html.LabelFor(model => model.PriceForChangedEguipment, htmlAttributes: new { @class = "control-label" })
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 @Html.EditorFor(model => model.PriceForChangedEguipment, new { htmlAttributes = new { @class = "form-control" } })
             </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+                @Html.TextBox("result-equipment", null, new { @class = "form-control" })
+            </div>
+
         </div>
         <div class="form-group">
             <div class="col-md-2">
@@ -194,13 +216,16 @@
                 @Html.EditorFor(model => model.DistanceInKm, new { htmlAttributes = new { @class = "form-control" } })
             </div>
             <div class="col-md-1">
-                @Html.LabelFor(model => model.PricePerKm, htmlAttributes: new { @class = "control-label" })
+                <p class="control-label"><strong> X </strong></p>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 @Html.EditorFor(model => model.PricePerKm, new { htmlAttributes = new { @class = "form-control" } })
             </div>
             <div class="col-md-1">
                 <p class="control-label"><strong>лв/км</strong></p>
+            </div>
+            <div class="col-md-2">
+                @Html.TextBox("result-distance", null, new { @class = "form-control" })
             </div>
         </div>
 
@@ -278,7 +303,8 @@
                 $("#equipment-id").val('');
                 $("#equipment").val('');
                 $("#equipment-quantity").val('');
-                $("#equipment-serial-number").val('');
+                $("#equipment-old-serial-number").val('');
+                $("#equipment-new-serial-number").val('');
 
                 $("#add-equipment").dialog('open');
             });
@@ -301,21 +327,23 @@
         });
 
         function add_equipment_row() {
-            //var equipmentId = $("#equipment-id").val();
-            var equipmentId = 3;
+            var equipmentId = $("#equipment-id").val();
             var equipmentName = $("#equipment").val();
             var equipmentQty = $("#equipment-quantity").val();
-            var equipmentSerialNumber = $("#equipment-serial-number").val();
+            var equipmentOldSerialNumber = $("#equipment-old-serial-number").val();
+            var equipmentNewSerialNumber = $("#equipment-new-serial-number").val();
             var rowsCount = $('#equipment-table tbody tr').length;
 
             rowsCount -= 1;
-            var equipmentIdInput = '<input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="InstalledEquipment_' + rowsCount + '__Id" name="InstalledEquipment[' + rowsCount + '].Id" type="hidden" value="' + equipmentId + '">';
+            var equipmentIdInput = '<input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="ChangedEquipment_' + rowsCount + '__Id" name="ChangedEquipment[' + rowsCount + '].Id" type="hidden" value="' + equipmentId + '">';
 
-            var equipmentQuantityInput = '<input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="InstalledEquipment_' + rowsCount + '__Quantity" name="InstalledEquipment[' + rowsCount + '].Quantity" type="hidden" value="' + equipmentQty + '">';
+            var equipmentQuantityInput = '<input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="ChangedEquipment_' + rowsCount + '__Quantity" name="ChangedEquipment[' + rowsCount + '].Quantity" type="hidden" value="' + equipmentQty + '">';
 
-            var equipmentSerialNumberInput = '<input  id="InstalledEquipment_' + rowsCount + '__SerialNumber" name="InstalledEquipment[' + rowsCount + '].SerialNumber" type="hidden" value="' + equipmentSerialNumber + '">';
+            var equipmentOldSerialNumberInput = '<input  id="ChangedEquipment_' + rowsCount + '__OldSerialNumber" name="ChangedEquipment[' + rowsCount + '].OldSerialNumber" type="hidden" value="' + equipmentOldSerialNumber + '">';
 
-            var newRowContent = "<tr><td>" + equipmentIdInput + equipmentName + "</td><td></td><td>" + equipmentSerialNumberInput + equipmentSerialNumber + "</td><td>" + equipmentQuantityInput + equipmentQty + "</td></tr>";
+            var equipmentNewSerialNumberInput = '<input  id="ChangedEquipment_' + rowsCount + '__NewSerialNumber" name="ChangedEquipment[' + rowsCount + '].NewSerialNumber" type="hidden" value="' + equipmentNewSerialNumber + '">';
+
+            var newRowContent = "<tr><td>" + equipmentIdInput + equipmentName + "</td><td></td><td>" + equipmentOldSerialNumberInput + equipmentOldSerialNumber + "</td><td>" + equipmentNewSerialNumberInput + equipmentNewSerialNumber + "</td><td>" + equipmentQuantityInput + equipmentQty + "</td></tr>";
 
             $("#equipment-table tbody").append(newRowContent);
 

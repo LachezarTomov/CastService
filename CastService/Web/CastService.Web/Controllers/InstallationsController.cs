@@ -13,6 +13,7 @@
     using CastService.Data.Common.Repository;
     using CastService.Data.Models;
     using CastService.Web.ViewModels.Installations;
+    using System.Data.Entity.Validation;
     
     public class InstallationsController : Controller
     {
@@ -110,6 +111,8 @@
                 newInstallation.AdditionalActivities = installation.AdditionalActivities;
                 newInstallation.CustomerId = installation.CustomerId;
                 newInstallation.Note = installation.Note;
+                newInstallation.WarrantyCardNumber = installation.WarrantyCardNumber;
+
 
                 if (installation.HasProtocol)
                 {
@@ -127,12 +130,13 @@
                 this.installations.Add(newInstallation);
                 this.installations.SaveChanges();
 
-                if (installation.InstalledEquipment == null)
+
+                if (installation.InstalledEquipment != null)
                 {
                     foreach (var item in installation.InstalledEquipment)
                     {
                         InstalledEquipment ie = new InstalledEquipment();
-                        ie.InstallationId = installation.Id;
+                        ie.InstallationId = newInstallation.Id;
                         ie.EquipmentId = item.Id;
                         ie.SerialNumber = item.SerialNumber;
                         ie.Quantity = item.Quantity;

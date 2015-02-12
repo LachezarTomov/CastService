@@ -7,3 +7,4 @@ ok 4. Add pagging, filter and sorting functionality
 8. Add check for duplicated customer names ot products name
 9. Add path to uploaded file for installations and fror protocols
 10. Separate PopulateCustomers in different class.
+11. Parts wit serial number - limit to 1 count
