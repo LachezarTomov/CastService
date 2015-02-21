@@ -10,7 +10,7 @@
     using CastService.Data.Models;
     using CastService.Web.Infrastructure.Mapping;
 
-    public class DetailsProtocolViewModel: IMapFrom<Installation>, IHaveCustomMappings
+    public class DetailsProtocolViewModel : IMapFrom<Installation>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -91,6 +91,7 @@
         public string Note { get; set; }
 
         [Display(Name = "Вложен труд")]
+        [DataType(DataType.Text)]
         public int WorkInHours { get; set; }
 
         public decimal PricePerHour { get; set; }
@@ -99,6 +100,7 @@
         public decimal PriceForChangedEguipment { get; set; }
 
         [Display(Name = "Изминати километри")]
+        [DataType(DataType.Text)]
         public int DistanceInKm { get; set; }
 
         public decimal PricePerKm { get; set; }
@@ -113,7 +115,7 @@
         public string UserId { get; set; }
 
         public IList<SelectListItem> UserNames { get; set; }
-        
+
         [Display(Name = "Клиент")]
         [UIHint("DropDownTwoRows")]
         public int CustomerId { get; set; }
@@ -125,12 +127,18 @@
         [Display(Name = "Клиент")]
         public string CustomerName { get; set; }
 
+        [Display(Name = "Представител на изпълнителя")]
+        public string UserName { get; set; }
+
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Protocol, DetailsProtocolViewModel>()
-             //   .ForMember(m => m.ProtocolDate, opt => opt.MapFrom(t => t.ProtocolDate.ToString()))
+
+                //       .ForMember(m => m.ProtocolDate, opt => opt.MapFrom(t => t.ProtocolDate.ToString()))
                 .ForMember(m => m.InvoiceDate, opt => opt.MapFrom(t => t.InvoiceDate.ToString()))
-                .ForMember(m => m.UserNames, opt => opt.MapFrom(t => t.UserId))
+                .ForMember(m => m.RequestDate, opt => opt.MapFrom(x => x.RequestDate.ToString()))
+                //.ForMember(m => m.UserNames, opt => opt.MapFrom(t => t.UserId))
+                
                 .ReverseMap();
         }
     }

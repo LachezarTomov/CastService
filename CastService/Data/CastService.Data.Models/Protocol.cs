@@ -79,7 +79,7 @@
 
         public decimal PriceForChangedEguipment { get; set; }
 
-        public decimal DistanceInKm { get; set; }
+        public int DistanceInKm { get; set; }
 
         public decimal PricePerKm { get; set; }
 

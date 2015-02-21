@@ -21,15 +21,21 @@
 
         private readonly IDeletableEntityRepository<Protocol> protocols;
         private readonly IDeletableEntityRepository<ChangedEquipment> changedEquipment;
+        private readonly IDeletableEntityRepository<Customer> customers;
+        private readonly IDeletableEntityRepository<User> users;
         private readonly DropDownListPopulator populator;
 
         public ProtocolsController(
             IDeletableEntityRepository<Protocol> protocols,
-            IDeletableEntityRepository<ChangedEquipment> changedEquipment, 
+            IDeletableEntityRepository<ChangedEquipment> changedEquipment,
+            IDeletableEntityRepository<Customer> customers,
+            IDeletableEntityRepository<User> users, 
             DropDownListPopulator populator)
         {
             this.protocols = protocols;
             this.changedEquipment = changedEquipment;
+            this.customers = customers;
+            this.users = users;
             this.populator = populator;
         }
 
@@ -126,16 +132,18 @@
                 newProtocol.PersonMadeRequest = protocol.PersonMadeRequest ?? string.Empty;
                 newProtocol.WarrantyCardNumber = protocol.WarrantyCardNumber ?? string.Empty;
                 newProtocol.CustomerRepresentative = protocol.CustomerRepresentative ?? string.Empty;
-
                 newProtocol.UserId = protocol.UserId;
-               
+                newProtocol.IsWarrantyService = protocol.IsWarrantyService;
+                newProtocol.WithSubscriptionService = protocol.WithSubscriptionService;
+
+
                 if (protocol.HasCustomerProtocol)
                 {
                     newProtocol.HasCustomerProtocol = protocol.HasCustomerProtocol;
                 }
 
                 newProtocol.InvoiceNumber = (protocol.InvoiceNumber ?? string.Empty);
-                
+
                 if (protocol.InvoiceDate != null)
                 {
                     newProtocol.InvoiceDate = DateTime.Parse(protocol.InvoiceDate);
@@ -144,6 +152,7 @@
                 {
                     newProtocol.InvoiceDate = null;
                 }
+
                 if (protocol.RequestDate != null)
                 {
                     newProtocol.RequestDate = DateTime.Parse(protocol.RequestDate);
@@ -202,6 +211,178 @@
             protocol.UserNames = this.populator.PopulateUsers();
 
             return View(protocol);
+        }
+
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var protocol = this.protocols.All().Where(c => c.Id == id).Project().To<DetailsProtocolViewModel>().FirstOrDefault();
+
+            if (protocol == null)
+            {
+                return HttpNotFound();
+            }
+
+            protocol.CustomersNames = this.populator.PopulateCustomers(protocol.CustomerId);
+            protocol.UserNames = this.populator.PopulateUsers(protocol.UserId);
+
+            protocol.ProtocolDate = ConvertDbDate(protocol.ProtocolDate);
+            if (!string.IsNullOrEmpty(protocol.InvoiceDate))
+            {
+                protocol.InvoiceDate = ConvertDbDate(protocol.InvoiceDate);
+            }
+
+            protocol.ChangedEquipment = this.changedEquipment.All().Where(i => i.ProtocolId == protocol.Id).Project().To<ChangedEquipmentListViewModel>().ToList();
+
+            return View(protocol);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(DetailsProtocolViewModel protocolModel)
+        {
+            string expectedDateFormat = "дд/мм/гггг";
+            if (ModelState.IsValid)
+            {
+                var updatedProtocol = this.protocols.All().Where(c => c.Id == protocolModel.Id).FirstOrDefault();
+
+                if (updatedProtocol == null)
+                {
+                    return HttpNotFound();
+                }
+
+                updatedProtocol.ObjectType = protocolModel.ObjectType;
+                updatedProtocol.ObjectNumber = protocolModel.ObjectNumber;
+                updatedProtocol.ObjectDriver = protocolModel.ObjectDriver;
+                updatedProtocol.ProtocolDate = DateTime.Parse(protocolModel.ProtocolDate);
+                updatedProtocol.StartTime = protocolModel.StartTime;
+                updatedProtocol.EndTime = protocolModel.EndTime;
+                updatedProtocol.PerformedDiagnostic = protocolModel.PerformedDiagnostic;
+                updatedProtocol.DetectedFauls = protocolModel.DetectedFauls;
+                updatedProtocol.IsWarrantyService = protocolModel.IsWarrantyService;
+                updatedProtocol.WithSubscriptionService = protocolModel.WithSubscriptionService;
+                updatedProtocol.PersonMadeRequest = protocolModel.PersonMadeRequest;
+
+                if (!string.IsNullOrEmpty(protocolModel.RequestDate) && protocolModel.RequestDate != expectedDateFormat)
+                {
+                    updatedProtocol.RequestDate = DateTime.Parse(protocolModel.RequestDate);
+                }
+                else
+                {
+                    updatedProtocol.RequestDate = null;
+                }
+                updatedProtocol.HasCustomerProtocol = protocolModel.HasCustomerProtocol;
+                updatedProtocol.InvoiceNumber = protocolModel.InvoiceNumber;
+                if (!string.IsNullOrEmpty(protocolModel.InvoiceDate) && protocolModel.InvoiceDate != expectedDateFormat)
+                {
+                    updatedProtocol.InvoiceDate = DateTime.Parse(protocolModel.InvoiceDate);
+                }
+                else
+                {
+                    updatedProtocol.InvoiceDate = null;
+                }
+                updatedProtocol.Other = protocolModel.Other;
+                updatedProtocol.WarrantyCardNumber = protocolModel.WarrantyCardNumber;
+                updatedProtocol.WorkInHours = protocolModel.WorkInHours;
+                updatedProtocol.PricePerHour = protocolModel.PricePerHour;
+                updatedProtocol.PriceForChangedEguipment = protocolModel.PriceForChangedEguipment;
+                updatedProtocol.DistanceInKm = protocolModel.DistanceInKm;
+                updatedProtocol.PricePerKm = protocolModel.PricePerKm;
+
+
+                updatedProtocol.CustomerId = protocolModel.CustomerId;
+                updatedProtocol.UserId = protocolModel.UserId;
+                updatedProtocol.Note = protocolModel.Note;
+
+
+                this.protocols.Update(updatedProtocol);
+                this.protocols.SaveChanges();
+
+                // Edit installed equipment
+                var oldInstalledEquipment = this.changedEquipment.All().Where(i => i.ProtocolId == protocolModel.Id).ToList();
+
+                foreach (var item in oldInstalledEquipment)
+                {
+                    this.changedEquipment.Delete(item);
+                }
+
+                if (protocolModel.ChangedEquipment != null)
+                {
+                    foreach (var item in protocolModel.ChangedEquipment)
+                    {
+                        ChangedEquipment ie = new ChangedEquipment();
+                        ie.ProtocolId = protocolModel.Id;
+                        ie.EquipmentId = item.Id;
+                        ie.OldSerialNumber = item.OldSerialNumber;
+                        ie.NewSerialNumber = item.NewSerialNumber;
+                        ie.Quantity = item.Quantity;
+                        this.changedEquipment.Add(ie);
+                    }
+                }
+
+                this.changedEquipment.SaveChanges();
+
+                TempData["message"] = "Протоколът беше редактиран";
+
+                return RedirectToAction("Index");
+            }
+
+            return View(protocolModel);
+        }
+
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var protocol = this.protocols.All().Where(c => c.Id == id).Project().To<DetailsProtocolViewModel>().FirstOrDefault();
+
+            if (protocol == null)
+            {
+                return HttpNotFound();
+            }
+
+            protocol.ProtocolDate = ConvertDbDate(protocol.ProtocolDate);
+            if (protocol.InvoiceDate != string.Empty)
+            {
+                protocol.InvoiceDate = ConvertDbDate(protocol.InvoiceDate);
+            }
+            if (protocol.RequestDate != string.Empty)
+            {
+                protocol.RequestDate = ConvertDbDate(protocol.RequestDate);
+            }
+
+            protocol.ChangedEquipment = this.changedEquipment.All().Where(i => i.ProtocolId == protocol.Id).Project().To<ChangedEquipmentListViewModel>().ToList();
+
+            var customerName = this.customers.All().Where(c => c.Id == protocol.CustomerId).FirstOrDefault();
+            protocol.CustomerName = customerName.Name;
+
+            var userName = this.users.All().Where(c => c.Id == protocol.UserId).FirstOrDefault();
+            protocol.UserName = userName.UserName;
+
+            ViewBag.ResultLabor = String.Format("{0:0.00}", protocol.WorkInHours * protocol.PricePerHour);
+            ViewBag.ResultEquipment = String.Format("{0:0.00}", protocol.PriceForChangedEguipment);
+            ViewBag.ResultDistance = String.Format("{0:0.00}", protocol.DistanceInKm * protocol.PricePerKm);
+
+            return View(protocol);
+        }
+
+        private string ConvertDbDate(string date)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(date.Substring(8, 2));
+            sb.Append("/");
+            sb.Append(date.Substring(5, 2));
+            sb.Append("/");
+            sb.Append(date.Substring(0, 4));
+
+            return sb.ToString();
         }
     }
 }

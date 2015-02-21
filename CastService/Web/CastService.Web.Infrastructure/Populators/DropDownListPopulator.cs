@@ -20,7 +20,7 @@
             this.users = users;
         }
 
-        public IList<SelectListItem> PopulateUsers(int selectedId = 0)
+        public IList<SelectListItem> PopulateUsers(string selectedId = "0")
         {
             IList<SelectListItem> usersNames = this.users.All().Select(c => new SelectListItem
             {

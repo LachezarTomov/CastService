@@ -269,6 +269,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.11.2.js" />
     <Content Include="Scripts\jquery-ui-1.11.2.min.js" />
+    <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -332,6 +333,8 @@
     <Content Include="Views\Protocols\Index.cshtml" />
     <Content Include="Views\Protocols\Create.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\UsersDropDownList.cshtml" />
+    <Content Include="Views\Protocols\Edit.cshtml" />
+    <Content Include="Views\Protocols\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
