@@ -1,23 +1,31 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using CastService.Web.Models;
-using CastService.Data.Models;
-
-namespace CastService.Web.Controllers
+﻿namespace CastService.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Mvc;
+
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+
+    using AutoMapper.QueryableExtensions;
+
+    using CastService.Data;
+    using CastService.Web.Models;
+    using CastService.Data.Models;
+    using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
+    
     [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private CastServiceDbContext db = new CastServiceDbContext();
 
         public AccountController()
         {
@@ -77,6 +85,16 @@ namespace CastService.Web.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, shouldLockout: false);
+
+            if (result == SignInStatus.Success)
+            {
+                var user = this.db.Users.Where(u => u.UserName == model.Username).FirstOrDefault();
+                if (user.IsBlocked)
+                {
+                    result = SignInStatus.Failure;
+                }
+            }
+
             switch (result)
             {
                 case SignInStatus.Success:
@@ -87,7 +105,7 @@ namespace CastService.Web.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Неуспешен вход.");
                     return View(model);
             }
         }
@@ -140,7 +158,10 @@ namespace CastService.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            
+            RegisterViewModel model = new RegisterViewModel();
+            model.Roles = this.GetRolesList();
+            return View(model);
         }
 
         //
@@ -152,7 +173,13 @@ namespace CastService.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.Username, Email = model.Email };
+                var user = new User { 
+                    UserName = model.Username, 
+                    Email = "nomail@test.com",
+             //       RoleId = model.RoleId,
+                    LockoutEnabled = false
+                };
+//                var user = new User { UserName = model.Username, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -171,6 +198,52 @@ namespace CastService.Web.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        public ActionResult Edit(string id)
+        {
+
+            var user = this.db.Users.Where(u => u.Id == id).FirstOrDefault();
+            var model = new EditViewModel();
+        //    model.Roles = this.GetRolesList(user.Id);
+            model.FullName = user.FullName;
+            model.Username = user.UserName;
+            model.Id = user.Id;
+   
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(EditViewModel editedModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var updatedUser = this.db.Users.Where(c => c.Id == editedModel.Id).FirstOrDefault();
+
+                if (updatedUser == null)
+                {
+                    return HttpNotFound();
+                }
+
+                updatedUser.UserName = editedModel.Username;
+                updatedUser.RoleId = editedModel.RoleId;
+                updatedUser.FullName = editedModel.FullName;
+                
+                try
+                {
+                    db.Entry(updatedUser).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index","Home");
+                }
+                catch (RetryLimitExceededException /* dex */)
+                {
+                    //Log the error (uncomment dex variable name and add a line here to write a log.
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                }
+                
+            }
+            return View(editedModel);
         }
 
         //
@@ -203,7 +276,7 @@ namespace CastService.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await UserManager.FindByNameAsync(model.Username);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
@@ -481,6 +554,34 @@ namespace CastService.Web.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
+
+        private SelectList GetRolesList(string selectedId = "0")
+        {
+            var groups = db.Roles.OrderByDescending(r => r.Name).ToList();
+            var list = new List<SelectListItem>();
+            foreach (var group in groups)
+            {
+                list.Add(new SelectListItem()
+                {
+                    Value = group.Id,
+                    Text = group.Name
+                });
+            }
+
+            if (selectedId != "0")
+            {
+                foreach (var item in list)
+                {
+                    if (item.Value == selectedId.ToString())
+                    {
+                        item.Selected = true;
+                        break;
+                    }
+                }
+            }
+            return new SelectList(list, "Value", "Text");
+        }
+
         #endregion
     }
 }

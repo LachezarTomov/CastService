@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+//using System.Web.Mvc;
 
 namespace CastService.Web.Models
 {
@@ -52,42 +53,78 @@ namespace CastService.Web.Models
         [Display(Name = "Име")]
         public string Username { get; set; }
 
-        [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        //[Required]
+        //[Display(Name = "Email")]
+        //[EmailAddress]
+        //public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Парола")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Запомни ме!")]
         public bool RememberMe { get; set; }
     }
 
     public class RegisterViewModel
     {
+        public string Id { get; set; }
+
         [Required]
-        [StringLength(10, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [StringLength(10, ErrorMessage = "{0} трябва да бъде най-малко {2} символа..", MinimumLength = 3)]
         [Display(Name = "Име")]
         public string Username { get; set; }
 
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        //[Required]
+        //[EmailAddress]
+        //[Display(Name = "Email")]
+        //public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} трябва да бъде най-малко {2} символа.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Парола")]
         public string Password { get; set; }
 
+        [Required]
+        [StringLength(100, ErrorMessage = "{0} трябва да бъде най-малко {2} символа.", MinimumLength = 6)]
+        [Display(Name = "Пълно име")]
+        public string FullName { get; set; }
+
+        [Display(Name = "Група")]
+        public string RoleId { get; set; }
+        public System.Web.Mvc.SelectList Roles { get; set; }
+
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Потвърди паролата")]
+        [Compare("Password", ErrorMessage = "Двете пароли са различни!")]
         public string ConfirmPassword { get; set; }
+
+
+    }
+
+    public class EditViewModel
+    {
+        public string Id { get; set; }
+
+        public bool HasPassword { get; set; }
+
+        [Required]
+        [StringLength(10, ErrorMessage = "{0} трябва да бъде най-малко {2} символа..", MinimumLength = 3)]
+        [Display(Name = "Име")]
+        public string Username { get; set; }
+
+
+        [Required]
+        [StringLength(100, ErrorMessage = "{0} трябва да бъде най-малко {2} символа.", MinimumLength = 6)]
+        [Display(Name = "Пълно име")]
+        public string FullName { get; set; }
+
+
+        [Display(Name = "Група")]
+        public string RoleId { get; set; }
+        public System.Web.Mvc.SelectList Roles { get; set; }
     }
 
     public class ResetPasswordViewModel
@@ -98,14 +135,14 @@ namespace CastService.Web.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} трябва да бъде най-малко {2} символа..", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Парола")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Двете пароли са различни!")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -114,8 +151,7 @@ namespace CastService.Web.Models
     public class ForgotPasswordViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Име")]
+        public string Username { get; set; }
     }
 }

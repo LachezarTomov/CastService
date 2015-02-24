@@ -1,15 +1,20 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using CastService.Web.Models;
-
-namespace CastService.Web.Controllers
+﻿namespace CastService.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Mvc;
+
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+
+    using CastService.Web.Models;
+    using CastService.Web.Infrastructure.Populators;
+    using CastService.Data;
+
     [Authorize]
     public class ManageController : Controller
     {
@@ -55,8 +60,8 @@ namespace CastService.Web.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                message == ManageMessageId.ChangePasswordSuccess ? "Паролата е променена."
+                : message == ManageMessageId.SetPasswordSuccess ? "Паролата е създадена."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
@@ -72,6 +77,12 @@ namespace CastService.Web.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+
+
+            //var fullUserName = this.db.Users.Where(u => u.Id == userId).Select(u => u.FullName).FirstOrDefault();
+
+            //model.Roles = this.GetRolesList();
+            //model.FullName = fullUserName;
             return View(model);
         }
 
@@ -330,7 +341,7 @@ namespace CastService.Web.Controllers
 
             base.Dispose(disposing);
         }
-
+       
 #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

@@ -7,11 +7,13 @@
 
     using CastService.Data.Common.Repository;
     using CastService.Data.Models;
+    using CastService.Data;
 
     public class DropDownListPopulator
     {
         private readonly IDeletableEntityRepository<Customer> customers;
         private readonly IDeletableEntityRepository<User> users;
+
         public DropDownListPopulator(IDeletableEntityRepository<Customer> customers,
             IDeletableEntityRepository<User> users
             )

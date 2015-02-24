@@ -335,6 +335,7 @@
     <Content Include="Views\Shared\EditorTemplates\UsersDropDownList.cshtml" />
     <Content Include="Views\Protocols\Edit.cshtml" />
     <Content Include="Views\Protocols\Details.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

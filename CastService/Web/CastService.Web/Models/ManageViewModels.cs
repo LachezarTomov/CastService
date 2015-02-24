@@ -12,6 +12,20 @@ namespace CastService.Web.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+
+        [Required]
+        [StringLength(10, ErrorMessage = "{0} трябва да бъде най-малко {2} символа..", MinimumLength = 3)]
+        [Display(Name = "Име")]
+        public string Username { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "{0} трябва да бъде най-малко {2} символа.", MinimumLength = 6)]
+        [Display(Name = "Пълно име")]
+        public string FullName { get; set; }
+
+        [Display(Name = "Група")]
+        public string RoleId { get; set; }
+        public System.Web.Mvc.SelectList Roles { get; set; }
     }
 
     public class ManageLoginsViewModel
