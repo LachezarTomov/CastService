@@ -66,6 +66,9 @@
 
         public virtual Customer Customer { get; set; }
 
+        [MaxLength(128)]
+        public string UserId { get; set; }
+
         [Index]
         public bool IsDeleted { get; set; }
 

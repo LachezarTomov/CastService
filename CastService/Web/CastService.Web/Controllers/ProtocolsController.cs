@@ -1,6 +1,6 @@
 ﻿namespace CastService.Web.Controllers
 {
-        using System;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
@@ -91,7 +91,7 @@
                     break;
             }
 
-            int pageSize = 2;
+            int pageSize = 15;
             int pageNumber = (page ?? 1);
 
             return View(model.ToPagedList(pageNumber, pageSize));

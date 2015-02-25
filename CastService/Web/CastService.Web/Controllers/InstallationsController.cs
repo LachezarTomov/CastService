@@ -13,25 +13,31 @@
     using CastService.Data.Common.Repository;
     using CastService.Data.Models;
     using CastService.Web.ViewModels.Installations;
-    using System.Data.Entity.Validation;
+    using CastService.Web.Infrastructure.Populators;
     
     public class InstallationsController : Controller
     {
         private readonly IDeletableEntityRepository<Installation> installations;
         private readonly IDeletableEntityRepository<Customer> customers;
         private readonly IDeletableEntityRepository<InstalledEquipment> installedEquipment;
+        private readonly IDeletableEntityRepository<User> users;
         private readonly IDeletableEntityRepository<Equipment> equipments;
+        private readonly DropDownListPopulator populator;
 
         public InstallationsController(
             IDeletableEntityRepository<Installation> installations,
             IDeletableEntityRepository<Customer> customers,
             IDeletableEntityRepository<Equipment> equipments,
-            IDeletableEntityRepository<InstalledEquipment> installedEquipment)
+            IDeletableEntityRepository<User> users,
+            IDeletableEntityRepository<InstalledEquipment> installedEquipment,
+            DropDownListPopulator populator)
         {
             this.installations = installations;
             this.customers = customers;
             this.installedEquipment = installedEquipment;
+            this.users = users;
             this.equipments = equipments;
+            this.populator = populator;
         }
 
         // GET: Installations
@@ -79,7 +85,7 @@
                     break;
             }
 
-            int pageSize = 2;
+            int pageSize = 15;
             int pageNumber = (page ?? 1);
 
             //return View(model.ToList());
@@ -89,7 +95,9 @@
         public ActionResult Create()
         {
             var installationViewModel = new DetailsInstallationViewModel();
-            installationViewModel.CustomersNames = PopulateCustomers();
+            //installationViewModel.CustomersNames = PopulateCustomers();
+            installationViewModel.CustomersNames = this.populator.PopulateCustomers();
+            installationViewModel.UserNames = this.populator.PopulateUsers();
 
             return View(installationViewModel);
         }
@@ -112,7 +120,7 @@
                 newInstallation.CustomerId = installation.CustomerId;
                 newInstallation.Note = installation.Note;
                 newInstallation.WarrantyCardNumber = installation.WarrantyCardNumber;
-
+                newInstallation.UserId = installation.UserId;
 
                 if (installation.HasProtocol)
                 {
@@ -151,7 +159,8 @@
                 return RedirectToAction("Index");
             }
 
-            installation.CustomersNames = PopulateCustomers();
+            installation.CustomersNames = this.populator.PopulateCustomers();
+            installation.UserNames = this.populator.PopulateUsers();
 
             return View(installation);
         }
@@ -170,7 +179,9 @@
                 return HttpNotFound();
             }
 
-            installation.CustomersNames = PopulateCustomers(installation.CustomerId);
+            installation.CustomersNames = this.populator.PopulateCustomers(installation.CustomerId);
+            installation.UserNames = this.populator.PopulateUsers(installation.UserId);
+
             installation.InstallationDate = ConvertDbDate(installation.InstallationDate);
             if (!string.IsNullOrEmpty(installation.InvoiceDate))
             {
@@ -275,6 +286,9 @@
 
             var customerName = this.customers.All().Where(c => c.Id == installation.CustomerId).FirstOrDefault();
             installation.CustomerName = customerName.Name;
+
+            var userName = this.users.All().Where(c => c.Id == installation.UserId).FirstOrDefault();
+            installation.UserName = userName.UserName;
 
             return View(installation);
         }

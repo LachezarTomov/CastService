@@ -312,11 +312,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Customers\Create.cshtml" />
-    <Content Include="Views\Customers1\Create.cshtml" />
-    <Content Include="Views\Customers1\Delete.cshtml" />
-    <Content Include="Views\Customers1\Details.cshtml" />
-    <Content Include="Views\Customers1\Edit.cshtml" />
-    <Content Include="Views\Customers1\Index.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Customers\Details.cshtml" />
     <Content Include="Views\Customers\Edit.cshtml" />

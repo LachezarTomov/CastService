@@ -14,33 +14,35 @@
         <div class="form-group">
             @Html.EditorFor(m => m.CustomerId, new { ListItem = Model.CustomersNames })
 
-            <div class="col-md-6">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.InstallationDate, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.InstallationDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.InstallationDate, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
                 @Html.LabelFor(model => model.ObjectName, htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.ObjectName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ObjectName, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.InstallationDate, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.InstallationDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.InstallationDate, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.GuessedTime, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.GuessedTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.GuessedTime, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-3">
+            @Html.EditorFor(m => m.UserId, new { ListItem = Model.UserNames })
+            
+            <div class="col-md-2">
                 @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+            </div>
+            
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.GuessedTime, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.GuessedTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.GuessedTime, "", new { @class = "text-danger" })
             </div>
         </div>
 

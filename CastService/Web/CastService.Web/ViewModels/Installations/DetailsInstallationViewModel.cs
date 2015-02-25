@@ -84,6 +84,16 @@
         [Display(Name = "Клиент")]
         public string CustomerName { get; set; }
 
+        [Display(Name = "Представител на изпълнителя")]
+        [MaxLength(128)]
+        [UIHint("UsersDropDownList")]
+        public string UserId { get; set; }
+
+        public IList<SelectListItem> UserNames { get; set; }
+
+        [Display(Name = "Представител на изпълнителя")]
+        public string UserName { get; set; }
+
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Installation, DetailsInstallationViewModel>()
