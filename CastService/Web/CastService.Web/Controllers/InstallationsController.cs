@@ -288,7 +288,7 @@
             installation.CustomerName = customerName.Name;
 
             var userName = this.users.All().Where(c => c.Id == installation.UserId).FirstOrDefault();
-            installation.UserName = userName.UserName;
+            installation.UserName = userName.FullName;
 
             return View(installation);
         }

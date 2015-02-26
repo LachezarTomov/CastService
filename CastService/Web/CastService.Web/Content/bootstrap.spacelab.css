@@ -2714,7 +2714,8 @@ select[multiple].input-lg {
 }
 .btn {
   display: inline-block;
-  margin-bottom: 0;
+  margin-bottom: 3px;
+  margin-top: 3px;
   font-weight: normal;
   text-align: center;
   vertical-align: middle;

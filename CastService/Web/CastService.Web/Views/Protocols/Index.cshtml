@@ -12,70 +12,92 @@
         @TempData["message"]
     </div>
 }
-<h2>Сервизни протоколи</h2>
+<div class="container">
+    <h2>Сервизни протоколи</h2>
 
-<p>
-    @using (Html.BeginForm("Index", "Installations", FormMethod.Get))
+
+    @using (Html.BeginForm("Index", "Protocols", FormMethod.Get))
     {
-        @Html.ActionLink("Нов протокол", "Create", "Protocols", null, new { @class = "btn btn-primary" })
-        <span class="pull-right">
-            Търсене по клиент: @Html.TextBox("searchString", ViewBag.CurrentFilter as string) 
-            <input type="submit" value="Търсене" />
-        </span>
+        <div class="container">
+            <h4>Търсене</h4>
+            <div class="col-md-3">
+                Клиент @Html.TextBox("searchByCustomerName", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                Машина №: @Html.TextBox("searchByObjectNumber", null, new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                Машина тип @Html.TextBox("searchByObjectType", null, new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                Подменена част име @Html.TextBox("searchByChangedPartName", null, new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                Сериан № @Html.TextBox("searchByChangedPartSerNum", null, new { @class = "form-control" })
+            </div>
+
+            <div class="pull-right">
+                <input type="submit" value="Търсене" class="btn btn-info form-control" />
+            </div>
+
+        </div>
     }
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.ActionLink("Клиент", "Index", new { sortOrder = ViewBag.ClientNameSortParams })
-        </th>
-        <th>
-            @Html.ActionLink("Машина тип", "Index", new { sortOrder = ViewBag.MachineTypeSortParams })
-        </th>
-        <th>
-            @Html.ActionLink("Машина №", "Index", new { sortOrder = ViewBag.MachineNumberSortParams })
-        </th>
-        <th>
-            @Html.ActionLink("Дата", "Index", new { sortOrder = ViewBag.DateSortParams })
-        </th>
-        <th>
-            @Html.DisplayName("Вложено оборудване")
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-        var instDate = item.ProtocolDate.ToShortDateString();
+
+    @Html.ActionLink("Нов протокол", "Create", "Protocols", null, new { @class = "btn btn-primary" })
+
+    <table class="table table-bordered table-striped">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ObjectType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ObjectNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => instDate)
-            </td>
-            <td>
-                @foreach (var eq in item.ChangedEquipment)
-                {
-                    @Html.DisplayTextFor(x => eq.Equipment.Name)
-                    <br />
-                }
-            </td>
-            <td>
-                @Html.ActionLink("Редактиране", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Детайли", "Details", new { id = item.Id }) @*|
-                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
-            </td>
+            <th>
+                @Html.ActionLink("Клиент", "Index", new { sortOrder = ViewBag.ClientNameSortParams })
+            </th>
+            <th>
+                @Html.ActionLink("Машина тип", "Index", new { sortOrder = ViewBag.MachineTypeSortParams })
+            </th>
+            <th>
+                @Html.ActionLink("Машина №", "Index", new { sortOrder = ViewBag.MachineNumberSortParams })
+            </th>
+            <th>
+                @Html.ActionLink("Дата", "Index", new { sortOrder = ViewBag.DateSortParams })
+            </th>
+            <th>
+                @Html.DisplayName("Вложено оборудване")
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            var instDate = item.ProtocolDate.ToShortDateString();
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ObjectType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ObjectNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => instDate)
+                </td>
+                <td>
+                    @foreach (var eq in item.ChangedEquipment)
+                    {
+                        @Html.DisplayTextFor(x => eq.Equipment.Name)
+                        <br />
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Редактиране", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Детайли", "Details", new { id = item.Id }) @*|
+                        @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+                </td>
+            </tr>
+        }
 
+    </table>
+</div>
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

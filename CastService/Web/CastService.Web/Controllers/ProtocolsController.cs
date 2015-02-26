@@ -40,7 +40,9 @@
         }
 
         // GET: Protocols
-        public ActionResult Index(string sortOrder, string searchString, string currentFilter, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, int? page,
+            string searchByCustomerName, string searchByObjectNumber, string searchByObjectType,
+            string searchByChangedPartName, string searchByChangedPartSerNum)
         {
             var model = this.protocols.All().Project().To<ListProtocolsViewModel>();
 
@@ -49,18 +51,38 @@
             ViewBag.MachineNumberSortParams = sortOrder == "machineNumber" ? "machineNumberDesc" : "machineNumber";
             ViewBag.DateSortParams = string.IsNullOrEmpty(sortOrder) ? "date" : "";
 
-            if (searchString != null)
+            if (searchByCustomerName != null)
             {
                 page = 1;
             }
             else
             {
-                searchString = currentFilter;
+                searchByCustomerName = currentFilter;
             }
 
-            if (!string.IsNullOrEmpty(searchString))
+            // searching strings
+            if (!string.IsNullOrEmpty(searchByCustomerName))
             {
-                model = model.Where(i => i.CustomerName.ToLower().Contains(searchString.ToLower()));
+                model = model.Where(i => i.CustomerName.ToLower().Contains(searchByCustomerName.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(searchByObjectNumber))
+            {
+                model = model.Where(i => i.ObjectNumber.ToLower().Contains(searchByObjectNumber.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(searchByObjectType))
+            {
+                model = model.Where(i => i.ObjectType.ToLower().Contains(searchByObjectType.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(searchByChangedPartName))
+            {
+                model = model.Where(i => i.ChangedEquipment.Any(cheq => cheq.Equipment.Name.ToLower().Contains(searchByChangedPartName.ToLower())));
+            }
+            if (!string.IsNullOrEmpty(searchByChangedPartSerNum))
+            {
+                model = model.Where(i => i.ChangedEquipment.Any(
+                    (c => (c.NewSerialNumber.ToLower().Contains(searchByChangedPartSerNum.ToLower())) ||
+                           c.OldSerialNumber.ToLower().Contains(searchByChangedPartSerNum.ToLower()))
+                    ));
             }
 
             switch (sortOrder)
@@ -364,7 +386,7 @@
             protocol.CustomerName = customerName.Name;
 
             var userName = this.users.All().Where(c => c.Id == protocol.UserId).FirstOrDefault();
-            protocol.UserName = userName.UserName;
+            protocol.UserName = userName.FullName;
 
             ViewBag.ResultLabor = String.Format("{0:0.00}", protocol.WorkInHours * protocol.PricePerHour);
             ViewBag.ResultEquipment = String.Format("{0:0.00}", protocol.PriceForChangedEguipment);
