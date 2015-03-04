@@ -23,7 +23,7 @@
         [Display(Name = "Дата")]
         public DateTime InstallationDate { get; set; }
 
-        public ICollection<InstalledEquipment> InstalatedEquipment { get; set; }
+        public ICollection<InstalledEquipment> InstallatedEquipment { get; set; }
 
         [Display(Name = "Оборудване")]
         public string Equipment { get; set; }
@@ -32,7 +32,7 @@
         {
             configuration.CreateMap<Installation, ListInstallationsViewModel>()
                 .ForMember(m => m.CustomerName, opt => opt.MapFrom(t => t.Customer.Name))
-                .ForMember(m => m.InstalatedEquipment, opt => opt.MapFrom(src => src.InstalatedEquipment.Where(x => x.IsDeleted == false)))
+                .ForMember(m => m.InstallatedEquipment, opt => opt.MapFrom(src => src.InstalatedEquipment.Where(x => x.IsDeleted == false)))
             //    .ForMember(m => m.InstallationDate, opt => opt.MapFrom(t => t.InstallationDate.ToString()))
                 .ReverseMap();
         }

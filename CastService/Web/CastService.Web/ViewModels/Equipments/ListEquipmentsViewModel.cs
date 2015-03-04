@@ -12,9 +12,6 @@
         [Display(Name = "Име")]
         public string Name { get; set; }
 
-        [Display(Name = "Номер на артикула")]
-        public string BatchNumber { get; set; }
-
         [Display(Name = "Модел")]
         public string Model { get; set; }
     }

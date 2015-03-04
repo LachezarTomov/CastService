@@ -27,7 +27,7 @@
             IList<SelectListItem> usersNames = this.users.All().Select(c => new SelectListItem
             {
                 Value = c.Id.ToString(),
-                Text = c.UserName
+                Text = c.FullName
             }).ToList();
 
             usersNames.Add(new SelectListItem

@@ -23,6 +23,14 @@
         [Required]
         public string ObjectName { get; set; }
 
+        [MaxLength(30)]
+        [Required]
+        public string ObjectType { get; set; }
+
+        [MaxLength(16)]
+        [Required]
+        public string ObjectNumber { get; set; }
+
         [Column(TypeName = "ntext")]
         [MaxLength]
         public string DetectedFaults { get; set; }

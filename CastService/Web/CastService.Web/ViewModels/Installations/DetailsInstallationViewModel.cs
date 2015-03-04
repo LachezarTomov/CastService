@@ -19,6 +19,16 @@
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Място трябва да е между {1} и {2} символа")]
         public string ObjectName { get; set; }
 
+        [Display(Name = "Машина тип")]
+        [Required(ErrorMessage = "Полето е задължително")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Машина тип трябва да е между {1} и {2} символа")]
+        public string ObjectType { get; set; }
+
+        [Display(Name = "ДКН")]
+        [Required(ErrorMessage = "Полето е задължително")]
+        [StringLength(16, MinimumLength = 3, ErrorMessage = "ДКН трябва да е между {1} и {2} символа")]
+        public string ObjectNumber { get; set; }
+
         [Display(Name = "Открити неизправности")]
         [StringLength(1200, MinimumLength = 3, ErrorMessage = "Открити неизправности трябва да е между {1} и {2} символа")]
         [DataType(DataType.MultilineText)]

@@ -17,22 +17,24 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Cast Service", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
-
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Клиенти<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Нов", "Create", "Customers")</li>
-                            <li>@Html.ActionLink("Списък", "Index", "Customers")</li>
-                        </ul>
-                    </li>
-                    <li>@Html.ActionLink("Артикули", "Index", "Equipments")</li>
-                    <li>@Html.ActionLink("Инсталации", "Index", "Installations")</li>
-                    <li>@Html.ActionLink("Протоколи", "Index", "Protocols")</li>
+                    @if (Context.User.Identity.IsAuthenticated)
+                    {
+                        @*<li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Клиенти<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Нов", "Create", "Customers")</li>
+                                <li>@Html.ActionLink("Списък", "Index", "Customers")</li>
+                            </ul>
+                        </li>*@
+                        <li>@Html.ActionLink("Клиенти", "Index", "Customers")</li>
+                        <li>@Html.ActionLink("Артикули", "Index", "Equipments")</li>
+                        <li>@Html.ActionLink("Инсталации", "Index", "Installations")</li>
+                        <li>@Html.ActionLink("Протоколи", "Index", "Protocols")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -42,7 +44,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Cast Service Application</p>
         </footer>
     </div>
 

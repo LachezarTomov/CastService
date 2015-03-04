@@ -33,8 +33,8 @@
         [DataType(DataType.MultilineText)]
         public string PerformedDiagnostic { get; set; }
 
-        [Display(Name = "Открити неизправности")]
-        [StringLength(1200, MinimumLength = 3, ErrorMessage = "Открити неизправности трябва да е между {1} и {2} символа")]
+        [Display(Name = "Основни дейности")]
+        [StringLength(1200, MinimumLength = 3, ErrorMessage = "Основни дейности трябва да е между {1} и {2} символа")]
         [DataType(DataType.MultilineText)]
         public string DetectedFauls { get; set; }
 

@@ -41,7 +41,7 @@
         }
 
         // GET: Installations
-        public ActionResult Index(string sortOrder, string searchString, string currentFilter, int? page)
+        public ActionResult Index(string sortOrder,  string currentFilter, int? page, string searchByCustomerName, string searchByInstalledPartSerNum)
         {
             var model = this.installations.All().Project().To<ListInstallationsViewModel>();
 
@@ -49,18 +49,24 @@
             ViewBag.PlaceSortParams = sortOrder == "place" ? "placeDesc" : "place";
             ViewBag.DateSortParams = string.IsNullOrEmpty(sortOrder) ? "date" : "";
 
-            if (searchString != null)
+            if (searchByCustomerName != null)
             {
                 page = 1;
             }
             else
             {
-                searchString = currentFilter;
+                searchByCustomerName = currentFilter;
             }
 
-            if (!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchByCustomerName))
             {
-                model = model.Where(i => i.CustomerName.ToLower().Contains(searchString.ToLower()));
+                model = model.Where(i => i.CustomerName.ToLower().Contains(searchByCustomerName.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(searchByInstalledPartSerNum))
+            {
+                model = model.Where(i => i.InstallatedEquipment.Any(
+                    c => c.SerialNumber.ToLower().Contains(searchByInstalledPartSerNum.ToLower())
+                    ));
             }
 
             switch (sortOrder)
@@ -206,6 +212,8 @@
                     return HttpNotFound();
                 }
 
+                updatedInstallation.ObjectNumber = installation.ObjectNumber;
+                updatedInstallation.ObjectType = installation.ObjectType;
                 updatedInstallation.ObjectName = installation.ObjectName;
                 updatedInstallation.InstallationDate = DateTime.Parse(installation.InstallationDate);
                 updatedInstallation.StartTime = installation.StartTime;
@@ -239,17 +247,19 @@
                 {
                     this.installedEquipment.Delete(item);
                 }
-                
-                foreach (var item in installation.InstalledEquipment)
-                {
-                    InstalledEquipment ie = new InstalledEquipment();
-                    ie.InstallationId = installation.Id;
-                    ie.EquipmentId = item.Id;
-                    ie.SerialNumber = item.SerialNumber;
-                    ie.Quantity = item.Quantity;
-                    this.installedEquipment.Add(ie);
-                }
 
+                if (installation.InstalledEquipment != null)
+                {
+                    foreach (var item in installation.InstalledEquipment)
+                    {
+                        InstalledEquipment ie = new InstalledEquipment();
+                        ie.InstallationId = installation.Id;
+                        ie.EquipmentId = item.Id;
+                        ie.SerialNumber = item.SerialNumber;
+                        ie.Quantity = item.Quantity;
+                        this.installedEquipment.Add(ie);
+                    }
+                }
                 this.installedEquipment.SaveChanges();
 
                 TempData["message"] = "Инсталацията беше редактирана";

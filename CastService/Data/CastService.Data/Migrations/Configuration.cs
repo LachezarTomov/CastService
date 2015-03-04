@@ -16,7 +16,7 @@ namespace CastService.Data.Migrations
         {
             this.AutomaticMigrationsEnabled = true;
             // TODO: remove in production
-            this.AutomaticMigrationDataLossAllowed = true;
+            this.AutomaticMigrationDataLossAllowed = false;
         }
 
         protected override void Seed(CastServiceDbContext context)
@@ -47,6 +47,11 @@ namespace CastService.Data.Migrations
                 UserName = "lachezar",
                 FullName = "Лъчезар Томов"
             };
+            var admin2 = new User
+            {
+                UserName = "daniel",
+                FullName = "Даниел Китин"
+            };
             var userB = new User
             {
                 UserName = "test1",
@@ -63,6 +68,11 @@ namespace CastService.Data.Migrations
             if (resultAdmin.Succeeded)
             {
                 userManager.AddToRole(admin.Id, AdminRole);
+            }
+            resultAdmin = userManager.Create(admin2, "123456");
+            if (resultAdmin.Succeeded)
+            {
+                userManager.AddToRole(admin2.Id, AdminRole);
             }
             resultAdmin = userManager.Create(userB, "123456");
             if (resultAdmin.Succeeded)

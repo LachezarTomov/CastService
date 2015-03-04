@@ -54,7 +54,6 @@
                 Equipment newEquipment = new Equipment();
                 newEquipment.Name = equipment.Name;
                 newEquipment.Model = equipment.Model;
-                newEquipment.BatchNumber = equipment.BatchNumber;
                 
                 this.equipments.Add(newEquipment);
                 this.equipments.SaveChanges();
@@ -116,7 +115,6 @@
 
                 newEquipment.Name = equipment.Name;
                 newEquipment.Model = equipment.Model;
-                newEquipment.BatchNumber = equipment.BatchNumber;
 
                 this.equipments.Update(newEquipment);
                 this.equipments.SaveChanges();

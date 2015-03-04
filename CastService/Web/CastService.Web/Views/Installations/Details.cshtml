@@ -13,35 +13,41 @@
                 @Html.DisplayFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
             </strong>
         </div>
+        
+        <div class="col-md-2">
+            @Html.DisplayNameFor(model => model.ObjectName):
+            <strong>
+                @Html.DisplayFor(model => model.ObjectName, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+        <div class="col-md-2">
+            @Html.DisplayNameFor(model => model.ObjectType):
+            <strong>
+                @Html.DisplayFor(model => model.ObjectType, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+        <div class="col-md-2">
+            @Html.DisplayNameFor(model => model.ObjectNumber):
+            <strong>
+                @Html.DisplayFor(model => model.ObjectNumber, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-4">
+            @Html.DisplayNameFor(model => model.UserName):
+            <strong>
+                @Html.DisplayFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
         <div class="col-md-2">
             @Html.DisplayNameFor(model => model.InstallationDate):
             <strong>
                 @Html.DisplayFor(model => model.InstallationDate, new { htmlAttributes = new { @class = "form-control" } })
             </strong>
         </div>
-        <div class="col-md-4">
-            @Html.DisplayNameFor(model => model.ObjectName):
-            <strong>
-                @Html.DisplayFor(model => model.ObjectName, new { htmlAttributes = new { @class = "form-control" } })
-            </strong>
-        </div>
-    </div>
-    <br />
-    <div class="form-group">
-        <div class="col-md-6">
-            @Html.DisplayNameFor(model => model.UserName):
-            <strong>
-                @Html.DisplayFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
-            </strong>
-        </div>
-        
 
-        <div class="col-md-2">
-            @Html.DisplayNameFor(model => model.GuessedTime):
-            <strong>
-                @Html.DisplayFor(model => model.GuessedTime, new { htmlAttributes = new { @class = "form-control" } })
-            </strong>
-        </div>
         <div class="col-md-2">
             @Html.DisplayNameFor(model => model.StartTime):
             <strong>
@@ -52,6 +58,12 @@
             @Html.DisplayNameFor(model => model.EndTime):
             <strong>
                 @Html.DisplayFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
+            </strong>
+        </div>
+        <div class="col-md-2">
+            @Html.DisplayNameFor(model => model.GuessedTime):
+            <strong>
+                @Html.DisplayFor(model => model.GuessedTime, new { htmlAttributes = new { @class = "form-control" } })
             </strong>
         </div>
     </div>
@@ -76,7 +88,6 @@
     <table class="table" id="equipment-table">
         <tr>
             <th>Име</th>
-            <th>Партиден №</th>
             <th>Сериен №</th>
             <th>Количество</th>
             <th></th>
@@ -88,9 +99,6 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(m => m.InstalledEquipment[i].EquipmentName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => m.InstalledEquipment[i].BatchNumber)
                     </td>
                     <td>
                         @Html.DisplayFor(m => m.InstalledEquipment[i].SerialNumber)

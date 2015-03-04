@@ -15,11 +15,6 @@
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Името трябва да е между {1} и {2} символа.")]
         public string Name { get; set; }
 
-        [Display(Name = "Партиден номер")]
-        [Required]
-        [StringLength(16, MinimumLength = 3, ErrorMessage = "Партидния номер трябва да е между {1} и {2} символа.")]
-        public string BatchNumber { get; set; }
-
         [Display(Name = "Модел")]
         [StringLength(16, MinimumLength = 3, ErrorMessage = "Моделът трябва да е между {1} и {2} символа.")]
         public string Model { get; set; }

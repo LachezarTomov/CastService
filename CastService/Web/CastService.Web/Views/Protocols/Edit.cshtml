@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
             @Html.EditorFor(m => m.UserId, new { ListItem = Model.UserNames })
-
+            <div class="col-md-2"></div>
             <div class="col-md-6">
                 @Html.LabelFor(model => model.CustomerRepresentative, htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.CustomerRepresentative, new { htmlAttributes = new { @class = "form-control" } })
@@ -373,9 +373,11 @@
                         return (
                             key === 8 ||
                             key === 9 ||
+                            key === 44 ||
                             key === 46 ||
                             key === 109 ||
                             key === 110 ||
+                      //      key === 188 ||
                             key === 189 ||
                             key === 190 ||
                             (key >= 37 && key <= 40) ||
@@ -384,11 +386,14 @@
                         );
                     });
                 });
-            };
-            $("#WorkInHours").ForceNumericOnly();            $("#DistanceInKm").ForceNumericOnly();            $("#PricePerHour").ForceFloatOnly();
+            };
+
+            $("#WorkInHours").ForceNumericOnly();
+            $("#DistanceInKm").ForceNumericOnly();
+            $("#PricePerHour").ForceFloatOnly();
             $("#PricePerKm").ForceFloatOnly();
-            
-            $("#ProtocolDate").mask("99/99/9999", { placeholder:"дд/мм/гггг" });
+
+            $("#ProtocolDate").mask("99/99/9999", { placeholder: "дд/мм/гггг" });
             $("#InvoiceDate").mask("99/99/9999", { placeholder: "дд/мм/гггг" });
             $("#RequestDate").mask("99/99/9999", { placeholder: "дд/мм/гггг" });
             $("#StartTime").mask("99:99", { placeholder: "чч:мм" });
@@ -396,9 +401,9 @@
 
             $('.error').hide();
 
-            $('#btnSubmit').click(function(event){
+            $('#btnSubmit').click(function (event) {
                 var dtVal = $('#ProtocolDate').val();
-                
+
                 if (dtVal === "дд/мм/гггг") {
                     $('#error').text("Не е въведена дата на протокола");
                     $('.error').show();
@@ -406,22 +411,21 @@
                     return;
                 }
 
-                if(!isDate(dtVal))
-                {
+                if (!isDate(dtVal)) {
                     $('#error').text("Сгрешена дата на протокола");
                     $('.error').show();
                     event.preventDefault();
                     return;
                 }
                 dtVal = $('#RequestDate').val();
-                if (dtVal != "дд/мм/гггг" && !isDate(dtVal)) {
+                if (dtVal !== "дд/мм/гггг" && dtVal !== "" && !isDate(dtVal)) {
                     $('#error').text("Сгрешена дата на заявката");
                     $('.error').show();
                     event.preventDefault();
                     return;
                 }
                 dtVal = $('#InvoiceDate').val();
-                if (dtVal != "дд/мм/гггг" && !isDate(dtVal)) {
+                if (dtVal !== "дд/мм/гггг" && dtVal !== "" && !isDate(dtVal)) {
                     $('#error').text("Сгрешена дата на заявката");
                     $('.error').show();
                     event.preventDefault();
@@ -466,14 +470,13 @@
             return true;
         }
 
-        function isDate(txtDate)
-        {
+        function isDate(txtDate) {
             var currVal = txtDate;
             if (currVal === '') {
                 return false;
             }
 
-            //Declare Regex 
+            //Declare Regex
             var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;
             var dtArray = currVal.match(rxDatePattern); // is format OK?
 
