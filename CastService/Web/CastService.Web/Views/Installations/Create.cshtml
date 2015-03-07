@@ -179,6 +179,7 @@
 
 @section Scripts
 {
+    <script type="text/javascript" src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
 
@@ -192,16 +193,59 @@
                 show: 'fade',
                 hide: 'fade',
                 dialogClass: 'ui-dialog-osx',
-                buttons: {
-                    "OK": function () {
-                        add_equipment_row();
-                    },
-                    Cancel: function () {
-                        $(this).dialog("close");
-                    }
-                }
+                buttons: [
+               {
+                   text: "Добави",
+                   class: 'btn btn-primary',
+                   click: function () {
+                       if (!valudate_equipment()) {
+                           return;
+                       }
+                       add_equipment_row();
+                   }
+               },
+               {
+                   text: "Изход",
+                   class: 'btn btn-default',
+                   click: function () {
+                       $(this).dialog("close");
+                   }
+               }],
             });
 
+            jQuery.fn.ForceNumericOnly = function () {
+                return this.each(function () {
+                    $(this).keydown(function (e) {
+                        var key = e.charCode || e.keyCode || 0;
+
+                        // allow backspace, tab, delete, arrows, numbers and keypad numbers ONLY
+                        //	alert(key);
+                        return (
+                            key === 8 || key === 9 || key === 46 || key === 189 ||
+                            (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105)
+                        );
+                    });
+                });
+            };
+            jQuery.fn.ForceFloatOnly = function () {
+                return this.each(function () {
+                    $(this).keydown(function (e) {
+                        var key = e.charCode || e.keyCode || 0;
+
+                        // allow dot, comma, backspace, tab, delete, arrows, numbers and keypad numbers ONLY
+                        return (
+                            key === 8 || key === 9 || key === 46 ||
+                            key === 109 || key === 110 || key === 189 || key === 190 ||
+                            (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105)
+                        );
+                    });
+                });
+            };
+            $("#WorkInHours").ForceNumericOnly();
+            $("#InstallationDate").mask("99/99/9999", { placeholder: "дд/мм/гггг" });
+            $("#InvoiceDate").mask("99/99/9999", { placeholder: "дд/мм/гггг" });
+            $("#StartTime").mask("99:99", { placeholder: "чч:мм" });
+            $("#EndTime").mask("99:99", { placeholder: "чч:мм" });
 
             $("#add-equipment-button").click(function () {
                 $("#equipment-id").val('');
@@ -218,6 +262,30 @@
                     $('#equipment-table tr:last').remove();
                 }
             });
+
+            function valudate_equipment() {
+                if (!isInt($("#equipment-quantity").val())) {
+                    $("#input-equipment-error").text("Полето за количество трябва да съдържа само числа");
+                    $("#input-equipment-error").css("color", "Red");
+                    return false;
+                }
+
+                if ($("#equipment-id").val() === '') {
+                    $("#input-equipment-error").text("Полето за артикул е задължително или няма такъв артикул");
+                    $("#input-equipment-error").css("color", "Red");
+                    return false;
+                }
+
+                return true;
+            }
+
+            function isInt(data) {
+                data = parseInt(data);
+                if (Math.floor(data) === data && $.isNumeric(data)) {
+                    return true;
+                }
+                return false;
+            }
 
             $('#equipment').autocomplete({
                 source: '@Url.Action("GetEquipment", "Installations")',

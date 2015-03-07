@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h3>Нов протокол</h3>
+        <h3>@ViewBag.Title</h3>
         @Html.ValidationSummary(true, "", new { @class = "control-label text-danger" })
         <div class="form-group">
             @Html.EditorFor(m => m.CustomerId, new { ListItem = Model.CustomersNames })
@@ -256,7 +256,6 @@
             <label for="equipment" class="col-md-3">Артикул</label>
             <input type="text" name="equipment" id="equipment" class="text ui-widget-content ui-corner-all col-md-9" />
             <input type="hidden" name="equipment-id" id="equipment-id" />
-
         </div>
         <div class="form-group">
             <label for="equipment-old-serial-number" class="col-md-3">Стар сериен №</label>
@@ -285,21 +284,31 @@
             $("#add-equipment").hide();
             $("#add-equipment").dialog({
                 autoOpen: false,
-                height: 300,
+                height: 340,
                 width: 700,
                 modal: true,
                 draggable: true,
                 show: 'fade',
                 hide: 'fade',
                 dialogClass: 'ui-dialog-osx',
-                buttons: {
-                    "OK": function () {
-                        add_equipment_row();
-                    },
-                    Cancel: function () {
-                        $(this).dialog("close");
-                    }
-                }
+                buttons: [
+               {
+                   text: "Добави",
+                   class: 'btn btn-primary',
+                   click: function () {
+                       if (!valudate_equipment()) {
+                           return;
+                       }
+                       add_equipment_row();
+                   }
+               },
+               {
+                   text: "Изход",
+                   class: 'btn btn-default',
+                   click: function () {
+                       $(this).dialog("close");
+                   }
+               }]
             });
 
 
@@ -319,6 +328,30 @@
                     $('#equipment-table tr:last').remove();
                 }
             });
+
+            function valudate_equipment() {
+                if (!isInt($("#equipment-quantity").val())) {
+                    $("#input-equipment-error").text("Полето за количество трябва да съдържа само числа");
+                    $("#input-equipment-error").css("color", "Red");
+                    return false;
+                }
+
+                if ($("#equipment-id").val() === '') {
+                    $("#input-equipment-error").text("Полето за артикул е задължително или няма такъв артикул");
+                    $("#input-equipment-error").css("color", "Red");
+                    return false;
+                }
+
+                return true;
+            }
+
+            function isInt(data) {
+                data = parseInt(data);
+                if (Math.floor(data) === data && $.isNumeric(data)) {
+                    return true;
+                }
+                return false;
+            }
 
             $('#equipment').autocomplete({
                 source: '@Url.Action("GetEquipment", "Installations")',
@@ -389,6 +422,7 @@
                 });
             };
 
+            $("#equipment-quantity").ForceNumericOnly();
             $("#WorkInHours").ForceNumericOnly();
             $("#DistanceInKm").ForceNumericOnly();
             $("#PricePerHour").ForceFloatOnly();
@@ -533,7 +567,7 @@
 
             var equipmentNewSerialNumberInput = '<input  id="ChangedEquipment_' + rowsCount + '__NewSerialNumber" name="ChangedEquipment[' + rowsCount + '].NewSerialNumber" type="hidden" value="' + equipmentNewSerialNumber + '">';
 
-            var newRowContent = "<tr><td>" + equipmentIdInput + equipmentName + "</td><td></td><td>" + equipmentOldSerialNumberInput + equipmentOldSerialNumber + "</td><td>" + equipmentNewSerialNumberInput + equipmentNewSerialNumber + "</td><td>" + equipmentQuantityInput + equipmentQty + "</td></tr>";
+            var newRowContent = "<tr><td>" + equipmentIdInput + equipmentName + "</td><td>" + equipmentOldSerialNumberInput + equipmentOldSerialNumber + "</td><td>" + equipmentNewSerialNumberInput + equipmentNewSerialNumber + "</td><td>" + equipmentQuantityInput + equipmentQty + "</td></tr>";
 
             $("#equipment-table tbody").append(newRowContent);
 

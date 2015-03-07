@@ -83,5 +83,7 @@
                 entry.State = EntityState.Modified;
             }
         }
+
+ //       public System.Data.Entity.DbSet<CastService.Web.ViewModels.Users.DetailsUserViewModel> DetailsUserViewModels { get; set; }
     }
 }

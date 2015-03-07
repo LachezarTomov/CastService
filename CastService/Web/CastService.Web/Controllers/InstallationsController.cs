@@ -117,6 +117,9 @@
                 var newInstallation = new Installation();
 
                 newInstallation.ObjectName = installation.ObjectName;
+                newInstallation.ObjectType = installation.ObjectType;
+                newInstallation.ObjectNumber = installation.ObjectNumber;
+
                 newInstallation.InstallationDate = DateTime.Parse(installation.InstallationDate);
                 newInstallation.StartTime = installation.StartTime;
                 newInstallation.EndTime = installation.EndTime;
@@ -341,30 +344,5 @@
             return result.ToString();
         }
 
-        private IList<SelectListItem> PopulateCustomers(int selectedId = 0)
-        {
-            IList<SelectListItem> customersNames = this.customers.All().Select(c => new SelectListItem
-            {
-                Value = c.Id.ToString(),
-                Text = c.Name
-            }).ToList();
-
-            customersNames.Add(new SelectListItem
-            {
-                Value = "0",
-                Text = ""
-            });
-
-            foreach (var item in customersNames)
-            {
-                if (item.Value == selectedId.ToString())
-                {
-                    item.Selected = true;
-                    break;
-                }
-            }
-
-            return customersNames;
-        }
     }
 }

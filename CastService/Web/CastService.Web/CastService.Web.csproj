@@ -193,6 +193,7 @@
     <Compile Include="Controllers\InstallationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProtocolsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -211,6 +212,8 @@
     <Compile Include="ViewModels\Protocols\ChangedEquipmentListViewModel.cs" />
     <Compile Include="ViewModels\Protocols\DetailsProtocolViewModel.cs" />
     <Compile Include="ViewModels\Protocols\ListProtocolsViewModel.cs" />
+    <Compile Include="ViewModels\Users\DetailsUserViewModel.cs" />
+    <Compile Include="ViewModels\Users\ListUsersViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -334,6 +337,7 @@
     <Content Include="Views\Protocols\Edit.cshtml" />
     <Content Include="Views\Protocols\Details.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -285,21 +285,31 @@
             $("#add-equipment").hide();
             $("#add-equipment").dialog({
                 autoOpen: false,
-                height: 300,
+                height: 340,
                 width: 700,
                 modal: true,
                 draggable: true,
                 show: 'fade',
                 hide: 'fade',
                 dialogClass: 'ui-dialog-osx',
-                buttons: {
-                    "OK": function () {
-                        add_equipment_row();
-                    },
-                    Cancel: function () {
-                        $(this).dialog("close");
-                    }
-                }
+                buttons: [
+               {
+                   text: "Добави",
+                   class: 'btn btn-primary',
+                   click: function () {
+                       if (!valudate_equipment()) {
+                           return;
+                       }
+                       add_equipment_row();
+                   }
+               },
+               {
+                   text: "Изход",
+                   class: 'btn btn-default',
+                   click: function () {
+                       $(this).dialog("close");
+                   }
+               }]
             });
 
             $("#add-equipment-button").click(function () {
@@ -318,6 +328,30 @@
                     $('#equipment-table tr:last').remove();
                 }
             });
+
+            function valudate_equipment() {
+                if (!isInt($("#equipment-quantity").val())) {
+                    $("#input-equipment-error").text("Полето за количество трябва да съдържа само числа");
+                    $("#input-equipment-error").css("color", "Red");
+                    return false;
+                }
+
+                if ($("#equipment-id").val() === '') {
+                    $("#input-equipment-error").text("Полето за артикул е задължително или няма такъв артикул");
+                    $("#input-equipment-error").css("color", "Red");
+                    return false;
+                }
+
+                return true;
+            }
+
+            function isInt(data) {
+                data = parseInt(data);
+                if (Math.floor(data) === data && $.isNumeric(data)) {
+                    return true;
+                }
+                return false;
+            }
 
             $('#equipment').autocomplete({
                 source: '@Url.Action("GetEquipment", "Installations")',
@@ -364,6 +398,7 @@
                     });
                 });
             };
+
             jQuery.fn.ForceFloatOnly = function () {
                 return this.each(function () {
                     $(this).keydown(function (e) {
@@ -371,23 +406,14 @@
 
                         // allow dot, backspace, tab, delete, arrows, numbers and keypad numbers ONLY
                         return (
-                            key === 8 ||
-                            key === 9 ||
-                            key === 44 ||
-                            key === 46 ||
-                            key === 109 ||
-                            key === 110 ||
-                      //      key === 188 ||
-                            key === 189 ||
-                            key === 190 ||
-                            (key >= 37 && key <= 40) ||
-                            (key >= 48 && key <= 57) ||
-                            (key >= 96 && key <= 105)
+                            key === 9 || key === 44 || key === 46 || key === 109 || key === 110 || key === 189 ||
+                            key === 190 || (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105)
                         );
                     });
                 });
             };
 
+            $("#equipment-quantity").ForceNumericOnly();
             $("#WorkInHours").ForceNumericOnly();
             $("#DistanceInKm").ForceNumericOnly();
             $("#PricePerHour").ForceFloatOnly();
@@ -533,7 +559,7 @@
 
             var equipmentNewSerialNumberInput = '<input  id="ChangedEquipment_' + rowsCount + '__NewSerialNumber" name="ChangedEquipment[' + rowsCount + '].NewSerialNumber" type="hidden" value="' + equipmentNewSerialNumber + '">';
 
-            var newRowContent = "<tr><td>" + equipmentIdInput + equipmentName + "</td><td></td><td>" + equipmentOldSerialNumberInput + equipmentOldSerialNumber + "</td><td>" + equipmentNewSerialNumberInput + equipmentNewSerialNumber + "</td><td>" + equipmentQuantityInput + equipmentQty + "</td></tr>";
+            var newRowContent = "<tr><td>" + equipmentIdInput + equipmentName + "</td><td>" + equipmentOldSerialNumberInput + equipmentOldSerialNumber + "</td><td>" + equipmentNewSerialNumberInput + equipmentNewSerialNumber + "</td><td>" + equipmentQuantityInput + equipmentQty + "</td></tr>";
 
             $("#equipment-table tbody").append(newRowContent);
 

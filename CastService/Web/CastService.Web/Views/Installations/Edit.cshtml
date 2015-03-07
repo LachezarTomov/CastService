@@ -162,17 +162,17 @@
         <div id="input-equipment-error"></div>
         <div class="form-group">
             <label for="equipment" class="col-md-3">Артикул</label>
-            <input type="text" name="equipment" id="equipment" class="text ui-widget-content ui-corner-all form-control col-md-4" />
+            <input type="text" name="equipment" id="equipment" class="text ui-widget-content ui-corner-all" />
             <input type="hidden" name="equipment-id" id="equipment-id" />
 
         </div>
         <div class="form-group">
             <label for="equipment-serial-number" class="col-md-3">Сериен №</label>
-            <input type="text" name="equipment-serial-number" id="equipment-serial-number" class="text ui-widget-content ui-corner-all form-control col-md-4" />
+            <input type="text" name="equipment-serial-number" id="equipment-serial-number" class="text ui-widget-content ui-corner-all" />
         </div>
         <div class="form-group">
             <label for="equipment-quantity" class="col-md-3">Количество</label>
-            <input type="text" name="equipment-quantity" id="equipment-quantity" class="text ui-widget-content ui-corner-all form-control col-md-2" />
+            <input type="text" name="equipment-quantity" id="equipment-quantity" class="text ui-widget-content ui-corner-all" />
         </div>
     </div>
 </div>
@@ -182,13 +182,14 @@
 
 @section Scripts
 {
+    <script type="text/javascript" src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
 
             $("#add-equipment").hide();
             $("#add-equipment").dialog({
                 autoOpen: false,
-                height: 440,
+                height: 300,
                 width: 700,
                 modal: true,
                 draggable: true,
@@ -240,6 +241,40 @@
                     $("#equipment-id").val(ui.item.value);
                 }
             });
+
+            jQuery.fn.ForceNumericOnly = function () {
+                return this.each(function () {
+                    $(this).keydown(function (e) {
+                        var key = e.charCode || e.keyCode || 0;
+
+                        // allow backspace, tab, delete, arrows, numbers and keypad numbers ONLY
+                        //	alert(key);
+                        return (
+                            key === 8 || key === 9 || key === 46 || key === 189 ||
+                            (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105)
+                        );
+                    });
+                });
+            };
+            jQuery.fn.ForceFloatOnly = function () {
+                return this.each(function () {
+                    $(this).keydown(function (e) {
+                        var key = e.charCode || e.keyCode || 0;
+
+                        // allow dot, comma, backspace, tab, delete, arrows, numbers and keypad numbers ONLY
+                        return (
+                            key === 8 || key === 9 || key === 46 ||
+                            key === 109 || key === 110 || key === 189 || key === 190 ||
+                            (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105)
+                        );
+                    });
+                });
+            };
+            $("#WorkInHours").ForceNumericOnly();
+            $("#InstallationDate").mask("99/99/9999", { placeholder: "дд/мм/гггг" });
+            $("#InvoiceDate").mask("99/99/9999", { placeholder: "дд/мм/гггг" });
+            $("#StartTime").mask("99:99", { placeholder: "чч:мм" });
+            $("#EndTime").mask("99:99", { placeholder: "чч:мм" });
         });
 
         function valudate_equipment() {
@@ -281,7 +316,7 @@
 
             var equipmentSerialNumberInput = '<input  id="InstalledEquipment_' + rowsCount + '__SerialNumber" name="InstalledEquipment[' + rowsCount + '].SerialNumber" type="hidden" value="' + equipmentSerialNumber + '">';
 
-            var newRowContent = "<tr><td>" + equipmentIdInput + equipmentName + "</td><td></td><td>" + equipmentSerialNumberInput + equipmentSerialNumber + "</td><td>" + equipmentQuantityInput + equipmentQty + "</td></tr>";
+            var newRowContent = "<tr><td>" + equipmentIdInput + equipmentName + "</td><td>" + equipmentSerialNumberInput + equipmentSerialNumber + "</td><td>" + equipmentQuantityInput + equipmentQty + "</td></tr>";
 
             $("#equipment-table tbody").append(newRowContent);
 

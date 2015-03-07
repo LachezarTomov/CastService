@@ -19,6 +19,7 @@
     using CastService.Data.Models;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Web.Security;
     
     [Authorize]
     public class AccountController : Controller
@@ -176,14 +177,16 @@
                 var user = new User { 
                     UserName = model.Username, 
                     Email = "nomail@test.com",
-             //       RoleId = model.RoleId,
+                    RoleId = model.RoleId,
+                    FullName = model.FullName,
+                    IsBlocked = false,
                     LockoutEnabled = false
                 };
 //                var user = new User { UserName = model.Username, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                  //  await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -191,8 +194,11 @@
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    TempData["message"] = "Потребителя беше създаден";
+
+                    return RedirectToAction("Index", "Home", "Users");
                 }
+
                 AddErrors(result);
             }
 
@@ -205,9 +211,10 @@
 
             var user = this.db.Users.Where(u => u.Id == id).FirstOrDefault();
             var model = new EditViewModel();
-        //    model.Roles = this.GetRolesList(user.Id);
+            model.Roles = this.GetRolesList(user.Id);
             model.FullName = user.FullName;
             model.Username = user.UserName;
+            model.IsBlocked = user.IsBlocked;
             model.Id = user.Id;
    
             return View(model);
@@ -228,11 +235,20 @@
                 updatedUser.UserName = editedModel.Username;
                 updatedUser.RoleId = editedModel.RoleId;
                 updatedUser.FullName = editedModel.FullName;
-                
+                updatedUser.IsBlocked = editedModel.IsBlocked;
+
                 try
                 {
                     db.Entry(updatedUser).State = EntityState.Modified;
                     db.SaveChanges();
+
+                    if (!string.IsNullOrEmpty(editedModel.Password))
+                    {
+                        UserManager.RemovePassword(editedModel.Id);
+                        UserManager.AddPassword(editedModel.Id, editedModel.Password);
+                    }
+
+                    TempData["message"] = "Потребителя беше редактирана";
 
                     return RedirectToAction("Index","Home");
                 }

@@ -257,6 +257,10 @@
             {
                 protocol.InvoiceDate = ConvertDbDate(protocol.InvoiceDate);
             }
+            if (!string.IsNullOrEmpty(protocol.RequestDate))
+            {
+                protocol.RequestDate = ConvertDbDate(protocol.RequestDate);
+            }
 
             protocol.ChangedEquipment = this.changedEquipment.All().Where(i => i.ProtocolId == protocol.Id).Project().To<ChangedEquipmentListViewModel>().ToList();
 

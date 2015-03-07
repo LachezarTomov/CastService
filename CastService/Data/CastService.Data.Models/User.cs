@@ -32,7 +32,7 @@
         public string FullName { get; set; }
 
         public string RoleId { get; set; }
-
+        
         public bool IsBlocked { get; set; }
 
         public bool IsDeleted { get; set; }

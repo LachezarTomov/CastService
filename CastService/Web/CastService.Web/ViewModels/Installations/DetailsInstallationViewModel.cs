@@ -16,27 +16,27 @@
         public int Id { get; set; }
 
         [Display(Name = "Място")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Място трябва да е между {1} и {2} символа")]
+        [Required(ErrorMessage = "Полето е задължително")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Място трябва да е между {2} и {1} символа")]
         public string ObjectName { get; set; }
 
         [Display(Name = "Машина тип")]
         [Required(ErrorMessage = "Полето е задължително")]
-        [StringLength(30, MinimumLength = 3, ErrorMessage = "Машина тип трябва да е между {1} и {2} символа")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Машина тип трябва да е между {2} и {1} символа")]
         public string ObjectType { get; set; }
 
         [Display(Name = "ДКН")]
         [Required(ErrorMessage = "Полето е задължително")]
-        [StringLength(16, MinimumLength = 3, ErrorMessage = "ДКН трябва да е между {1} и {2} символа")]
+        [StringLength(16, MinimumLength = 3, ErrorMessage = "ДКН трябва да е между {2} и {1} символа")]
         public string ObjectNumber { get; set; }
 
-        [Display(Name = "Открити неизправности")]
-        [StringLength(1200, MinimumLength = 3, ErrorMessage = "Открити неизправности трябва да е между {1} и {2} символа")]
+        [Display(Name = "Основни дейности")]
+        [StringLength(1200, MinimumLength = 3, ErrorMessage = "Основни дейности трябва да е между {2} и {1} символа")]
         [DataType(DataType.MultilineText)]
-        [Required(ErrorMessage = "Полето е задължително")]
         public string DetectedFaults { get; set; }
 
         [Display(Name = "Допълнителни дейности")]
-        [StringLength(1200, MinimumLength = 3, ErrorMessage = "Допълнителни дейности трябва да е между {1} и {2} символа")]
+        [StringLength(1200, MinimumLength = 3, ErrorMessage = "Допълнителни дейности трябва да е между {2} и {1} символа")]
         [DataType(DataType.MultilineText)]
         public string AdditionalActivities { get; set; }
 
@@ -51,7 +51,7 @@
         public string EndTime { get; set; }
 
         [Display(Name = "Предвидено време")]
-        [StringLength(10, MinimumLength = 1, ErrorMessage = "Предвидено време трябва да е между {1} и {2} символа")]
+        [StringLength(10, MinimumLength = 1, ErrorMessage = "Предвидено време трябва да е между {2} и {1} символа")]
         public string GuessedTime { get; set; }
 
         [Display(Name = "Дата")]
@@ -63,7 +63,7 @@
         public bool HasProtocol { get; set; }
 
         [Display(Name = "Фактура №")]
-        [StringLength(10, MinimumLength = 3, ErrorMessage = "Фактура № трябва да е между {1} и {2} символа")]
+        [StringLength(10, MinimumLength = 3, ErrorMessage = "Фактура № трябва да е между {2} и {1} символа")]
         public string InvoiceNumber { get; set; }
 
         [Display(Name = "Дата на фактурата")]
@@ -71,15 +71,15 @@
         public string InvoiceDate { get; set; }
 
         [Display(Name = "Гаранционна карта №")]
-        [StringLength(30, MinimumLength = 3, ErrorMessage = "Гаранционна карта № трябва да е между {1} и {2} символа")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Гаранционна карта № трябва да е между {2} и {1} символа")]
         public string WarrantyCardNumber { get; set; }
 
         [Display(Name = "Друго")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Друго трябва да е между {1} и {2} символа")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Друго трябва да е между {2} и {1} символа")]
         public string Other { get; set; }
 
         [Display(Name = "Забележка")]
-        [StringLength(1200, MinimumLength = 3, ErrorMessage = "Забележка трябва да е между {1} и {2} символа")]
+        [StringLength(1200, MinimumLength = 3, ErrorMessage = "Забележка трябва да е между {2} и {1} символа")]
         [DataType(DataType.MultilineText)]
         public string Note { get; set; }
 
