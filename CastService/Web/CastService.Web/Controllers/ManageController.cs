@@ -15,7 +15,7 @@
     using CastService.Web.Infrastructure.Populators;
     using CastService.Data;
 
-    [Authorize]
+    [Authorize(Roles = "Администратор")]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

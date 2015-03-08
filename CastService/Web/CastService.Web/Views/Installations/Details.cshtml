@@ -13,7 +13,7 @@
                 @Html.DisplayFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
             </strong>
         </div>
-        
+
         <div class="col-md-2">
             @Html.DisplayNameFor(model => model.ObjectName):
             <strong>
@@ -130,13 +130,13 @@
         <div class="col-md-3">
             @Html.DisplayNameFor(model => model.InvoiceDate):
             <strong>
-            @Html.DisplayFor(model => model.InvoiceDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DisplayFor(model => model.InvoiceDate, new { htmlAttributes = new { @class = "form-control" } })
             </strong>
         </div>
         <div class="col-md-3">
             @Html.DisplayNameFor(model => model.WarrantyCardNumber):
             <strong>
-            @Html.DisplayFor(model => model.WarrantyCardNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DisplayFor(model => model.WarrantyCardNumber, new { htmlAttributes = new { @class = "form-control" } })
             </strong>
         </div>
         <div class="col-md-3">
@@ -156,6 +156,9 @@
         </div>
     </div>
     <p>
-        @Html.ActionLink("Редактирай", "Edit", new { id = Model.Id }) |
+        @if (this.User.IsInRole("Администратор") || this.User.IsInRole("Редактор"))
+        {
+            @Html.ActionLink("Редактирай", "Edit", new { id = Model.Id })
+        }
         @Html.ActionLink("Назад", "Index")
     </p>

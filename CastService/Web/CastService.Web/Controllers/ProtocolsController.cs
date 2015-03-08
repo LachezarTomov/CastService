@@ -16,6 +16,7 @@
     using CastService.Web.Infrastructure.Populators;
     using System.Data.Entity.Validation;
 
+    [Authorize]
     public class ProtocolsController : Controller
     {
 
@@ -119,6 +120,7 @@
             return View(model.ToPagedList(pageNumber, pageSize));
         }
 
+        [Authorize(Roles = "Администратор,Редактор")]
         public ActionResult Create()
         {            
             var protocolViewModel = new DetailsProtocolViewModel();
@@ -128,6 +130,7 @@
             return View(protocolViewModel);
         }
 
+        [Authorize(Roles = "Администратор,Редактор")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(DetailsProtocolViewModel protocol)
@@ -235,6 +238,7 @@
             return View(protocol);
         }
 
+        [Authorize(Roles = "Администратор,Редактор")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -267,6 +271,7 @@
             return View(protocol);
         }
 
+        [Authorize(Roles = "Администратор,Редактор")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(DetailsProtocolViewModel protocolModel)

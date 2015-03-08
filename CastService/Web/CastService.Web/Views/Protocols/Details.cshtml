@@ -254,6 +254,10 @@
 }
 
 <div>
+    @if (this.User.IsInRole("Администратор") || this.User.IsInRole("Редактор"))
+    {
+        @Html.ActionLink("Редактирай", "Edit", new { id = Model.Id })
+    }
     @Html.ActionLink("Назад към списъка", "Index")
 </div>
 @section Scripts

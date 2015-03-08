@@ -15,6 +15,7 @@
     using CastService.Web.ViewModels.Installations;
     using CastService.Web.Infrastructure.Populators;
     
+    [Authorize]
     public class InstallationsController : Controller
     {
         private readonly IDeletableEntityRepository<Installation> installations;
@@ -98,6 +99,7 @@
             return View(model.ToPagedList(pageNumber, pageSize));
         }
 
+        [Authorize(Roles = "Администратор,Редактор")]
         public ActionResult Create()
         {
             var installationViewModel = new DetailsInstallationViewModel();
@@ -108,6 +110,7 @@
             return View(installationViewModel);
         }
 
+        [Authorize(Roles = "Администратор,Редактор")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(DetailsInstallationViewModel installation)
@@ -174,6 +177,7 @@
             return View(installation);
         }
 
+        [Authorize(Roles = "Администратор,Редактор")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -202,6 +206,7 @@
             return View(installation);
         }
 
+        [Authorize(Roles = "Администратор,Редактор")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(DetailsInstallationViewModel installation)

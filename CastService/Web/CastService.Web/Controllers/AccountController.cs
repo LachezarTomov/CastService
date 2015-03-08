@@ -156,7 +156,7 @@
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "Администратор")]
         public ActionResult Register()
         {
             
@@ -167,6 +167,7 @@
 
         //
         // POST: /Account/Register
+        [Authorize(Roles = "Администратор")]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -206,6 +207,7 @@
             return View(model);
         }
 
+        [Authorize(Roles = "Администратор")]
         public ActionResult Edit(string id)
         {
 
@@ -219,6 +221,8 @@
    
             return View(model);
         }
+
+        [Authorize(Roles = "Администратор")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EditViewModel editedModel)
@@ -355,7 +359,7 @@
 
         //
         // GET: /Account/ResetPasswordConfirmation
-        [AllowAnonymous]
+
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
@@ -364,7 +368,6 @@
         //
         // POST: /Account/ExternalLogin
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {

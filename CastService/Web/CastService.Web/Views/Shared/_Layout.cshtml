@@ -23,17 +23,14 @@
                 <ul class="nav navbar-nav">
                     @if (Context.User.Identity.IsAuthenticated)
                     {
-                        @*<li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Клиенти<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Нов", "Create", "Customers")</li>
-                                <li>@Html.ActionLink("Списък", "Index", "Customers")</li>
-                            </ul>
-                        </li>*@
                         <li>@Html.ActionLink("Клиенти", "Index", "Customers")</li>
-                        <li>@Html.ActionLink("Артикули", "Index", "Equipments")</li>
-                        <li>@Html.ActionLink("Инсталации", "Index", "Installations")</li>
                         <li>@Html.ActionLink("Протоколи", "Index", "Protocols")</li>
+                        <li>@Html.ActionLink("Инсталации", "Index", "Installations")</li>
+                        if (this.User.IsInRole("Администратор"))
+                        {
+                            <li>@Html.ActionLink("Артикули", "Index", "Equipments")</li>
+                            <li>@Html.ActionLink("Потребители", "Index", "Users")</li>
+                        }
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

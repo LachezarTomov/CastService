@@ -13,6 +13,7 @@
     using CastService.Data.Models;
     using CastService.Web.ViewModels.Equipments;
 
+    [Authorize]
     public class EquipmentsController : Controller
     {
         private readonly IDeletableEntityRepository<Equipment> equipments;

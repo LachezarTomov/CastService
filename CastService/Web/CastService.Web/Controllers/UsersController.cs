@@ -9,13 +9,12 @@
 
     using AutoMapper.QueryableExtensions;
 
+    using CastService.Data;
     using CastService.Data.Common.Repository;
     using CastService.Data.Models;
     using CastService.Web.ViewModels.Users;
-    using System.Web.Security;
-using CastService.Data;
 
-    [Authorize]
+    [Authorize(Roles = "Администратор")]
     public class UsersController : Controller
     {
         private readonly IDeletableEntityRepository<User> users;
@@ -26,6 +25,7 @@ using CastService.Data;
         }
 
         // GET: Users
+        [Authorize(Roles = "Администратор")]
         public ActionResult Index()
         {
             CastServiceDbContext db = new CastServiceDbContext();
@@ -37,13 +37,6 @@ using CastService.Data;
             }
             db.Dispose();
             return View(model);
-        }
-
-        public ActionResult Create()
-        {
-            var userViewModel = new DetailsUserViewModel();
-            userViewModel.Roles = this.GetRolesList();
-            return View(userViewModel);
         }
 
         private SelectList GetRolesList(string selectedId = "0")

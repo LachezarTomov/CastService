@@ -13,7 +13,7 @@
     using CastService.Data.Models;
     using CastService.Web.ViewModels.Customers;
 
-
+    [Authorize]
     public class CustomersController : Controller
     {
         private readonly IDeletableEntityRepository<Customer> customers;
@@ -30,6 +30,7 @@
             return View(model);
         }
 
+        [Authorize(Roles = "Администратор,Редактор")]
         public ActionResult Create()
         {
             var createCustomerViewModel = new CreateCustomerViewModel();
@@ -39,6 +40,7 @@
             return View(createCustomerViewModel);
         }
 
+        [Authorize(Roles = "Администратор,Редактор")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateCustomerViewModel customer)
@@ -98,6 +100,7 @@
             return View(customer);
         }
 
+        [Authorize(Roles = "Администратор,Редактор")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -117,6 +120,7 @@
             return View(customer);
         }
 
+        [Authorize(Roles = "Администратор,Редактор")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(DetailsCustomerViewModel customer)
