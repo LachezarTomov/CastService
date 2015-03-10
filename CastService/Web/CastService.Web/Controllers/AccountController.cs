@@ -20,6 +20,7 @@
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     using System.Web.Security;
+    using Microsoft.AspNet.Identity.EntityFramework;
     
     [Authorize]
     public class AccountController : Controller
@@ -178,15 +179,18 @@
                 var user = new User { 
                     UserName = model.Username, 
                     Email = "nomail@test.com",
-                    RoleId = model.RoleId,
                     FullName = model.FullName,
                     IsBlocked = false,
                     LockoutEnabled = false
                 };
+
 //                var user = new User { UserName = model.Username, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var userManager = new UserManager<User>(new UserStore<User>(db));
+                    var role = this.db.Roles.Where(r => r.Id == model.RoleId).FirstOrDefault();
+                    userManager.AddToRole(user.Id, role.Name);
                   //  await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -213,7 +217,9 @@
 
             var user = this.db.Users.Where(u => u.Id == id).FirstOrDefault();
             var model = new EditViewModel();
-            model.Roles = this.GetRolesList(user.Id);
+            var roleId = user.Roles.Where(u => u.UserId == id).Select(r => r.RoleId).First();
+            model.Roles = this.GetRolesList(roleId);
+            model.RoleId = roleId;
             model.FullName = user.FullName;
             model.Username = user.UserName;
             model.IsBlocked = user.IsBlocked;
@@ -230,6 +236,7 @@
             if (ModelState.IsValid)
             {
                 var updatedUser = this.db.Users.Where(c => c.Id == editedModel.Id).FirstOrDefault();
+                var oldRoleId = updatedUser.Roles.Where(u => u.UserId == updatedUser.Id).Select(r => r.RoleId).First();
 
                 if (updatedUser == null)
                 {
@@ -237,7 +244,8 @@
                 }
 
                 updatedUser.UserName = editedModel.Username;
-                updatedUser.RoleId = editedModel.RoleId;
+           //     updatedUser.RoleId = editedModel.RoleId;
+                
                 updatedUser.FullName = editedModel.FullName;
                 updatedUser.IsBlocked = editedModel.IsBlocked;
 
@@ -245,6 +253,12 @@
                 {
                     db.Entry(updatedUser).State = EntityState.Modified;
                     db.SaveChanges();
+
+                    var newUserRole = db.Roles.Where(r => r.Id == editedModel.RoleId).Select(r => r.Name).First();
+                    var oldUserRole = db.Roles.Where(r => r.Id == oldRoleId).Select(r => r.Name).First();
+
+                    this.UserManager.RemoveFromRole(updatedUser.Id, oldUserRole);
+                    this.UserManager.AddToRole(updatedUser.Id, newUserRole);
 
                     if (!string.IsNullOrEmpty(editedModel.Password))
                     {

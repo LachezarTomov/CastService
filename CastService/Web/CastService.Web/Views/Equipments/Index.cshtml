@@ -1,10 +1,13 @@
 ﻿@model IEnumerable<CastService.Web.ViewModels.Equipments.ListEquipmentsViewModel>
 
 <h2>Артикули</h2>
+@if (this.User.IsInRole("Администратор"))
+{
 <p>
     @Html.ActionLink("Създай", "Create", "Equipments", null, new { @class = "btn btn-primary" })
 </p>
-<table class="table">
+}
+<table class="table table-bordered table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -15,22 +18,23 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Model)
-        </td>
-        <td>
-            @if (this.User.IsInRole("Администратор")
-            {
-                @Html.ActionLink("Редактиране", "Edit", new { id=item.Id })
-            }
-            @Html.ActionLink("Детайли", "Details", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @if (this.User.IsInRole("Администратор"))
+                {
+                    @Html.ActionLink("Редактиране", "Edit", new { id = item.Id })
+                }
+                @Html.ActionLink("Детайли", "Details", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>

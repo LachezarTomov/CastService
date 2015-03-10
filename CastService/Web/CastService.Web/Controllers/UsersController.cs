@@ -13,6 +13,10 @@
     using CastService.Data.Common.Repository;
     using CastService.Data.Models;
     using CastService.Web.ViewModels.Users;
+    using System.Web.Security;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using System.Threading.Tasks;
 
     [Authorize(Roles = "Администратор")]
     public class UsersController : Controller
@@ -26,14 +30,23 @@
 
         // GET: Users
         [Authorize(Roles = "Администратор")]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             CastServiceDbContext db = new CastServiceDbContext();
 
             var model = this.users.All().Project().To<ListUsersViewModel>().ToList();
+            
             foreach (var item in model)
             {
-                item.Role = db.Roles.Where(r => r.Id == item.RoleId).Select(x => x.Name).FirstOrDefault();
+                using (var userManager = new UserManager<User>(new UserStore<User>(db)))
+                {
+                    var rolesForUser = await userManager.GetRolesAsync(item.Id);
+
+                    if (rolesForUser.Count > 0)
+                    {
+                       item.Role = rolesForUser[0];
+                    }
+                }
             }
             db.Dispose();
             return View(model);

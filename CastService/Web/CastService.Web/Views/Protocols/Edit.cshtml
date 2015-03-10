@@ -429,6 +429,22 @@
 
             $('#btnSubmit').click(function (event) {
                 var dtVal = $('#ProtocolDate').val();
+                var customerId = $('#CustomerId').val();
+                var userId = $('#UserId').val();
+
+                if (customerId === "0") {
+                    $('#error').text("Не е въведен клиент");
+                    $('.error').show();
+                    event.preventDefault();
+                    return;
+                }
+
+                if (userId === "0") {
+                    $('#error').text("Не е въведен представител на изпълнителя");
+                    $('.error').show();
+                    event.preventDefault();
+                    return;
+                }
 
                 if (dtVal === "дд/мм/гггг") {
                     $('#error').text("Не е въведена дата на протокола");
@@ -457,6 +473,7 @@
                     event.preventDefault();
                     return;
                 }
+
                 var hourValue = $('#StartTime').val();
                 if (hourValue === "чч:мм") {
                     $('#error').text("Не е въведен начален час на протокола");
@@ -464,6 +481,7 @@
                     event.preventDefault();
                     return;
                 }
+
                 if (!isHourCorrect(hourValue)) {
                     $('#error').text("Сгрешена начален час");
                     $('.error').show();
@@ -477,6 +495,7 @@
                     event.preventDefault();
                     return;
                 }
+
                 if (!isHourCorrect(hourValue)) {
                     $('#error').text("Сгрешена краен час");
                     $('.error').show();

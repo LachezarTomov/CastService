@@ -195,7 +195,6 @@
             <div class="col-md-2">
                 <label id="resultLabor" class="control-label"></label>
             </div>
-
         </div>
         <div class="form-group">
             <div class="col-md-4">
@@ -209,7 +208,6 @@
             <div class="col-md-2">
                 <label id="resultEquipment" class="control-label"></label>
             </div>
-
         </div>
         <div class="form-group">
             <div class="col-md-2">
@@ -438,6 +436,22 @@
 
             $('#btnSubmit').click(function (event) {
                 var dtVal = $('#ProtocolDate').val();
+                var customerId = $('#CustomerId').val();
+                var userId = $('#UserId').val();
+
+                if (customerId === "0") {
+                    $('#error').text("Не е въведен клиент");
+                    $('.error').show();
+                    event.preventDefault();
+                    return;
+                }
+
+                if (userId === "0") {
+                    $('#error').text("Не е въведен представител на изпълнителя");
+                    $('.error').show();
+                    event.preventDefault();
+                    return;
+                }
 
                 if (dtVal === "дд/мм/гггг") {
                     $('#error').text("Не е въведена дата на протокола");

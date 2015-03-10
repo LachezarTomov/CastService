@@ -12,11 +12,13 @@
 }
 
 <h2>Клиенти</h2>
-
-<p>
-    @Html.ActionLink("Нов клиент", "Create", "Customers", null, new { @class = "btn btn-primary" })
-</p>
-<table class="table">
+@if (this.User.IsInRole("Администратор") || this.User.IsInRole("Редактор"))
+{
+    <p>
+        @Html.ActionLink("Нов клиент", "Create", "Customers", null, new { @class = "btn btn-primary" })
+    </p>
+}
+<table class="table table-bordered table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -30,25 +32,26 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Place)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Note)
-        </td>
-        <td>
-            @if (this.User.IsInRole("Администратор") || this.User.IsInRole("Редактор"))
-            {
-                @Html.ActionLink("Редактиране", "Edit", new { id=item.Id })
-            }
-            @Html.ActionLink("Детайли", "Details", new { id=item.Id }) 
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Place)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                @if (this.User.IsInRole("Администратор") || this.User.IsInRole("Редактор"))
+                {
+                    @Html.ActionLink("Редактиране", "Edit", new { id = item.Id })
+                }
+                @Html.ActionLink("Детайли", "Details", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>

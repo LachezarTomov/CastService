@@ -324,7 +324,6 @@
                 updatedProtocol.DistanceInKm = protocolModel.DistanceInKm;
                 updatedProtocol.PricePerKm = protocolModel.PricePerKm;
 
-
                 updatedProtocol.CustomerId = protocolModel.CustomerId;
                 updatedProtocol.UserId = protocolModel.UserId;
                 updatedProtocol.Note = protocolModel.Note;

@@ -24,8 +24,8 @@
                     @if (Context.User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Клиенти", "Index", "Customers")</li>
-                        <li>@Html.ActionLink("Протоколи", "Index", "Protocols")</li>
                         <li>@Html.ActionLink("Инсталации", "Index", "Installations")</li>
+                        <li>@Html.ActionLink("Протоколи", "Index", "Protocols")</li>
                         if (this.User.IsInRole("Администратор"))
                         {
                             <li>@Html.ActionLink("Артикули", "Index", "Equipments")</li>

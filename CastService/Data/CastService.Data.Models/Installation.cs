@@ -67,6 +67,12 @@
         [MaxLength(50)]
         public string Other { get; set; }
 
+        public int WorkInHours { get; set; }
+
+        public decimal PricePerHour { get; set; }
+
+        public decimal PriceForChangedEguipment { get; set; }
+
         [Column(TypeName = "ntext")]
         public string Note { get; set; }
 

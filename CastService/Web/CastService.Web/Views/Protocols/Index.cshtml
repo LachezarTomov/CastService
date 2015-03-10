@@ -15,7 +15,6 @@
 <div class="container">
     <h2>Сервизни протоколи</h2>
 
-
     @using (Html.BeginForm("Index", "Protocols", FormMethod.Get))
     {
         <div class="container">
@@ -42,9 +41,10 @@
         </div>
     }
 
-
-    @Html.ActionLink("Нов протокол", "Create", "Protocols", null, new { @class = "btn btn-primary" })
-
+    @if (this.User.IsInRole("Администратор") || this.User.IsInRole("Редактор"))
+    {
+        @Html.ActionLink("Нов протокол", "Create", "Protocols", null, new { @class = "btn btn-primary" })
+    }
     <table class="table table-bordered table-striped">
         <tr>
             <th>

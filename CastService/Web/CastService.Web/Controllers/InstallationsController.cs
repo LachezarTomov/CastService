@@ -132,6 +132,11 @@
                 newInstallation.CustomerId = installation.CustomerId;
                 newInstallation.Note = installation.Note;
                 newInstallation.WarrantyCardNumber = installation.WarrantyCardNumber;
+                newInstallation.Other = installation.Other;
+                newInstallation.WorkInHours = installation.WorkInHours;
+                newInstallation.PricePerHour = installation.PricePerHour;
+                newInstallation.PriceForChangedEguipment = installation.PriceForChangedEguipment;
+
                 newInstallation.UserId = installation.UserId;
 
                 if (installation.HasProtocol)
@@ -166,7 +171,7 @@
                     this.installedEquipment.SaveChanges();
                 }
 
-                TempData["message"] = "Инсталацията беше редактирана";
+                TempData["message"] = "Инсталацията беше създадена";
 
                 return RedirectToAction("Index");
             }
@@ -231,6 +236,11 @@
                 updatedInstallation.AdditionalActivities = installation.AdditionalActivities;
                 updatedInstallation.CustomerId = installation.CustomerId;
                 updatedInstallation.Note = installation.Note;
+                updatedInstallation.WarrantyCardNumber = installation.WarrantyCardNumber;
+                updatedInstallation.Other = installation.Other;
+                updatedInstallation.WorkInHours = installation.WorkInHours;
+                updatedInstallation.PricePerHour = installation.PricePerHour;
+                updatedInstallation.PriceForChangedEguipment = installation.PriceForChangedEguipment;
 
                 if (installation.HasProtocol) 
                 { 

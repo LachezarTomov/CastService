@@ -29,8 +29,11 @@
         </div>
     </div>
 }
-@Html.ActionLink("Нова инсталция", "Create", "Installations", null, new { @class = "btn btn-primary" })
-<table class="table">
+@if (this.User.IsInRole("Администратор") || this.User.IsInRole("Редактор"))
+{
+    @Html.ActionLink("Нова инсталция", "Create", "Installations", null, new { @class = "btn btn-primary" })
+}
+<table class="table table-bordered table-striped">
     <tr>
         <th>
             @Html.ActionLink("Клиент", "Index", new { sortOrder = ViewBag.ClientNameSortParams })

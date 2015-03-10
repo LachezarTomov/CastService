@@ -67,11 +67,11 @@
         [Column(TypeName = "Date")]
         public DateTime? InvoiceDate { get; set; }
 
-        [MaxLength(50)]
-        public string Other { get; set; }
-
         [MaxLength(30)]
         public string WarrantyCardNumber { get; set; }
+
+        [MaxLength(50)]
+        public string Other { get; set; }
 
         public int WorkInHours { get; set; }
 

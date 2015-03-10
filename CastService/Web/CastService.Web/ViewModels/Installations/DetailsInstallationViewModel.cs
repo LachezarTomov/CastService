@@ -78,6 +78,15 @@
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Друго трябва да е между {2} и {1} символа")]
         public string Other { get; set; }
 
+        [Display(Name = "Вложен труд")]
+        [DataType(DataType.Text)]
+        public int WorkInHours { get; set; }
+
+        public decimal PricePerHour { get; set; }
+
+        [Display(Name = "Вложени части и материали")]
+        public decimal PriceForChangedEguipment { get; set; }
+
         [Display(Name = "Забележка")]
         [StringLength(1200, MinimumLength = 3, ErrorMessage = "Забележка трябва да е между {2} и {1} символа")]
         [DataType(DataType.MultilineText)]

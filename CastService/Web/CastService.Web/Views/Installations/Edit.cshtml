@@ -3,7 +3,10 @@
 @{
     ViewBag.Title = "Редактиране на инсталация";
 }
-
+<div class="error alert alert-danger">
+    <span class="close" data-dismiss="alert">&times;</span>
+    <div id="error"></div>
+</div>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -139,6 +142,39 @@
                 @Html.ValidationMessageFor(model => model.Other, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.WorkInHours, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.WorkInHours, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-md-1">
+                <p class="control-label"><strong> часа X </strong></p>
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.PricePerHour, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-md-1">
+                <p class="control-label"><strong>лв/час</strong></p>
+            </div>
+            <div class="col-md-2">
+                <label id="resultLabor" class="control-label"></label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.PriceForChangedEguipment, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.PriceForChangedEguipment, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+                <label id="resultEquipment" class="control-label"></label>
+            </div>
+        </div>
         <hr />
         <div class="form-group">
             @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -150,7 +186,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Редактирай" class="btn btn-primary" />
+                <input type="submit" value="Редактирай" id="btnSubmit" class="btn btn-primary" />
             </div>
         </div>
     </div>
@@ -242,6 +278,37 @@
                 }
             });
 
+            $('#btnSubmit').click(function (event) {
+                var customerId = $('#CustomerId').val();
+                var userId = $('#UserId').val();
+
+                if (customerId === "0") {
+                    $('#error').text("Не е въведен клиент");
+                    $('.error').show();
+                    event.preventDefault();
+                    return;
+                }
+
+                if (userId === "0") {
+                    $('#error').text("Не е въведен представител на изпълнителя");
+                    $('.error').show();
+                    event.preventDefault();
+                    return;
+                }
+
+            });
+
+            $("#WorkInHours").on('change paste', function () {
+                calculateWorkHours();
+            });
+            $("#PricePerHour").on('change paste', function () {
+                calculateWorkHours();
+            });
+
+            $("#PriceForChangedEguipment").on('change paste', function () {
+                $("#resultEquipment").text(parseFloat($("#PriceForChangedEguipment").val()).toFixed(2));
+            });
+
             jQuery.fn.ForceNumericOnly = function () {
                 return this.each(function () {
                     $(this).keydown(function (e) {
@@ -270,7 +337,12 @@
                     });
                 });
             };
+
+            $('.error').hide();
+            $("#equipment-quantity").ForceNumericOnly();
             $("#WorkInHours").ForceNumericOnly();
+            $("#PricePerHour").ForceFloatOnly();
+
             $("#InstallationDate").mask("99/99/9999", { placeholder: "дд/мм/гггг" });
             $("#InvoiceDate").mask("99/99/9999", { placeholder: "дд/мм/гггг" });
             $("#StartTime").mask("99:99", { placeholder: "чч:мм" });
@@ -299,6 +371,11 @@
                 return true;
             }
             return false;
+        }
+
+        function calculateWorkHours() {
+            var result = (parseInt($("#WorkInHours").val()) * parseFloat($("#PricePerHour").val())).toFixed(2);
+            $("#resultLabor").text(result);
         }
 
         function add_equipment_row() {
