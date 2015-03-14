@@ -61,6 +61,7 @@
     <Compile Include="Protocol.cs" />
     <Compile Include="ServiceType.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="WaitingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

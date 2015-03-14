@@ -199,7 +199,7 @@
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    TempData["message"] = "Потребителя беше създаден";
+                    TempData["message"] = "Потребителят беше създаден";
 
                     return RedirectToAction("Index", "Home", "Users");
                 }
@@ -266,7 +266,7 @@
                         UserManager.AddPassword(editedModel.Id, editedModel.Password);
                     }
 
-                    TempData["message"] = "Потребителя беше редактирана";
+                    TempData["message"] = "Потребителят беше редактиран";
 
                     return RedirectToAction("Index","Home");
                 }
