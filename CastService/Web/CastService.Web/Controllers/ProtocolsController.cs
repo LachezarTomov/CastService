@@ -161,7 +161,6 @@
                 newProtocol.IsWarrantyService = protocol.IsWarrantyService;
                 newProtocol.WithSubscriptionService = protocol.WithSubscriptionService;
 
-
                 if (protocol.HasCustomerProtocol)
                 {
                     newProtocol.HasCustomerProtocol = protocol.HasCustomerProtocol;
@@ -220,6 +219,7 @@
                         chEquipment.OldSerialNumber = item.OldSerialNumber;
                         chEquipment.NewSerialNumber = item.NewSerialNumber;
                         chEquipment.Quantity = item.Quantity;
+                        chEquipment.EquipmentLength = item.EquipmentLength;
 
                         this.changedEquipment.Add(chEquipment);
                     }
@@ -350,6 +350,7 @@
                         ie.OldSerialNumber = item.OldSerialNumber;
                         ie.NewSerialNumber = item.NewSerialNumber;
                         ie.Quantity = item.Quantity;
+                        ie.EquipmentLength = item.EquipmentLength;
                         this.changedEquipment.Add(ie);
                     }
                 }

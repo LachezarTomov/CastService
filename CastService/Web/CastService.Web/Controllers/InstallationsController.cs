@@ -165,6 +165,7 @@
                         ie.EquipmentId = item.Id;
                         ie.SerialNumber = item.SerialNumber;
                         ie.Quantity = item.Quantity;
+                        ie.EquipmentLength = item.EquipmentLength;
                         this.installedEquipment.Add(ie);
                     }
 
@@ -275,6 +276,7 @@
                         ie.EquipmentId = item.Id;
                         ie.SerialNumber = item.SerialNumber;
                         ie.Quantity = item.Quantity;
+                        ie.EquipmentLength = item.EquipmentLength;
                         this.installedEquipment.Add(ie);
                     }
                 }

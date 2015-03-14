@@ -119,6 +119,7 @@
                 <th>Стар сериен №</th>
                 <th>Нов сериен №</th>
                 <th>Количество</th>
+                <th>Дължина</th>
                 <th></th>
             </tr>
             @if (Model.ChangedEquipment != null)
@@ -141,6 +142,10 @@
                         <td>
                             @Html.HiddenFor(m => m.ChangedEquipment[i].Quantity)
                             @Html.DisplayFor(m => m.ChangedEquipment[i].Quantity)
+                        </td>
+                        <td>
+                            @Html.HiddenFor(m => m.ChangedEquipment[i].EquipmentLength)
+                            @Html.DisplayFor(m => m.ChangedEquipment[i].EquipmentLength)
                         </td>
                     </tr>
                 }
@@ -270,6 +275,10 @@
             <label for="equipment-quantity" class="col-md-3">Количество</label>
             <input type="text" name="equipment-quantity" id="equipment-quantity" class="text ui-widget-content ui-corner-all col-md-2" />
         </div>
+        <div class="form-group">
+            <label for="equipment-length" class="col-md-3">Дължина</label>
+            <input type="text" name="equipment-length" id="equipment-length" class="text ui-widget-content ui-corner-all col-md-2" />
+        </div>
     </div>
 </div>
 <div>
@@ -285,7 +294,7 @@
             $("#add-equipment").hide();
             $("#add-equipment").dialog({
                 autoOpen: false,
-                height: 340,
+                height: 400,
                 width: 700,
                 modal: true,
                 draggable: true,
@@ -316,6 +325,7 @@
                 $("#equipment-id").val('');
                 $("#equipment").val('');
                 $("#equipment-quantity").val('');
+                $("#equipment-length").val('');
                 $("#equipment-old-serial-number").val('');
                 $("#equipment-new-serial-number").val('');
 
@@ -330,11 +340,11 @@
             });
 
             function valudate_equipment() {
-                if (!isInt($("#equipment-quantity").val())) {
-                    $("#input-equipment-error").text("Полето за количество трябва да съдържа само числа");
-                    $("#input-equipment-error").css("color", "Red");
-                    return false;
-                }
+                //if (!isInt($("#equipment-quantity").val())) {
+                //    $("#input-equipment-error").text("Полето за количество трябва да съдържа само числа");
+                //    $("#input-equipment-error").css("color", "Red");
+                //    return false;
+                //}
 
                 if ($("#equipment-id").val() === '') {
                     $("#input-equipment-error").text("Полето за артикул е задължително или няма такъв артикул");
@@ -414,6 +424,7 @@
             };
 
             $("#equipment-quantity").ForceNumericOnly();
+            $("#equipment-length").ForceNumericOnly();
             $("#WorkInHours").ForceNumericOnly();
             $("#DistanceInKm").ForceNumericOnly();
             $("#PricePerHour").ForceFloatOnly();
@@ -564,7 +575,8 @@
         function add_equipment_row() {
             var equipmentId = $("#equipment-id").val();
             var equipmentName = $("#equipment").val();
-            var equipmentQty = $("#equipment-quantity").val();
+            var equipmentQty = $("#equipment-quantity").val() || 1;
+            var equipmentLength = $("#equipment-length").val() || 0;
             var equipmentOldSerialNumber = $("#equipment-old-serial-number").val();
             var equipmentNewSerialNumber = $("#equipment-new-serial-number").val();
             var rowsCount = $('#equipment-table tbody tr').length;
@@ -578,7 +590,9 @@
 
             var equipmentNewSerialNumberInput = '<input  id="ChangedEquipment_' + rowsCount + '__NewSerialNumber" name="ChangedEquipment[' + rowsCount + '].NewSerialNumber" type="hidden" value="' + equipmentNewSerialNumber + '">';
 
-            var newRowContent = "<tr><td>" + equipmentIdInput + equipmentName + "</td><td>" + equipmentOldSerialNumberInput + equipmentOldSerialNumber + "</td><td>" + equipmentNewSerialNumberInput + equipmentNewSerialNumber + "</td><td>" + equipmentQuantityInput + equipmentQty + "</td></tr>";
+            var equipmentLengthInput = '<input  id="ChangedEquipment_' + rowsCount + '__EquipmentLength" name="ChangedEquipment[' + rowsCount + '].EquipmentLength" type="hidden" value="' + equipmentLength + '">';
+
+            var newRowContent = "<tr><td>" + equipmentIdInput + equipmentName + "</td><td>" + equipmentOldSerialNumberInput + equipmentOldSerialNumber + "</td><td>" + equipmentNewSerialNumberInput + equipmentNewSerialNumber + "</td><td>" + equipmentQuantityInput + equipmentQty + "</td><td>" + equipmentLengthInput + equipmentLength + "</td></tr>";
 
             $("#equipment-table tbody").append(newRowContent);
 

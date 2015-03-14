@@ -90,6 +90,7 @@
             <th>Име</th>
             <th>Сериен №</th>
             <th>Количество</th>
+            <th>Дължина</th>
             <th></th>
         </tr>
         @if (Model.InstalledEquipment != null)
@@ -105,6 +106,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(m => m.InstalledEquipment[i].Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.InstalledEquipment[i].EquipmentLength)
                     </td>
                 </tr>
             }

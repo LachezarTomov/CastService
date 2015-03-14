@@ -129,6 +129,7 @@
                 <th>Стар сериен №</th>
                 <th>Нов сериен №</th>
                 <th>Количество</th>
+                <th>Дължина</th>
             </tr>
             @if (Model.ChangedEquipment != null)
             {
@@ -146,6 +147,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(m => m.ChangedEquipment[i].Quantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m.ChangedEquipment[i].EquipmentLength)
                         </td>
                     </tr>
                 }

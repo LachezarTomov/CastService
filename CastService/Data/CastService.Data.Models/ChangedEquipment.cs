@@ -25,6 +25,8 @@
         [MaxLength(16)]
         public string NewSerialNumber { get; set; }
 
+        public int EquipmentLength { get; set; }
+
         [Required]
         public int ProtocolId { get; set; }
 

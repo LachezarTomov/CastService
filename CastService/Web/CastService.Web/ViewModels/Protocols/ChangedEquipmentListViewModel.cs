@@ -18,6 +18,7 @@
 
         public int Quantity { get; set; }
 
+        public int EquipmentLength { get; set; }
 
         public void CreateMappings(AutoMapper.IConfiguration configuration)
         {

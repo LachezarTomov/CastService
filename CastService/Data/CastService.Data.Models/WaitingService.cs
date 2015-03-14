@@ -8,7 +8,6 @@
 
     public class WaitingService : AuditInfo, IDeletableEntity
     {
-      
         [Key]
         public int Id { get; set; }
 

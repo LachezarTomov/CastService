@@ -22,6 +22,8 @@
         [MaxLength(16)]
         public string SerialNumber { get; set; }
 
+        public int EquipmentLength { get; set; }
+
         [Required]
         public int InstallationId { get; set; }
 
