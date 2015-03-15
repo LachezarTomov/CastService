@@ -50,7 +50,7 @@
                 @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
             </div>
-            
+
             <div class="col-md-2">
                 @Html.LabelFor(model => model.GuessedTime, htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.GuessedTime, new { htmlAttributes = new { @class = "form-control" } })
@@ -225,9 +225,10 @@
 @section Scripts
 {
     <script type="text/javascript" src="~/Scripts/jquery.maskedinput.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/validations.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-
+            $('.error').hide();
             $("#add-equipment").hide();
             $("#add-equipment").dialog({
                 autoOpen: false,
@@ -264,45 +265,16 @@
             $("#PricePerHour").on('change paste', function () {
                 calculateWorkHours();
             });
-            
+
             $("#PriceForChangedEguipment").on('change paste', function () {
                 $("#resultEquipment").text(parseFloat($("#PriceForChangedEguipment").val()).toFixed(2));
             });
 
-            jQuery.fn.ForceNumericOnly = function () {
-                return this.each(function () {
-                    $(this).keydown(function (e) {
-                        var key = e.charCode || e.keyCode || 0;
-
-                        // allow backspace, tab, delete, arrows, numbers and keypad numbers ONLY
-                        //	alert(key);
-                        return (
-                            key === 8 || key === 9 || key === 46 || key === 189 ||
-                            (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105)
-                        );
-                    });
-                });
-            };
-            jQuery.fn.ForceFloatOnly = function () {
-                return this.each(function () {
-                    $(this).keydown(function (e) {
-                        var key = e.charCode || e.keyCode || 0;
-
-                        // allow dot, comma, backspace, tab, delete, arrows, numbers and keypad numbers ONLY
-                        return (
-                            key === 8 || key === 9 || key === 46 ||
-                            key === 109 || key === 110 || key === 189 || key === 190 ||
-                            (key >= 37 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105)
-                        );
-                    });
-                });
-            };
-            $('.error').hide();
             $("#equipment-quantity").ForceNumericOnly();
             $("#equipment-length").ForceNumericOnly();
             $("#WorkInHours").ForceNumericOnly();
             $("#PricePerHour").ForceFloatOnly();
-            
+
             $("#InstallationDate").mask("99/99/9999", { placeholder: "дд/мм/гггг" });
             $("#InvoiceDate").mask("99/99/9999", { placeholder: "дд/мм/гггг" });
             $("#StartTime").mask("99:99", { placeholder: "чч:мм" });
@@ -344,14 +316,6 @@
             function calculateWorkHours() {
                 var result = (parseInt($("#WorkInHours").val()) * parseFloat($("#PricePerHour").val())).toFixed(2);
                 $("#resultLabor").text(result);
-            }
-
-            function isInt(data) {
-                data = parseInt(data);
-                if (Math.floor(data) === data && $.isNumeric(data)) {
-                    return true;
-                }
-                return false;
             }
 
             $('#btnSubmit').click(function (event) {

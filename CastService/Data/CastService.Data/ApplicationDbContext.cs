@@ -34,7 +34,7 @@
 
         public DbSet<Protocol> Protocols { get; set; }
 
-
+        public DbSet<WaitingService> WaitingsService { get; set; }
 
         public override int SaveChanges()
         {

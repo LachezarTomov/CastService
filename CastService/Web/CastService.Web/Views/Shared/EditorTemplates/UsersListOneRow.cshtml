@@ -1,4 +1,5 @@
-﻿@model int
+﻿@model string
+
 <div class="form-group">
     @Html.LabelFor(m => m, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
@@ -8,4 +9,3 @@
         @Html.ValidationMessageFor(m => m)
     </div>
 </div>
-<br />

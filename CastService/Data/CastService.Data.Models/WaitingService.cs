@@ -31,7 +31,15 @@
         [Column(TypeName = "Date")]
         public DateTime PlannedDate { get; set; }
 
-        public string PlannedSpecialist { get; set; }
+        [MaxLength(50)]
+        public string UserId { get; set; }
+
+        public User PlannedSpecialist { get; set; }
+
+        //[MaxLength(50)]
+        //public string PlannedSpecialist { get; set; }
+
+        public bool IsDone { get; set; }
 
         [Index]
         public bool IsDeleted { get; set; }

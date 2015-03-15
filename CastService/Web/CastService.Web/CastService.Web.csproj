@@ -194,6 +194,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProtocolsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\WaitingsServiceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -214,6 +215,8 @@
     <Compile Include="ViewModels\Protocols\ListProtocolsViewModel.cs" />
     <Compile Include="ViewModels\Users\DetailsUserViewModel.cs" />
     <Compile Include="ViewModels\Users\ListUsersViewModel.cs" />
+    <Compile Include="ViewModels\WaitingsService\DetailsWaitingServiceViewModel.cs" />
+    <Compile Include="ViewModels\WaitingsService\ListWaitingsServiceViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -284,6 +287,7 @@
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\validations.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -338,6 +342,9 @@
     <Content Include="Views\Protocols\Details.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\WaitingsService\Create.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\UsersListOneRow.cshtml" />
+    <Content Include="Views\WaitingsService\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
