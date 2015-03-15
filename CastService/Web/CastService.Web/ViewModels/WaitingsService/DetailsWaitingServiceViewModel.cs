@@ -11,7 +11,7 @@
     using AutoMapper;
     using System.Web.Mvc;
 
-    public class DetailsWaitingServiceViewModel : IMapFrom<WaitingService>
+    public class DetailsWaitingServiceViewModel : IMapFrom<WaitingService>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -51,5 +51,13 @@
 
         [Display(Name = "Извършен")]
         public bool IsDone { get; set; }
+
+        public void CreateMappings(IConfiguration configuration)
+        {
+            configuration.CreateMap<WaitingService, DetailsWaitingServiceViewModel>()
+           //     .ForMember(m => m.RequestDate, opt => opt.MapFrom(t => t.RequestDate.ToString()))
+            //    .ForMember(m => m.PlannedDate, opt => opt.MapFrom(t => t.PlannedDate.ToString()))
+                .ReverseMap();
+        }
     }
 }

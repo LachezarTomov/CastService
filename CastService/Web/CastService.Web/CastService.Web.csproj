@@ -345,6 +345,7 @@
     <Content Include="Views\WaitingsService\Create.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\UsersListOneRow.cshtml" />
     <Content Include="Views\WaitingsService\Index.cshtml" />
+    <Content Include="Views\WaitingsService\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

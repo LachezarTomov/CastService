@@ -133,12 +133,8 @@
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Protocol, DetailsProtocolViewModel>()
-
-                //       .ForMember(m => m.ProtocolDate, opt => opt.MapFrom(t => t.ProtocolDate.ToString()))
                 .ForMember(m => m.InvoiceDate, opt => opt.MapFrom(t => t.InvoiceDate.ToString()))
                 .ForMember(m => m.RequestDate, opt => opt.MapFrom(x => x.RequestDate.ToString()))
-                //.ForMember(m => m.UserNames, opt => opt.MapFrom(t => t.UserId))
-                
                 .ReverseMap();
         }
     }

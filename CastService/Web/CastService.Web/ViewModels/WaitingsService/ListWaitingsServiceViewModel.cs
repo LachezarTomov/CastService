@@ -35,10 +35,11 @@
         [Display(Name = "Планиран специалист")]
         public string PlannedSpecialist { get; set; }
 
+        public string UserId { get; set; }
+
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<WaitingService, ListWaitingsServiceViewModel>()
-                .ForMember(m => m.PlannedSpecialist, opt => opt.MapFrom(t => t.PlannedSpecialist.FullName))
                 .ReverseMap();
         }
     }

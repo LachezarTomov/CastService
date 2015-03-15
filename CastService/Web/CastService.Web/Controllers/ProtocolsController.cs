@@ -246,6 +246,8 @@
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            var protocol2 = this.protocols.All().Where(c => c.Id == id).FirstOrDefault();
+
             var protocol = this.protocols.All().Where(c => c.Id == id).Project().To<DetailsProtocolViewModel>().FirstOrDefault();
 
             if (protocol == null)
