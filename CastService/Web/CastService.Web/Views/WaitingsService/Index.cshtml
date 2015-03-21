@@ -1,4 +1,8 @@
-﻿@model IEnumerable<CastService.Web.ViewModels.WaitingsService.ListWaitingsServiceViewModel>
+﻿@*@model IEnumerable<CastService.Web.ViewModels.WaitingsService.ListWaitingsServiceViewModel>*@
+@model PagedList.IPagedList<CastService.Web.ViewModels.WaitingsService.ListWaitingsServiceViewModel> 
+@using PagedList.Mvc; 
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Заявка за сервиз";
@@ -21,25 +25,28 @@
 <table class="table table-bordered table-striped">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ObjectNumber)
+            @Html.DisplayName("ДКН")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerName)
+            @Html.ActionLink("Клиент", "Index", new { sortOrder = ViewBag.CustomerNameSortParams })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RequestDate)
+            @Html.ActionLink("Подаден на дата", "Index", new { sortOrder = ViewBag.RequestDateSortParams })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SubmittedInfo)
+            @Html.DisplayName("Подал информацията")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ProblemDescription)
+            @Html.DisplayName("Описание на проблема")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PlannedDate)
+            @Html.ActionLink("Планиран за", "Index", new { sortOrder = ViewBag.PlannedDateSortParams })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PlannedSpecialist)
+            @Html.ActionLink("Планиран специалист", "Index", new { sortOrder = ViewBag.PlannedSpecialistSortParams })
+        </th>
+        <th>
+            @Html.ActionLink("Извършен", "Index", new { sortOrder = ViewBag.IsDoneSortParams })
         </th>
         <th></th>
     </tr>
@@ -71,6 +78,9 @@
                 @Html.DisplayFor(modelItem => item.PlannedSpecialist)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.IsDone)
+            </td>
+            <td>
                 @if (this.User.IsInRole("Администратор") || this.User.IsInRole("Редактор"))
                 {
                     @Html.ActionLink("Редактиране", "Edit", new { id = item.Id })
@@ -80,3 +90,6 @@
     }
 
 </table>
+<br /> 
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort }))

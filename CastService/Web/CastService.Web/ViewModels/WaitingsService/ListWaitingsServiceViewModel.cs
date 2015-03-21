@@ -35,6 +35,9 @@
         [Display(Name = "Планиран специалист")]
         public string PlannedSpecialist { get; set; }
 
+        [Display(Name = "Извършен")]
+        public bool IsDone { get; set; }
+
         public string UserId { get; set; }
 
         public void CreateMappings(IConfiguration configuration)

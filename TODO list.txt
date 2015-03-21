@@ -1,11 +1,4 @@
 1. Set default errorr page
-3. Admin, user wih rihts to edit, user with rights to read only
-ok 4. Add pagging, filter and sorting functionality
-5. Add userId to all tables
 6. Check client name in create/edit installation with JQuery
-7. Create and edit views are almost the same ???
 8. Add check for duplicated customer names ot products name
-9. Add path to uploaded file for installations and fror protocols
-10. Separate PopulateCustomers in different class.
-11. Parts wit serial number - limit to 1 count
-12. Add pagination to customers and equipments
+11. Parts with serial number - limit to 1 count

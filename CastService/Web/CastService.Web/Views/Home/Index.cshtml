@@ -1,4 +1,8 @@
-﻿@{
+﻿@model PagedList.IPagedList<CastService.Web.ViewModels.WaitingsService.ListWaitingsServiceViewModel>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -12,10 +16,71 @@
 
 <div class="jumbotron">
     <h1>Something important :)</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <h1>First page</h1>
+
+@if (Context.User.Identity.IsAuthenticated)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>
+                        @Html.DisplayName("ДКН")
+                    </th>
+                    <th>
+                        @Html.ActionLink("Клиент", "Index", new { sortOrder = ViewBag.CustomerNameSortParams })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Подаден на дата", "Index", new { sortOrder = ViewBag.RequestDateSortParams })
+                    </th>
+                    <th>
+                        @Html.DisplayName("Подал информацията")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Описание на проблема")
+                    </th>
+                    <th>
+                        @Html.ActionLink("Планиран за", "Index", new { sortOrder = ViewBag.PlannedDateSortParams })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Планиран специалист", "Index", new { sortOrder = ViewBag.PlannedSpecialistSortParams })
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    var requestDate = item.RequestDate.ToShortDateString();
+                    var plannedDate = item.PlannedDate.ToShortDateString();
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ObjectNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustomerName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => requestDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SubmittedInfo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProblemDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => plannedDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PlannedSpecialist)
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            <br />
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort }))
+        </div>
     </div>
-</div>
+}
