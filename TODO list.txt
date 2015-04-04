@@ -1,4 +1,1 @@
-1. Set default errorr page
-6. Check client name in create/edit installation with JQuery
-8. Add check for duplicated customer names ot products name
 11. Parts with serial number - limit to 1 count

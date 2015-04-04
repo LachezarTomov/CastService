@@ -36,7 +36,6 @@
         public ActionResult Index(string sortOrder, int? page)
         {
             var waitingsViewModel = this.waitingService.All()
-          //      .Where(ws => ws.IsDone == false)
                 .OrderByDescending(d => d.PlannedDate)
                 .Project()
                 .To<ListWaitingsServiceViewModel>().ToList();

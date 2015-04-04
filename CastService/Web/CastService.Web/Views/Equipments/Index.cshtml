@@ -1,4 +1,7 @@
-﻿@model IEnumerable<CastService.Web.ViewModels.Equipments.ListEquipmentsViewModel>
+﻿@model PagedList.IPagedList<CastService.Web.ViewModels.Equipments.ListEquipmentsViewModel>
+@using PagedList.Mvc;
+
+ 
 
 <h2>Артикули</h2>
 @if (this.User.IsInRole("Администратор"))
@@ -10,10 +13,10 @@
 <table class="table table-bordered table-striped">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.ActionLink("Име", "Index", new { sortOrder = ViewBag.CustomerNameSortParams })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Model)
+            @Html.ActionLink("Модел", "Index", new { sortOrder = ViewBag.CustomerNameSortParams })
         </th>
         <th></th>
     </tr>
@@ -38,3 +41,6 @@
     }
 
 </table>
+<br />
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort }))

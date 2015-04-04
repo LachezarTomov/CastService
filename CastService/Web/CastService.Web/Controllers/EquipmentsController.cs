@@ -8,6 +8,7 @@
     using System.Web.Mvc;
 
     using AutoMapper.QueryableExtensions;
+    using PagedList;
 
     using CastService.Data.Common.Repository;
     using CastService.Data.Models;
@@ -22,13 +23,37 @@
         {
             this.equipments = equipments;
         }
-
-
+        
         // GET: Equipments
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, int? page)
         {
             var model = this.equipments.All().Project().To<ListEquipmentsViewModel>().ToList();
-            return View(model);
+            ViewBag.EquipmentNameSortParams = sortOrder == "equipmentName" ? "equipmentNameDesc" : "equipmentName";
+            ViewBag.EquipmentModelSortParams = sortOrder == "equipmentModel" ? "equipmentModelDesc" : "equipmentModel";
+
+            switch (sortOrder)
+            {
+                case "customerName":
+                    model = model.OrderBy(o => o.Name).ToList();
+                    break;
+                case "customerNameDesc":
+                    model = model.OrderByDescending(o => o.Name).ToList();
+                    break;
+                case "place":
+                    model = model.OrderBy(o => o.Model).ToList();
+                    break;
+                case "placeDesc":
+                    model = model.OrderByDescending(o => o.Model).ToList();
+                    break;
+                default:
+                    model = model.OrderBy(o => o.Name).ToList();
+                    break;
+            }
+
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
+
+            return View(model.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()
@@ -107,6 +132,14 @@
         {
             if (ModelState.IsValid)
             {
+                var checkedCustomer = this.equipments.All().Where(c => c.Name == equipment.Name).FirstOrDefault();
+
+                if (checkedCustomer != null)
+                {
+                    TempData["message"] = "Артикул с това име вече съществува";
+                    return RedirectToAction("Index");
+                }
+
                 var newEquipment = this.equipments.All().Where(c => c.Id == equipment.Id).FirstOrDefault();
 
                 if (newEquipment == null)

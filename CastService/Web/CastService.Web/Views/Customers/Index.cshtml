@@ -1,4 +1,5 @@
-﻿@model IEnumerable<CastService.Web.ViewModels.Customers.ListCustomersViewModel>
+﻿@model PagedList.IPagedList<CastService.Web.ViewModels.Customers.ListCustomersViewModel>
+@using PagedList.Mvc; 
 
 @{
     ViewBag.Title = "Клиенти";
@@ -21,13 +22,13 @@
 <table class="table table-bordered table-striped">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.ActionLink("Име", "Index", new { sortOrder = ViewBag.CustomerNameSortParams })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Place)
+            @Html.ActionLink("Място", "Index", new { sortOrder = ViewBag.PlaceSortParams })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Note)
+            @Html.ActionLink("Забележка", "Index", new { sortOrder = ViewBag.NoteSortParams })
         </th>
         <th></th>
     </tr>
@@ -53,5 +54,7 @@
             </td>
         </tr>
     }
-
 </table>
+<br />
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort }))

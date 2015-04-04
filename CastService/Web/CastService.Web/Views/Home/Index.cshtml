@@ -13,11 +13,12 @@
         @TempData["message"]
     </div>
 }
+<center>
+    <div class="page-header">
+        <img src="~/Images/cast.jpg" class="img-responsive" />
 
-<div class="jumbotron">
-    <h1>Something important :)</h1>
-    
-</div>
+    </div>
+</center>
 
 @if (Context.User.Identity.IsAuthenticated)
 {
@@ -79,7 +80,6 @@
 
             </table>
             <br />
-            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
             @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort }))
         </div>
     </div>

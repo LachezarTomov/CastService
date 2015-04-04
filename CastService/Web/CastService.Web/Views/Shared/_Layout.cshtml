@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -27,12 +28,13 @@
                         <li>@Html.ActionLink("Инсталации", "Index", "Installations")</li>
                         <li>@Html.ActionLink("Протоколи", "Index", "Protocols")</li>
                         <li>@Html.ActionLink("За сервиз", "Index", "WaitingsService")</li>
-
+                        
                         if (this.User.IsInRole("Администратор"))
                         {
                             <li>@Html.ActionLink("Артикули", "Index", "Equipments")</li>
                             <li>@Html.ActionLink("Потребители", "Index", "Users")</li>
                         }
+                        
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -43,7 +45,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Cast Service Application</p>
+            <p>&copy; @DateTime.Now.Year - Cast Service Application | <a href="http://cast-bg.net/">cast-bg.net</a></p>
         </footer>
     </div>
 

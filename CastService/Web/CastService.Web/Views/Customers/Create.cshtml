@@ -3,7 +3,13 @@
 @{
     ViewBag.Title = "Нов клиент";
 }
-
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success">
+        <span class="close" data-dismiss="alert">&times;</span>
+        @TempData["message"]
+    </div>
+}
 <h2>Нов клиент</h2>
 
 @using (Html.BeginForm()) 

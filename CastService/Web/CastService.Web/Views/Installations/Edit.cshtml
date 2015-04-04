@@ -3,6 +3,13 @@
 @{
     ViewBag.Title = "Редактиране на инсталация";
 }
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-danger">
+        <span class="close" data-dismiss="alert">&times;</span>
+        @TempData["message"]
+    </div>
+}
 <div class="error alert alert-danger">
     <span class="close" data-dismiss="alert">&times;</span>
     <div id="error"></div>
@@ -307,6 +314,27 @@
                     return;
                 }
 
+                var dtVal = $('#InstallationDate').val();
+                if (dtVal === "дд/мм/гггг") {
+                    $('#error').text("Не е въведена дата на протокола");
+                    $('.error').show();
+                    event.preventDefault();
+                    return;
+                }
+
+                if (!isDate(dtVal)) {
+                    $('#error').text("Сгрешена дата на протокола");
+                    $('.error').show();
+                    event.preventDefault();
+                    return;
+                }
+                dtVal = $('#InvoiceDate').val();
+                if (dtVal !== "дд/мм/гггг" && dtVal !== "" && !isDate(dtVal)) {
+                    $('#error').text("Сгрешена дата на заявката");
+                    $('.error').show();
+                    event.preventDefault();
+                    return;
+                }
             });
 
             $("#WorkInHours").on('change paste', function () {

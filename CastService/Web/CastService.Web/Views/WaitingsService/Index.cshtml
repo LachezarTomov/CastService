@@ -1,6 +1,6 @@
 ﻿@*@model IEnumerable<CastService.Web.ViewModels.WaitingsService.ListWaitingsServiceViewModel>*@
-@model PagedList.IPagedList<CastService.Web.ViewModels.WaitingsService.ListWaitingsServiceViewModel> 
-@using PagedList.Mvc; 
+@model PagedList.IPagedList<CastService.Web.ViewModels.WaitingsService.ListWaitingsServiceViewModel>
+@using PagedList.Mvc;
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -45,10 +45,14 @@
         <th>
             @Html.ActionLink("Планиран специалист", "Index", new { sortOrder = ViewBag.PlannedSpecialistSortParams })
         </th>
-        <th>
-            @Html.ActionLink("Извършен", "Index", new { sortOrder = ViewBag.IsDoneSortParams })
-        </th>
-        <th></th>
+        @if (this.User.IsInRole("Администратор") || this.User.IsInRole("Редактор"))
+        {
+            <th>
+                @Html.ActionLink("Извършен", "Index", new { sortOrder = ViewBag.IsDoneSortParams })
+            </th>
+            <th></th>
+        }
+        
     </tr>
 
     @foreach (var item in Model)
@@ -77,19 +81,22 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PlannedSpecialist)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDone)
-            </td>
-            <td>
-                @if (this.User.IsInRole("Администратор") || this.User.IsInRole("Редактор"))
-                {
-                    @Html.ActionLink("Редактиране", "Edit", new { id = item.Id })
-                }
-            </td>
+            @if (this.User.IsInRole("Администратор") || this.User.IsInRole("Редактор"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDone)
+                </td>
+                <td>
+                    @if (this.User.IsInRole("Администратор") || this.User.IsInRole("Редактор"))
+                    {
+                        @Html.ActionLink("Редактиране", "Edit", new { id = item.Id })
+                    }
+                </td>
+            }
         </tr>
     }
 
 </table>
-<br /> 
+<br />
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort }))

@@ -117,6 +117,22 @@
         {
             if (ModelState.IsValid)
             {
+                DateTime dt = DateTime.Parse(installation.InstallationDate);
+                var duplicateInstallationCheck = this.installations.All()
+                    .Where(c => c.CustomerId == installation.CustomerId)
+                    .Where(c => c.InstallationDate == dt)
+                    .Where(c => c.StartTime == installation.StartTime)
+                    .FirstOrDefault();
+
+                if (duplicateInstallationCheck != null)
+                {
+                    installation.CustomersNames = this.populator.PopulateCustomers();
+                    installation.UserNames = this.populator.PopulateUsers();
+                    TempData["message"] = "Инсталация за този клиент със същата дата и час вече съществува";
+
+                    return View(installation);
+                }
+
                 var newInstallation = new Installation();
 
                 newInstallation.ObjectName = installation.ObjectName;
@@ -219,6 +235,22 @@
         {
             if (ModelState.IsValid)
             {
+                DateTime dt = DateTime.Parse(installation.InstallationDate);
+                var duplicateInstallationCheck = this.installations.All()
+                    .Where(c => c.CustomerId == installation.CustomerId)
+                    .Where(c => c.InstallationDate == dt)
+                    .Where(c => c.StartTime == installation.StartTime)
+                    .FirstOrDefault();
+
+                if (duplicateInstallationCheck != null)
+                {
+                    installation.CustomersNames = this.populator.PopulateCustomers();
+                    installation.UserNames = this.populator.PopulateUsers();
+                    TempData["message"] = "Инсталация за този клиент със същата дата и час вече съществува";
+
+                    return View(installation);
+                }
+
                 var updatedInstallation = this.installations.All().Where(c => c.Id == installation.Id).FirstOrDefault();
 
                 if (updatedInstallation == null)

@@ -3,6 +3,13 @@
 @{
     ViewBag.Title = "Нов протокол";
 }
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-danger">
+        <span class="close" data-dismiss="alert">&times;</span>
+        @TempData["message"]
+    </div>
+}
 <div class="error alert alert-danger">
     <span class="close" data-dismiss="alert">&times;</span>
     <div id="error"></div>

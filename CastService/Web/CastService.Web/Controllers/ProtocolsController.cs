@@ -133,60 +133,77 @@
         [Authorize(Roles = "Администратор,Редактор")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(DetailsProtocolViewModel protocol)
+        public ActionResult Create(DetailsProtocolViewModel protocolModel)
         {
             if (ModelState.IsValid)
             {
-                var newProtocol = new Protocol();
+                DateTime protocolDate = DateTime.Parse(protocolModel.ProtocolDate);
+                var duplicateProtocolCheck = this.protocols.All()
+                    .Where(c => c.CustomerId == protocolModel.CustomerId)
+                    .Where(c => c.ProtocolDate == protocolDate)
+                    .Where(c => c.StartTime == protocolModel.StartTime)
+                    .FirstOrDefault();
 
-                newProtocol.ObjectType = protocol.ObjectType;
-                newProtocol.ObjectDriver = (protocol.ObjectDriver ?? string.Empty);
-                newProtocol.ObjectNumber = protocol.ObjectNumber;
-                newProtocol.ProtocolDate = DateTime.Parse(protocol.ProtocolDate);
-                newProtocol.StartTime = protocol.StartTime;
-                newProtocol.EndTime = protocol.EndTime;
-                newProtocol.PerformedDiagnostic = protocol.PerformedDiagnostic ?? string.Empty;
-                newProtocol.DetectedFauls = protocol.DetectedFauls ?? string.Empty;
-                newProtocol.CustomerId = protocol.CustomerId;
-                newProtocol.Note = protocol.Note ?? string.Empty;
-                newProtocol.WorkInHours = protocol.WorkInHours;
-                newProtocol.PricePerHour = protocol.PricePerHour;
-                newProtocol.PriceForChangedEguipment = protocol.PriceForChangedEguipment;
-                newProtocol.DistanceInKm = protocol.DistanceInKm;
-                newProtocol.PricePerKm = protocol.PricePerKm;
-                newProtocol.PersonMadeRequest = protocol.PersonMadeRequest ?? string.Empty;
-                newProtocol.WarrantyCardNumber = protocol.WarrantyCardNumber ?? string.Empty;
-                newProtocol.CustomerRepresentative = protocol.CustomerRepresentative ?? string.Empty;
-                newProtocol.UserId = protocol.UserId;
-                newProtocol.IsWarrantyService = protocol.IsWarrantyService;
-                newProtocol.WithSubscriptionService = protocol.WithSubscriptionService;
-
-                if (protocol.HasCustomerProtocol)
+                if (duplicateProtocolCheck != null)
                 {
-                    newProtocol.HasCustomerProtocol = protocol.HasCustomerProtocol;
+                    protocolModel.CustomersNames = this.populator.PopulateCustomers(protocolModel.CustomerId);
+                    protocolModel.UserNames = this.populator.PopulateUsers(protocolModel.UserId);
+
+                    TempData["message"] = "Протокол за този клиент със същата дата и час вече съществува";
+
+                    return View(protocolModel);
                 }
 
-                newProtocol.InvoiceNumber = (protocol.InvoiceNumber ?? string.Empty);
+                var newProtocol = new Protocol();
 
-                if (protocol.InvoiceDate != null)
+                newProtocol.ObjectType = protocolModel.ObjectType;
+                newProtocol.ObjectDriver = (protocolModel.ObjectDriver ?? string.Empty);
+                newProtocol.ObjectNumber = protocolModel.ObjectNumber;
+                newProtocol.ProtocolDate = DateTime.Parse(protocolModel.ProtocolDate);
+                newProtocol.StartTime = protocolModel.StartTime;
+                newProtocol.EndTime = protocolModel.EndTime;
+                newProtocol.PerformedDiagnostic = protocolModel.PerformedDiagnostic ?? string.Empty;
+                newProtocol.DetectedFauls = protocolModel.DetectedFauls ?? string.Empty;
+                newProtocol.CustomerId = protocolModel.CustomerId;
+                newProtocol.Note = protocolModel.Note ?? string.Empty;
+                newProtocol.WorkInHours = protocolModel.WorkInHours;
+                newProtocol.PricePerHour = protocolModel.PricePerHour;
+                newProtocol.PriceForChangedEguipment = protocolModel.PriceForChangedEguipment;
+                newProtocol.DistanceInKm = protocolModel.DistanceInKm;
+                newProtocol.PricePerKm = protocolModel.PricePerKm;
+                newProtocol.PersonMadeRequest = protocolModel.PersonMadeRequest ?? string.Empty;
+                newProtocol.WarrantyCardNumber = protocolModel.WarrantyCardNumber ?? string.Empty;
+                newProtocol.CustomerRepresentative = protocolModel.CustomerRepresentative ?? string.Empty;
+                newProtocol.UserId = protocolModel.UserId;
+                newProtocol.IsWarrantyService = protocolModel.IsWarrantyService;
+                newProtocol.WithSubscriptionService = protocolModel.WithSubscriptionService;
+
+                if (protocolModel.HasCustomerProtocol)
                 {
-                    newProtocol.InvoiceDate = DateTime.Parse(protocol.InvoiceDate);
+                    newProtocol.HasCustomerProtocol = protocolModel.HasCustomerProtocol;
+                }
+
+                newProtocol.InvoiceNumber = (protocolModel.InvoiceNumber ?? string.Empty);
+
+                if (protocolModel.InvoiceDate != null)
+                {
+                    newProtocol.InvoiceDate = DateTime.Parse(protocolModel.InvoiceDate);
                 }
                 else
                 {
                     newProtocol.InvoiceDate = null;
                 }
 
-                if (protocol.RequestDate != null)
+                if (protocolModel.RequestDate != null)
                 {
-                    newProtocol.RequestDate = DateTime.Parse(protocol.RequestDate);
+                    newProtocol.RequestDate = DateTime.Parse(protocolModel.RequestDate);
                 }
                 else
                 {
                     newProtocol.RequestDate = null;
                 }
 
-                newProtocol.Other = protocol.Other ?? string.Empty;
+                newProtocol.Other = protocolModel.Other ?? string.Empty;
                 this.protocols.Add(newProtocol);
                 //this.protocols.SaveChanges();
 
@@ -209,9 +226,9 @@
                     throw;
                 }
 
-                if (protocol.ChangedEquipment != null)
+                if (protocolModel.ChangedEquipment != null)
                 {
-                    foreach (var item in protocol.ChangedEquipment)
+                    foreach (var item in protocolModel.ChangedEquipment)
                     {
                         ChangedEquipment chEquipment = new ChangedEquipment();
                         chEquipment.ProtocolId = newProtocol.Id;
@@ -232,10 +249,10 @@
                 return RedirectToAction("Index");
             }
 
-            protocol.CustomersNames = this.populator.PopulateCustomers();
-            protocol.UserNames = this.populator.PopulateUsers();
+            protocolModel.CustomersNames = this.populator.PopulateCustomers();
+            protocolModel.UserNames = this.populator.PopulateUsers();
 
-            return View(protocol);
+            return View(protocolModel);
         }
 
         [Authorize(Roles = "Администратор,Редактор")]
@@ -281,6 +298,23 @@
             string expectedDateFormat = "дд/мм/гггг";
             if (ModelState.IsValid)
             {
+                DateTime protocolDate = DateTime.Parse(protocolModel.ProtocolDate);
+                var duplicateProtocolCheck = this.protocols.All()
+                    .Where(c => c.CustomerId == protocolModel.CustomerId)
+                    .Where(c => c.ProtocolDate == protocolDate)
+                    .Where(c => c.StartTime == protocolModel.StartTime)
+                    .FirstOrDefault();
+
+                if (duplicateProtocolCheck != null)
+                {
+                    protocolModel.CustomersNames = this.populator.PopulateCustomers(protocolModel.CustomerId);
+                    protocolModel.UserNames = this.populator.PopulateUsers(protocolModel.UserId);
+
+                    TempData["message"] = "Протокол за този клиент със същата дата и час вече съществува";
+
+                    return View(protocolModel);
+                }
+
                 var updatedProtocol = this.protocols.All().Where(c => c.Id == protocolModel.Id).FirstOrDefault();
 
                 if (updatedProtocol == null)
