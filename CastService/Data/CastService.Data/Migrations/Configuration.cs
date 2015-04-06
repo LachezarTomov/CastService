@@ -52,18 +52,7 @@ namespace CastService.Data.Migrations
                 UserName = "daniel",
                 FullName = "Даниел Китин"
             };
-            var userB = new User
-            {
-                UserName = "test1",
-                FullName = "Тест 1"
-            };
-
-            var userC = new User
-            {
-                UserName = "test2",
-                FullName = "Тест 2"
-            };
-
+           
             var resultAdmin = userManager.Create(admin, "123456");
             if (resultAdmin.Succeeded)
             {
@@ -74,17 +63,7 @@ namespace CastService.Data.Migrations
             {
                 userManager.AddToRole(admin2.Id, AdminRole);
             }
-            resultAdmin = userManager.Create(userB, "123456");
-            if (resultAdmin.Succeeded)
-            {
-                userManager.AddToRole(userB.Id, ServiceRole);
-            }
-            resultAdmin = userManager.Create(userC, "123456");
-            if (resultAdmin.Succeeded)
-            {
-                userManager.AddToRole(userC.Id, WriterRole);
-            }
-
+           
             context.SaveChanges();
         }
     }

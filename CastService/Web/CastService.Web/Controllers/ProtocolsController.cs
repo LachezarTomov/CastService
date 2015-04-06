@@ -52,14 +52,20 @@
             ViewBag.MachineNumberSortParams = sortOrder == "machineNumber" ? "machineNumberDesc" : "machineNumber";
             ViewBag.DateSortParams = string.IsNullOrEmpty(sortOrder) ? "date" : "";
 
-            if (searchByCustomerName != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchByCustomerName = currentFilter;
-            }
+            ViewBag.searchByCustomerName = searchByCustomerName;
+            ViewBag.searchByObjectNumber = searchByObjectNumber;
+            ViewBag.searchByObjectType = searchByObjectType;
+            ViewBag.searchByChangedPartName = searchByChangedPartName;
+            ViewBag.searchByChangedPartSerNum = searchByChangedPartSerNum;
+
+            //if (searchByCustomerName != null)
+            //{
+            //    page = 1;
+            //}
+            //else
+            //{
+            //    searchByCustomerName = currentFilter;
+            //}
 
             // searching strings
             if (!string.IsNullOrEmpty(searchByCustomerName))

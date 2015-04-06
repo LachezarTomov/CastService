@@ -20,19 +20,19 @@
         <div class="container">
             <h4>Търсене</h4>
             <div class="col-md-3">
-                Клиент @Html.TextBox("searchByCustomerName", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                Клиент @Html.TextBox("searchByCustomerName", ViewBag.searchByCustomerName as string, new { @class = "form-control" })
             </div>
             <div class="col-md-2">
-                Машина №: @Html.TextBox("searchByObjectNumber", null, new { @class = "form-control" })
+                Машина №: @Html.TextBox("searchByObjectNumber", ViewBag.searchByObjectNumber as string, new { @class = "form-control" })
             </div>
             <div class="col-md-2">
-                Машина тип @Html.TextBox("searchByObjectType", null, new { @class = "form-control" })
+                Машина тип @Html.TextBox("searchByObjectType", ViewBag.searchByObjectType as string, new { @class = "form-control" })
             </div>
             <div class="col-md-3">
-                Подменена част име @Html.TextBox("searchByChangedPartName", null, new { @class = "form-control" })
+                Подменена част име @Html.TextBox("searchByChangedPartName", ViewBag.searchByChangedPartName as string, new { @class = "form-control" })
             </div>
             <div class="col-md-2">
-                Сериен № @Html.TextBox("searchByChangedPartSerNum", null, new { @class = "form-control" })
+                Сериен № @Html.TextBox("searchByChangedPartSerNum", ViewBag.searchByChangedPartSerNum as string, new { @class = "form-control" })
             </div>
             <div class="pull-right">
                 <input type="submit" value="Търсене" class="btn btn-info form-control" />
@@ -101,4 +101,10 @@
     </table>
 </div>
 @Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                new { page, sortOrder = ViewBag.CurrentSort, 
+                      searchByCustomerName = ViewBag.searchByCustomerName,
+                      searchByObjectNumber = ViewBag.searchByObjectNumber, 
+                      searchByObjectType = ViewBag.searchByObjectType,
+                      searchByChangedPartName = ViewBag.searchByChangedPartName,
+                      searchByChangedPartSerNum = ViewBag.searchByChangedPartSerNum 
+                }))

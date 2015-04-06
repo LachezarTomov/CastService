@@ -42,7 +42,7 @@
         }
 
         // GET: Installations
-        public ActionResult Index(string sortOrder,  string currentFilter, int? page, string searchByCustomerName, string searchByInstalledPartSerNum)
+        public ActionResult Index(string sortOrder, int? page, string searchByCustomerName, string searchByInstalledPartSerNum, string searchByInstalledObjectNumber)
         {
             var model = this.installations.All().Project().To<ListInstallationsViewModel>();
 
@@ -50,15 +50,14 @@
             ViewBag.PlaceSortParams = sortOrder == "place" ? "placeDesc" : "place";
             ViewBag.DateSortParams = string.IsNullOrEmpty(sortOrder) ? "date" : "";
 
-            if (searchByCustomerName != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchByCustomerName = currentFilter;
-            }
+            ViewBag.searchByCustomerName = searchByCustomerName;
+            ViewBag.searchByInstalledPartSerNum = searchByInstalledPartSerNum;
+            ViewBag.searchByInstalledObjectNumber = searchByInstalledObjectNumber;
 
+            if (!string.IsNullOrEmpty(searchByInstalledObjectNumber))
+            {
+                model = model.Where(i => i.ObjectNumber.ToLower().Contains(searchByInstalledObjectNumber.ToLower()));
+            }
             if (!string.IsNullOrEmpty(searchByCustomerName))
             {
                 model = model.Where(i => i.CustomerName.ToLower().Contains(searchByCustomerName.ToLower()));
@@ -69,6 +68,7 @@
                     c => c.SerialNumber.ToLower().Contains(searchByInstalledPartSerNum.ToLower())
                     ));
             }
+
 
             switch (sortOrder)
             {
@@ -92,10 +92,10 @@
                     break;
             }
 
+//            int pageSize = 2;
             int pageSize = 15;
             int pageNumber = (page ?? 1);
 
-            //return View(model.ToList());
             return View(model.ToPagedList(pageNumber, pageSize));
         }
 

@@ -17,12 +17,15 @@
 @using (Html.BeginForm("Index", "Installations", FormMethod.Get))
 {
     <div class="container">
-        <div class="col-md-4">
+        <div class="col-md-3">
             @*Търсене по клиент: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)*@
-            Търсене по клиент @Html.TextBox("searchByCustomerName", null, new { @class = "form-control" })
+            Търсене по клиент @Html.TextBox("searchByCustomerName", ViewBag.searchByCustomerName as string, new { @class = "form-control" })
         </div>
-        <div class="col-md-4">
-            Сериен № @Html.TextBox("searchByInstalledPartSerNum", null, new { @class = "form-control" })
+        <div class="col-md-3">
+            Сериен № @Html.TextBox("searchByInstalledPartSerNum", ViewBag.searchByInstalledPartSerNum as string, new { @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            Машина № @Html.TextBox("searchByInstalledObjectNumber", ViewBag.searchByInstalledObjectNumber as string, new { @class = "form-control" })
         </div>
         <div class="pull-right col-md-2">
             &nbsp;<input type="submit" value="Търсене" class="btn btn-info form-control" />
@@ -83,4 +86,8 @@
 </table>
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                new { page, sortOrder = ViewBag.CurrentSort, 
+                    searchByInstalledPartSerNum = ViewBag.searchByInstalledPartSerNum, 
+                    searchByCustomerName = ViewBag.searchByCustomerName,
+                    searchByInstalledObjectNumber = ViewBag.searchByInstalledObjectNumber
+                }))

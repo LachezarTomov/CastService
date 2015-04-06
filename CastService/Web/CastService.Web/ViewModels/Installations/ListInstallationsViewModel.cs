@@ -20,6 +20,9 @@
         [Display(Name = "Място")]
         public string ObjectName { get; set; }
 
+        [Display(Name = "Машина №")]
+        public string ObjectNumber { get; set; }
+
         [Display(Name = "Дата")]
         public DateTime InstallationDate { get; set; }
 
